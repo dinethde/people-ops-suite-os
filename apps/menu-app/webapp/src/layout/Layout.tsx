@@ -21,6 +21,7 @@ import Snowfall from "react-snowfall";
 
 import { Suspense, useCallback, useEffect, useState } from "react";
 
+import SnowflakeIcon from "@assets/icons/SnowFlakeIcon";
 import PreLoader from "@component/common/PreLoader";
 import { redirectUrl as savedRedirectUrl } from "@config/constant";
 import ConfirmationModalContextProvider from "@context/DialogContext";
@@ -51,6 +52,8 @@ export default function Layout() {
     }
   }, [common.message, common.type, common.timestamp, enqueueSnackbar]);
 
+  const snowflake = [SnowflakeIcon()];
+
   useEffect(() => {
     showSnackbar();
   }, [showSnackbar]);
@@ -66,7 +69,7 @@ export default function Layout() {
   return (
     <ConfirmationModalContextProvider>
       {themeData?.theme === Themes.XMAS_THEME && (
-        <Snowfall color={theme.palette.fill.xmas.active} />
+        <Snowfall color={theme.palette.fill.xmas.active} images={snowflake} radius={[5, 20]} />
       )}
 
       <Box
