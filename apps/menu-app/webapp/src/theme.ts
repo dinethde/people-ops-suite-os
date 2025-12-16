@@ -180,6 +180,9 @@ export const tokens = (mode: PaletteMode) => {
             territory: {
               active: colors.neutral["1800"],
             },
+            xmas: {
+              active: "#B8D3E0d7",
+            },
           },
         }
       : {
@@ -271,6 +274,9 @@ export const tokens = (mode: PaletteMode) => {
             territory: {
               active: colors.neutral["1800"],
             },
+            xmas: {
+              active: "#A6C8D9",
+            },
           },
 
           // Navigation colors - Light mode
@@ -356,6 +362,7 @@ declare module "@mui/material/styles" {
       secondary: Record<string, string>;
       secondary_light: Record<string, string>;
       territory: Record<string, string>;
+      xmas: Record<string, string>;
     };
     customText: {
       primary: {
@@ -423,6 +430,7 @@ declare module "@mui/material/styles" {
       secondary?: Record<string, string>;
       secondary_light: Record<string, string>;
       territory?: Record<string, string>;
+      xmas: Record<string, string>;
     };
     customText?: {
       primary?: {
