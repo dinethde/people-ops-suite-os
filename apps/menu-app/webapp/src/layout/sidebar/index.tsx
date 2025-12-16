@@ -15,10 +15,10 @@
 // under the License.
 import { Box, Divider, Stack, Tooltip, Typography, useTheme } from "@mui/material";
 import { ChevronLeft, ChevronRight, Moon, Sun } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
-import type { NavState } from "@/types/types";
 import SidebarNavItem from "@component/layout/SidebarNavItem";
 import pJson from "@root/package.json";
 import { ColorModeContext } from "@src/App";
@@ -33,29 +33,8 @@ interface SidebarProps {
 
 const Sidebar = (props: SidebarProps) => {
   const allRoutes = useMemo(() => getActiveRouteDetails(props.roles), [props.roles]);
+  const path = useLocation();
 
-  // Single state object for nav state
-  const [navState, setNavState] = useState<NavState>({
-    active: null,
-    hovered: null,
-    expanded: null,
-  });
-
-  // Handlers
-  const handleClick = (idx: number) => {
-    setNavState((prev) => ({
-      ...prev,
-      active: prev.active === idx ? null : idx,
-    }));
-  };
-
-  const handleMouseEnter = (idx: number) => {
-    setNavState((prev) => ({ ...prev, hovered: idx }));
-  };
-
-  const handleMouseLeave = () => {
-    setNavState((prev) => ({ ...prev, hovered: null }));
-  };
   const theme = useTheme();
 
   const renderControlButton = (
@@ -165,8 +144,6 @@ const Sidebar = (props: SidebarProps) => {
                   !route.bottomNav && (
                     <Box
                       key={idx}
-                      onMouseEnter={() => handleMouseEnter(idx)}
-                      onMouseLeave={handleMouseLeave}
                       sx={{
                         width: props.open ? "100%" : "fit-content",
                         cursor: props.open ? "pointer" : "default",
@@ -175,8 +152,7 @@ const Sidebar = (props: SidebarProps) => {
                       <SidebarNavItem
                         route={route}
                         open={props.open}
-                        isActive={navState.active === null ? idx === 0 : navState.active === idx}
-                        onClick={() => handleClick(idx)}
+                        isActive={path.pathname === route.path}
                       />
                     </Box>
                   )
@@ -201,8 +177,6 @@ const Sidebar = (props: SidebarProps) => {
                   route.bottomNav && (
                     <Box
                       key={idx}
-                      onMouseEnter={() => handleMouseEnter(idx)}
-                      onMouseLeave={handleMouseLeave}
                       sx={{
                         width: props.open ? "100%" : "fit-content",
                         cursor: props.open ? "pointer" : "default",
@@ -211,8 +185,7 @@ const Sidebar = (props: SidebarProps) => {
                       <SidebarNavItem
                         route={route}
                         open={props.open}
-                        isActive={navState.active === null ? idx === 0 : navState.active === idx}
-                        onClick={() => handleClick(idx)}
+                        isActive={path.pathname === route.path}
                       />
                     </Box>
                   )
