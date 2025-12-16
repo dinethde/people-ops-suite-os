@@ -42,7 +42,7 @@ export const themeOptions: ThemeOption[] = [
     audio: [],
   },
   {
-    label: "XMAS_THEME",
+    label: "CHRISTMAS_THEME",
     value: Themes.XMAS_THEME,
     audio: [],
   },
@@ -96,9 +96,9 @@ export default function AppConfig() {
             handleSetTheme(themeConfig);
           }}
           variant="outlined"
-          disabled={!selectedTheme && currentTheme === Themes.DEFAULT_THEME}
+          disabled={!selectedTheme || selectedTheme.value === currentTheme}
         >
-          {currentTheme !== Themes.DEFAULT_THEME ? "Remove Theme" : "Set Theme"}
+          Set Theme
         </Button>
       </Box>
     </Box>
