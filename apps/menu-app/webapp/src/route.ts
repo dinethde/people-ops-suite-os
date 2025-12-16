@@ -47,7 +47,7 @@ export const routes: RouteObjectWithRole[] = [
     text: "App Config",
     icon: React.createElement(SettingsSuggestOutlinedIcon),
     element: React.createElement(View.appConfig),
-    allowRoles: [Role.ADMIN, Role.EMPLOYEE],
+    allowRoles: [Role.ADMIN],
     bottomNav: true,
   },
   // {
