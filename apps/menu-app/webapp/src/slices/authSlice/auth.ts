@@ -13,20 +13,13 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { 
-  State, 
-  Role, 
-  AuthState, 
-  AuthData, 
-  UserInfoInterface 
-} from "@/types/types";
-import { PRIVILEGE_EMPLOYEE, PRIVILEGE_ADMIN, SnackMessage } from "@config/constant";
+import { AuthData, AuthState, Role, State, UserInfoInterface } from "@/types/types";
+import { PRIVILEGE_ADMIN, PRIVILEGE_EMPLOYEE, SnackMessage } from "@config/constant";
+import { userApi } from "@root/src/services/user.api";
 import { enqueueSnackbarMessage } from "@slices/commonSlice/common";
 import { RootState } from "@slices/store";
-import { userApi } from "@root/src/services/user.api";
 
 const initialState: AuthState = {
   status: State.idle,
@@ -43,7 +36,7 @@ export const loadPrivileges = createAsyncThunk(
     const state = getState() as RootState;
 
     const user = userApi.endpoints.getUserInfo.select()(state);
-    if (!user || user.status === 'rejected') {
+    if (!user || user.status === "rejected") {
       dispatch(
         enqueueSnackbarMessage({
           message: SnackMessage.error.fetchPrivileges,
