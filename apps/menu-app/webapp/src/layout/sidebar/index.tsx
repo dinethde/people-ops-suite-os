@@ -196,16 +196,39 @@ const Sidebar = (props: SidebarProps) => {
                 alignItems: "center",
               }}
             >
+              {allRoutes.map((route, idx) => {
+                return (
+                  route.bottomNav && (
+                    <Box
+                      key={idx}
+                      onMouseEnter={() => handleMouseEnter(idx)}
+                      onMouseLeave={handleMouseLeave}
+                      sx={{
+                        width: props.open ? "100%" : "fit-content",
+                        cursor: props.open ? "pointer" : "default",
+                      }}
+                    >
+                      <SidebarNavItem
+                        route={route}
+                        open={props.open}
+                        isActive={navState.active === null ? idx === 0 : navState.active === idx}
+                        onClick={() => handleClick(idx)}
+                      />
+                    </Box>
+                  )
+                );
+              })}
+
               {/* Theme Toggle */}
               {renderControlButton(
-                colorMode.mode === "dark" ? <Sun size={18} /> : <Moon size={18} />,
+                colorMode.mode === "dark" ? <Sun size={16} /> : <Moon size={16} />,
                 colorMode.toggleColorMode,
                 colorMode.mode === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode",
               )}
 
               {/* Sidebar Toggle */}
               {renderControlButton(
-                !props.open ? <ChevronRight size={20} /> : <ChevronLeft size={20} />,
+                !props.open ? <ChevronRight size={18} /> : <ChevronLeft size={18} />,
                 props.handleDrawer,
                 props.open ? "Collapse Sidebar" : "Expand Sidebar",
               )}
