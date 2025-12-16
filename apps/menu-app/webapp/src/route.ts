@@ -14,6 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 import DiningOutlinedIcon from "@mui/icons-material/DiningOutlined";
+import SettingsSuggestOutlinedIcon from "@mui/icons-material/SettingsSuggestOutlined";
 import { HomeIcon } from "lucide-react";
 import { CircleQuestionMark } from "lucide-react";
 import type { RouteObject } from "react-router-dom";
@@ -42,13 +43,21 @@ export const routes: RouteObjectWithRole[] = [
     allowRoles: [Role.ADMIN, Role.EMPLOYEE],
   },
   {
-    path: "/help",
-    text: "Help & Support",
-    icon: React.createElement(CircleQuestionMark),
-    element: React.createElement(View.help),
+    path: "/appConfig",
+    text: "App Config",
+    icon: React.createElement(SettingsSuggestOutlinedIcon),
+    element: React.createElement(View.appConfig),
     allowRoles: [Role.ADMIN, Role.EMPLOYEE],
     bottomNav: true,
   },
+  // {
+  //   path: "/help",
+  //   text: "Help & Support",
+  //   icon: React.createElement(CircleQuestionMark),
+  //   element: React.createElement(View.help),
+  //   allowRoles: [Role.ADMIN, Role.EMPLOYEE],
+  //   bottomNav: true,
+  // },
 ];
 
 export const getActiveRoutesV2 = (
