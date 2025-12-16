@@ -17,6 +17,7 @@ import { Box, useTheme } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useSelector } from "react-redux";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import Snowfall from "react-snowfall";
 
 import { Suspense, useCallback, useEffect, useState } from "react";
 
@@ -28,6 +29,8 @@ import Sidebar from "@layout/sidebar";
 import { selectRoles } from "@slices/authSlice/auth";
 import { type RootState, useAppSelector } from "@slices/store";
 
+import { Themes, useGetThemeQuery } from "../services/config.api";
+
 export default function Layout() {
   const { enqueueSnackbar } = useSnackbar();
   const common = useAppSelector((state: RootState) => state.common);
@@ -36,6 +39,7 @@ export default function Layout() {
   const [open, setOpen] = useState(false);
   const roles = useSelector(selectRoles);
   const theme = useTheme();
+  const { data: themeData } = useGetThemeQuery();
 
   const showSnackbar = useCallback(() => {
     if (common.timestamp !== null) {
@@ -61,7 +65,10 @@ export default function Layout() {
 
   return (
     <ConfirmationModalContextProvider>
-      {/* Full screen container */}
+      {themeData?.theme === Themes.XMAS_THEME && (
+        <Snowfall color={theme.palette.fill.xmas.active} />
+      )}
+
       <Box
         sx={{
           display: "flex",
