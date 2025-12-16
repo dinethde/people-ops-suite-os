@@ -2,7 +2,6 @@ import { useTheme } from "@mui/material";
 
 export default function SnowflakeIcon(): HTMLImageElement {
   const theme = useTheme();
-  console.log(theme);
   const svg = `<svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
