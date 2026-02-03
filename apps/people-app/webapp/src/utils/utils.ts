@@ -17,3 +17,30 @@
 export function isIncludedRole(roles: string[], allowedRoles: string[]) {
   return roles.some((role) => allowedRoles.includes(role));
 }
+
+//
+
+export const markAllFieldsTouched = (errors: any) => {
+  const touched: any = {};
+  const markTouched = (obj: any, touchedObj: any) => {
+    Object.keys(obj).forEach((key) => {
+      if (typeof obj[key] === "object" && obj[key] !== null && !Array.isArray(obj[key])) {
+        touchedObj[key] = {};
+        markTouched(obj[key], touchedObj[key]);
+      } else if (Array.isArray(obj[key])) {
+        touchedObj[key] = obj[key].map((item: any) =>
+          typeof item === "object" && item !== null ? {} : true,
+        );
+        obj[key].forEach((item: any, index: number) => {
+          if (typeof item === "object" && item !== null) {
+            markTouched(item, touchedObj[key][index]);
+          }
+        });
+      } else {
+        touchedObj[key] = true;
+      }
+    });
+  };
+  markTouched(errors, touched);
+  return touched;
+};
