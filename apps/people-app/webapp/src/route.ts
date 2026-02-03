@@ -13,7 +13,8 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { HomeIcon } from "lucide-react";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import GroupsIcon from "@mui/icons-material/Groups";
 import { CircleQuestionMark } from "lucide-react";
 
 import React from "react";
@@ -27,10 +28,17 @@ import type { RouteDetail, RouteObjectWithRole } from "./types/types";
 export const routes: RouteObjectWithRole[] = [
   {
     path: "/",
-    text: "Home",
-    icon: React.createElement(HomeIcon),
-    element: React.createElement(View.firstView),
-    allowRoles: [Role.ADMIN, Role.EMPLOYEE],
+    text: "Me",
+    icon: React.createElement(AccountCircleIcon),
+    element: React.createElement(View.me),
+    allowRoles: [Role.ADMIN],
+  },
+  {
+    path: "/onboarding",
+    text: "Onboarding",
+    icon: React.createElement(GroupsIcon),
+    element: React.createElement(View.employees),
+    allowRoles: [Role.ADMIN],
   },
   {
     path: "/help",
@@ -39,51 +47,6 @@ export const routes: RouteObjectWithRole[] = [
     element: React.createElement(View.help),
     allowRoles: [Role.ADMIN, Role.EMPLOYEE],
     bottomNav: true,
-  },
-  {
-    path: "/page",
-    text: "Page 1",
-    icon: React.createElement(CircleQuestionMark),
-    allowRoles: [Role.ADMIN, Role.EMPLOYEE],
-    children: [
-      {
-        path: "nested-page",
-        text: "Nested Page",
-        icon: React.createElement(CircleQuestionMark),
-        element: React.createElement(View.nestedPage),
-        allowRoles: [Role.ADMIN, Role.EMPLOYEE],
-      },
-      {
-        path: "nested-page-2",
-        text: "Nested Page 2",
-        icon: React.createElement(CircleQuestionMark),
-        element: React.createElement(View.nestedPage),
-        allowRoles: [Role.ADMIN, Role.EMPLOYEE],
-      },
-    ],
-  },
-  {
-    path: "/page-two",
-    text: "Page 2",
-    icon: React.createElement(CircleQuestionMark),
-    element: React.createElement(View.pageTwo),
-    allowRoles: [Role.ADMIN, Role.EMPLOYEE],
-    children: [
-      {
-        path: "nested-page",
-        text: "Nested Page",
-        icon: React.createElement(CircleQuestionMark),
-        element: React.createElement(View.nestedPage),
-        allowRoles: [Role.ADMIN, Role.EMPLOYEE],
-      },
-      {
-        path: "nested-page-2",
-        text: "Nested Page 2",
-        icon: React.createElement(CircleQuestionMark),
-        element: React.createElement(View.nestedPage),
-        allowRoles: [Role.ADMIN, Role.EMPLOYEE],
-      },
-    ],
   },
 ];
 
