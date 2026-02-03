@@ -14,43 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export const isIncludedRole = (a: string[], b: string[]): boolean => {
-  // TODO: Temporarily allow all roles. Remove this after the roles are finalized.
-  return true;
-  return [...getCrossItems(a, b), ...getCrossItems(b, a)].length > 0;
-};
-
-function getCrossItems<Role>(a: Role[], b: Role[]): Role[] {
-  return a.filter((element) => {
-    return b.includes(element);
-  });
+export function isIncludedRole(roles: string[], allowedRoles: string[]) {
+  return roles.some((role) => allowedRoles.includes(role));
 }
-
-export const markAllFieldsTouched = (errors: any) => {
-  const touched: any = {};
-  const markTouched = (obj: any, touchedObj: any) => {
-    Object.keys(obj).forEach((key) => {
-      if (
-        typeof obj[key] === "object" &&
-        obj[key] !== null &&
-        !Array.isArray(obj[key])
-      ) {
-        touchedObj[key] = {};
-        markTouched(obj[key], touchedObj[key]);
-      } else if (Array.isArray(obj[key])) {
-        touchedObj[key] = obj[key].map((item: any) =>
-          typeof item === "object" && item !== null ? {} : true
-        );
-        obj[key].forEach((item: any, index: number) => {
-          if (typeof item === "object" && item !== null) {
-            markTouched(item, touchedObj[key][index]);
-          }
-        });
-      } else {
-        touchedObj[key] = true;
-      }
-    });
-  };
-  markTouched(errors, touched);
-  return touched;
-};

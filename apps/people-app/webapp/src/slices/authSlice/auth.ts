@@ -13,57 +13,53 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
-import { State } from "@/types/types";
 import { BasicUserInfo, DecodedIDTokenPayload } from "@asgardeo/auth-spa";
-import { SnackMessage } from "@config/constant";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import { PRIVILEGE_ADMIN, PRIVILEGE_EMPLOYEE, SnackMessage } from "@config/constant";
+import { UserInfoInterface, userApi } from "@services/user.api";
 import { enqueueSnackbarMessage } from "@slices/commonSlice/common";
-import { RootState } from "@slices/store";
+import type { RootState } from "@slices/store";
 
 export enum Role {
+  ADMIN = "ADMIN",
   EMPLOYEE = "EMPLOYEE",
-  ADMIN = "ADMIN"
 }
 
-interface AuthState {
+export enum State {
+  Failed = "FAILED",
+  Success = "SUCCESS",
+  Loading = "LOADING",
+  Idle = "IDLE",
+}
+
+enum AuthMode {
+  Active = "ACTIVE",
+  Maintenance = "MAINTENANCE",
+}
+
+export interface ExtendedDecodedIDTokenPayload extends DecodedIDTokenPayload {
+  groups?: string[];
+}
+
+export interface AuthState {
   status: State;
-  mode: "active" | "maintenance";
+  mode: AuthMode;
   statusMessage: string | null;
-  isAuthenticated: boolean;
   userInfo: BasicUserInfo | null;
-  decodedIdToken: DecodedIDTokenPayload | null;
+  decodedIdToken: ExtendedDecodedIDTokenPayload | null;
   roles: Role[];
 }
 
-interface AuthData {
+export interface AuthData {
   userInfo: BasicUserInfo;
-  idToken: string;
-  decodedIdToken: DecodedIDTokenPayload;
-}
-
-export interface UserState {
-  state: State;
-  stateMessage: string | null;
-  errorMessage: string | null;
-  userInfo: UserInfoInterface | null;
-}
-
-export interface UserInfoInterface {
-  employeeId: string;
-  firstName: string;
-  lastName: string;
-  workEmail: string;
-  employeeThumbnail: string | null;
-  jobRole: string;
-  privileges: number[];
+  decodedIdToken: ExtendedDecodedIDTokenPayload;
 }
 
 const initialState: AuthState = {
-  status: State.idle,
-  mode: "active",
+  status: State.Idle,
+  mode: AuthMode.Active,
   statusMessage: null,
-  isAuthenticated: false,
   userInfo: null,
   decodedIdToken: null,
   roles: [],
@@ -72,27 +68,51 @@ const initialState: AuthState = {
 export const loadPrivileges = createAsyncThunk(
   "auth/loadPrivileges",
   (_, { getState, dispatch, rejectWithValue }) => {
-    const { userInfo, state, errorMessage } = (
-      getState() as { user: UserState }
-    ).user;
+    const state = getState() as RootState;
 
-    if (state === State.failed) {
+    const user = userApi.endpoints.getUserInfo.select()(state);
+    if (!user || user.status === "rejected") {
       dispatch(
         enqueueSnackbarMessage({
           message: SnackMessage.error.fetchPrivileges,
           type: "error",
-        })
+        }),
       );
-      return rejectWithValue(errorMessage);
+      return rejectWithValue("Failed to fetch user info");
     }
-    const userPrivileges = userInfo?.privileges || [];
-    const roles: Role[] = [Role.EMPLOYEE];
 
-    if (userPrivileges.includes(762)) {
+    const userInfo = user.data as UserInfoInterface | undefined;
+    if (!userInfo) {
+      dispatch(
+        enqueueSnackbarMessage({
+          message: SnackMessage.error.fetchPrivileges,
+          type: "error",
+        }),
+      );
+      return rejectWithValue("User info not available");
+    }
+
+    const userPrivileges = userInfo?.privileges || [];
+    const roles: Role[] = [];
+
+    if (userPrivileges.includes(PRIVILEGE_ADMIN)) {
       roles.push(Role.ADMIN);
     }
+    if (userPrivileges.includes(PRIVILEGE_EMPLOYEE)) {
+      roles.push(Role.EMPLOYEE);
+    }
+
+    if (roles.length === 0) {
+      dispatch(
+        enqueueSnackbarMessage({
+          message: SnackMessage.error.insufficientPrivileges,
+          type: "error",
+        }),
+      );
+      return rejectWithValue("No roles found");
+    }
     return { roles };
-  }
+  },
 );
 
 export const authSlice = createSlice({
@@ -102,25 +122,31 @@ export const authSlice = createSlice({
     setUserAuthData: (state, action: PayloadAction<AuthData>) => {
       state.userInfo = action.payload.userInfo;
       state.decodedIdToken = action.payload.decodedIdToken;
-      state.status = State.success;
+      state.status = State.Success;
+    },
+    setAuthError: (state) => {
+      state.status = State.Failed;
+      state.userInfo = null;
+      state.decodedIdToken = null;
+      state.roles = [];
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loadPrivileges.pending, (state) => {
-        state.status = State.loading;
+        state.status = State.Loading;
       })
       .addCase(loadPrivileges.fulfilled, (state, action) => {
-        state.status = State.success;
+        state.status = State.Success;
         state.roles = action.payload.roles;
       })
       .addCase(loadPrivileges.rejected, (state, action) => {
-        state.status = State.failed;
+        state.status = State.Failed;
         state.statusMessage = action.payload as string;
       });
   },
 });
 
-export const { setUserAuthData } = authSlice.actions;
+export const { setUserAuthData, setAuthError } = authSlice.actions;
 export const selectRoles = (state: RootState) => state.auth.roles;
 export default authSlice.reducer;

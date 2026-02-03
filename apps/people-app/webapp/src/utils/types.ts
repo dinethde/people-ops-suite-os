@@ -13,8 +13,22 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+import { BasicUserInfo, DecodedIDTokenPayload } from "@asgardeo/auth-spa";
 
-export type stateType = "failed" | "success" | "loading" | "idle";
+import { Collection } from "@services/collections.api";
+
+export interface AuthData {
+  userInfo: BasicUserInfo;
+  decodedIdToken: DecodedIDTokenPayload;
+}
+
+export interface Employee {
+  workEmail: string;
+  firstName: string;
+  lastName: string;
+  jobBand: number;
+  employeeThumbnail: string;
+}
 
 export interface Header {
   title: string;
@@ -25,4 +39,27 @@ export interface Header {
 export enum ThemeMode {
   Light = "light",
   Dark = "dark",
+}
+
+export interface PreLoaderProps {
+  message?: string;
+  hideLogo?: boolean;
+  isLoading?: boolean;
+}
+
+export interface ErrorHandlerProps {
+  message: string | null;
+}
+
+export enum ConfirmationType {
+  update = "update",
+  send = "send",
+  upload = "upload",
+  accept = "accept",
+}
+
+export interface CommonCardProps {
+  collection: Collection;
+  actions: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  dataCardIndex: number;
 }

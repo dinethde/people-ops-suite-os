@@ -13,13 +13,18 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import { lazy } from "react";
 
-const me = lazy(() => import("@view/me"));
-const employees = lazy(() => import("@view/employees/Employee"));
+const help = lazy(() => import("@view/help/help"));
+const nestedPage = lazy(() => import("@root/src/view/nested-page/NestedPage"));
+const firstView = lazy(() => import("@view/first-view/index"));
+const pageTwo = lazy(() => import("@view/page-two/PageTwo"));
+const home = lazy(() => import("@view/home/Home"));
 
 export const View = {
-  me,
-  employees,
+  help,
+  nestedPage,
+  firstView,
+  pageTwo,
+  home
 };

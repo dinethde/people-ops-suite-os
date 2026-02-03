@@ -1,4 +1,4 @@
-// Copyright (c) 2025 WSO2 LLC. (https://www.wso2.com).
+// Copyright (c) 2026 WSO2 LLC. (https://www.wso2.com).
 //
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -13,32 +13,38 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
-import React from "react";
-import { APP_NAME } from "@config/config";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import { useAppAuthContext } from "@context/AuthContext";
-import { RootState, useAppDispatch, useAppSelector } from "@slices/store";
 import {
-  AppBar,
   Avatar,
   Box,
   Menu,
   MenuItem,
   Stack,
   Tooltip,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import { resetEmployee } from "@root/src/slices/employeeSlice/employee";
-import { resetPersonalInfo } from "@root/src/slices/employeeSlice/employeePersonalInfo";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+
+import React from "react";
+
+import wso2LogoO from "@assets/images/wso2-logo-o.svg";
+import Wso2Logo from "@assets/images/wso2-logo.svg";
+import { APP_NAME } from "@config/config";
+import { useAppAuthContext } from "@context/AuthContext";
+import BasicBreadcrumbs from "@layout/BreadCrumbs/BreadCrumbs";
+import { userApi } from "@services/user.api";
+import { useAppSelector } from "@slices/store";
 
 const Header = () => {
   const authContext = useAppAuthContext();
-  const dispatch = useAppDispatch();
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-  const user = useAppSelector((state: RootState) => state.user);
+  const theme = useTheme();
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const user = useAppSelector((state) => userApi.endpoints.getUserInfo.select()(state)?.data);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const logo = isMobile ? wso2LogoO : Wso2Logo;
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -48,88 +54,96 @@ const Header = () => {
     setAnchorElUser(null);
   };
 
-  const handleLogout = () => {
-    dispatch(resetEmployee());
-    dispatch(resetPersonalInfo());
-    setAnchorElUser(null);
-    authContext.appSignOut();
-  };
-
   return (
-    <AppBar
-      position="fixed"
+    <Box
       sx={{
-        zIndex: (theme) => theme.zIndex.drawer + 1,
-        color: (theme) =>
-          theme.palette.mode === "light"
-            ? theme.palette.primary.main
-            : theme.palette.common.white,
-
-        background: (theme) =>
-          theme.palette.mode === "light"
-            ? theme.palette.common.white
-            : theme.palette.primary.dark,
-        boxShadow: 2,
+        zIndex: 10,
+        backgroundColor: theme.palette.surface.secondary.active,
+        boxShadow: theme.shadows[4],
       }}
     >
       <Toolbar
         variant="dense"
         sx={{
           paddingY: 0.3,
+          display: "flex",
+          gap: 0.5,
           "&.MuiToolbar-root": {
-            pl: 0.3,
+            px: 1.5,
           },
         }}
       >
         <img
           alt="wso2"
-          style={{
-            height: "40px",
-            maxWidth: "100px",
-            cursor: "pointer",
-          }}
+          style={{ marginRight: isMobile ? "4px" : "8px" }}
           onClick={() => (window.location.href = "/")}
-          src={require("@assets/images/wso2-logo.svg").default}
+          src={logo}
         ></img>
-        <Typography
-          variant="h5"
+
+        <Box
           sx={{
-            ml: 1,
-            flexGrow: 1,
-            fontWeight: 600,
-            cursor: "pointer",
+            display: "flex",
+            flexDirection: "row",
+            gap: theme.spacing(0.5),
+            width: "100%",
+            alignItems: "center",
+            height: "100%",
           }}
-          onClick={() => (window.location.href = "/")}
         >
-          {APP_NAME}
-        </Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              color: theme.palette.customText.primary.p1.active,
+            }}
+          >
+            {APP_NAME}
+          </Typography>
+          {!isMobile && <BasicBreadcrumbs />}
+        </Box>
 
         <Box sx={{ flexGrow: 0 }}>
-          {user.userInfo && (
+          {user && (
             <>
-              <Stack flexDirection={"row"} alignItems={"center"} gap={2}>
-                <Box>
-                  <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                    {user.userInfo?.firstName + " " + user.userInfo.lastName}
-                  </Typography>
-                  <Typography variant="body2">
-                    {user.userInfo?.jobRole}
-                  </Typography>
-                </Box>
+              <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
                 <Tooltip title="Open settings">
                   <Avatar
                     onClick={handleOpenUserMenu}
                     sx={{
+                      width: 48,
+                      height: 48,
                       border: 1,
-                      borderColor: "primary.main",
-                      cursor: "pointer",
+                      borderColor: theme.palette.customBorder.territory.active,
                     }}
-                    src={user.userInfo?.employeeThumbnail || ""}
-                    alt={user.userInfo?.firstName || "Avatar"}
+                    src={user.employeeThumbnail || ""}
+                    alt={user.firstName || "Avatar"}
                   >
-                    {user.userInfo?.firstName?.charAt(0)}
+                    {user.firstName?.charAt(0)}
                   </Avatar>
                 </Tooltip>
+
+                {!isMobile && (
+                  <Box sx={{ width: "fit-content" }}>
+                    <Typography
+                      noWrap
+                      variant="body1"
+                      sx={{
+                        color: theme.palette.customText.primary.p2.active,
+                      }}
+                    >
+                      {[user.firstName, user.lastName].filter(Boolean).join(" ")}
+                    </Typography>
+
+                    <Typography
+                      noWrap
+                      variant="body2"
+                      sx={{
+                        color: theme.palette.customText.primary.p3.active,
+                      }}
+                    >
+                      {user.jobRole}
+                    </Typography>
+                  </Box>
+                )}
               </Stack>
 
               <Menu
@@ -148,7 +162,12 @@ const Header = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem key={"logout"} onClick={handleLogout}>
+                <MenuItem
+                  key={"logout"}
+                  onClick={() => {
+                    authContext.appSignOut();
+                  }}
+                >
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
               </Menu>
@@ -156,7 +175,7 @@ const Header = () => {
           )}
         </Box>
       </Toolbar>
-    </AppBar>
+    </Box>
   );
 };
 
