@@ -26,6 +26,8 @@ import { useLazyGetUserInfoQuery } from "@root/src/services/user.api";
 import { setTokens } from "@services/BaseQuery";
 import { loadPrivileges, setAuthError, setUserAuthData } from "@slices/authSlice/auth";
 import { useAppDispatch } from "@slices/store";
+import { getUserInfo } from "@slices/userSlice/user";
+import { APIService } from "@utils/apiService";
 
 type AuthContextType = {
   appSignIn: () => void;
@@ -101,13 +103,15 @@ const AppAuthProvider = (props: { children: React.ReactNode }) => {
       }),
     );
 
+    new APIService(accessToken, refreshIdToken);
     setTokens(accessToken, refreshToken, appSignOut);
+
     const userInfoResult = await triggerGetUserInfo();
     if (userInfoResult?.isError) {
       console.error("Failed to fetch user info:", userInfoResult.error);
       dispatch(setAuthError());
     }
-
+    await dispatch(getUserInfo()).unwrap();
     await dispatch(loadPrivileges());
   };
 
@@ -149,6 +153,17 @@ const AppAuthProvider = (props: { children: React.ReactNode }) => {
     try {
       const accessToken = await getAccessToken();
       return { accessToken };
+    } catch (error) {
+      console.error("Token refresh failed: ", error);
+      await appSignOut();
+      throw error;
+    }
+  };
+
+  const refreshIdToken = async (): Promise<{ idToken: string }> => {
+    try {
+      const idToken = await getAccessToken();
+      return { idToken };
     } catch (error) {
       console.error("Token refresh failed: ", error);
       await appSignOut();
