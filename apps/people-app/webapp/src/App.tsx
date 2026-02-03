@@ -27,6 +27,7 @@ import { themeSettings } from "@root/src/theme";
 import { store } from "@slices/store";
 import { ThemeMode } from "@utils/types";
 
+import { APP_THEME } from "./config/constant";
 import "./index.css";
 
 export const ColorModeContext = createContext({
@@ -36,7 +37,7 @@ export const ColorModeContext = createContext({
 
 const processLocalThemeMode = (): ThemeMode => {
   try {
-    const savedTheme = localStorage.getItem("internal-app-theme");
+    const savedTheme = localStorage.getItem(APP_THEME);
     if (savedTheme === ThemeMode.Light || savedTheme === ThemeMode.Dark) {
       return savedTheme;
     }
@@ -44,7 +45,7 @@ const processLocalThemeMode = (): ThemeMode => {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const systemTheme = prefersDark ? ThemeMode.Dark : ThemeMode.Light;
 
-    localStorage.setItem("internal-app-theme", systemTheme);
+    localStorage.setItem(APP_THEME, systemTheme);
     return systemTheme;
   } catch (err) {
     console.error("Theme detection failed, defaulting to light mode.", err);
@@ -62,7 +63,7 @@ function App() {
       toggleColorMode: () => {
         const newMode = mode === ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light;
         // Update localStorage
-        localStorage.setItem("internal-app-theme", newMode);
+        localStorage.setItem(APP_THEME, newMode);
         // Update state
         setMode(newMode);
       },
@@ -90,4 +91,3 @@ function App() {
 }
 
 export default App;
-
