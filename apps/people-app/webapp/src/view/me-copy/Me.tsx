@@ -3,7 +3,7 @@ import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 
 import TabsPage from "@root/src/layout/pages/TabsPage";
 
-import GeneralInfo from "./panel/GeneralInfo";
+import GeneralInfo from "./panel/general-info/GeneralInfo";
 import PersonalInfo from "./panel/PersonalInfo";
 
 export default function Me() {
