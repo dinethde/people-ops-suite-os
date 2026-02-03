@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 import { Box, Button, Typography, useTheme } from "@mui/material";
-import { AnimatePresence, motion } from "framer-motion";
 import { useSearchParams } from "react-router-dom";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -68,26 +67,16 @@ export default function TabsPage({ tabsPage }: TabsPageProps) {
       <Tabs tabs={tabsPage} activeIndex={value} handleTabClick={handleTabClick} />
 
       {/* Tab Content with animations */}
-      <AnimatePresence mode="wait">
-        {tabsPage.map(
-          (tab, index) =>
-            value === index && (
-              <Box
-                component={motion.div}
-                key={index}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                sx={{ width: "100%" }}
-              >
-                <TabPanel value={value} index={index}>
-                  {tab.page}
-                </TabPanel>
-              </Box>
-            ),
-        )}
-      </AnimatePresence>
+      {tabsPage.map(
+        (tab, index) =>
+          value === index && (
+            <Box key={index} sx={{ width: "100%" }}>
+              <TabPanel value={value} index={index}>
+                {tab.page}
+              </TabPanel>
+            </Box>
+          ),
+      )}
     </Box>
   );
 }
@@ -122,7 +111,6 @@ export function Tabs({ tabs, activeIndex, handleTabClick }: TabToggleProps) {
             sx={{ display: "flex", flexDirection: "column", gap: 1, alignItems: "center" }}
           >
             <Button
-              component={motion.button}
               onClick={() => handleTabClick(index)}
               disableRipple
               role="tab"
@@ -152,6 +140,7 @@ export function Tabs({ tabs, activeIndex, handleTabClick }: TabToggleProps) {
               >
                 {React.cloneElement(tab.icon)}
               </Box>
+
               <Typography
                 variant={activeIndex === index ? "body1" : "body1"}
                 sx={{
@@ -161,6 +150,7 @@ export function Tabs({ tabs, activeIndex, handleTabClick }: TabToggleProps) {
                 {tab.tabTitle}
               </Typography>
             </Button>
+
             <Box
               sx={{
                 height: "2px",
@@ -205,14 +195,7 @@ export function TabPanel(props: TabPanelProps) {
         scrollbarWidth: "none",
       }}
     >
-      <Box
-        component={motion.div}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
-      >
-        {children}
-      </Box>
+      <Box>{children}</Box>
     </Box>
   );
 }
