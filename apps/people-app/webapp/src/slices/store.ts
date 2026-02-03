@@ -17,11 +17,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { enableMapSet } from "immer";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
-import { collectionApi } from "@services/collections.api";
 import { configApi } from "@services/config.api";
 import { userApi } from "@services/user.api";
 import authReducer from "@slices/authSlice/auth";
 import commonReducer from "@slices/commonSlice/common";
+import employeeReducer from "@slices/employeeSlice/employee";
+import employeePersonalInfoReducer from "@slices/employeeSlice/employeePersonalInfo";
+import organizationReducer from "@slices/organizationSlice/organization";
+import userReducer from "@slices/userSlice/user";
 
 enableMapSet();
 
@@ -29,16 +32,16 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     common: commonReducer,
+    user: userReducer,
+    employee: employeeReducer,
+    employeePersonalInfo: employeePersonalInfoReducer,
+    organization: organizationReducer,
 
     [userApi.reducerPath]: userApi.reducer,
     [configApi.reducerPath]: configApi.reducer,
-    [collectionApi.reducerPath]: collectionApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      .concat(userApi.middleware)
-      .concat(configApi.middleware)
-      .concat(collectionApi.middleware),
+    getDefaultMiddleware().concat(userApi.middleware).concat(configApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
