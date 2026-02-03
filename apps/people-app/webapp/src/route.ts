@@ -34,6 +34,13 @@ export const routes: RouteObjectWithRole[] = [
     allowRoles: [Role.ADMIN],
   },
   {
+    path: "/me",
+    text: "Me Copy",
+    icon: React.createElement(AccountCircleIcon),
+    element: React.createElement(View.meCopy),
+    allowRoles: [Role.ADMIN],
+  },
+  {
     path: "/onboarding",
     text: "Onboarding",
     icon: React.createElement(GroupsIcon),
