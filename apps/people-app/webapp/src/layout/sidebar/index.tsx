@@ -103,7 +103,7 @@ const Sidebar = (props: SidebarProps) => {
         width: props.open ? "200px" : "fit-content",
         overflow: "visible",
       }}
-  >
+    >
       {/* Navigation List */}
       <Stack
         direction="column"
@@ -139,7 +139,6 @@ const Sidebar = (props: SidebarProps) => {
           direction="column"
           gap={1}
           sx={{
-            paddingBottom: "20px",
             alignItems: "center",
           }}
         >
