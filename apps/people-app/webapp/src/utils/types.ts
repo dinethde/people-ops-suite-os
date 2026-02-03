@@ -15,13 +15,6 @@
 // under the License.
 import { BasicUserInfo, DecodedIDTokenPayload } from "@asgardeo/auth-spa";
 
-import { Collection } from "@services/collections.api";
-
-export interface AuthData {
-  userInfo: BasicUserInfo;
-  decodedIdToken: DecodedIDTokenPayload;
-}
-
 export interface Employee {
   workEmail: string;
   firstName: string;
@@ -41,12 +34,6 @@ export enum ThemeMode {
   Dark = "dark",
 }
 
-export interface PreLoaderProps {
-  message?: string;
-  hideLogo?: boolean;
-  isLoading?: boolean;
-}
-
 export interface ErrorHandlerProps {
   message: string | null;
 }
@@ -56,10 +43,4 @@ export enum ConfirmationType {
   send = "send",
   upload = "upload",
   accept = "accept",
-}
-
-export interface CommonCardProps {
-  collection: Collection;
-  actions: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
-  dataCardIndex: number;
 }
