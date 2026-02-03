@@ -84,11 +84,18 @@ const Header = () => {
         <Box sx={{ flexGrow: 0 }}>
           {user && (
             <>
-              <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
-                <UserDropdown avatarSize={44} />
-
+              <Stack flexDirection={"row"} gap={1}>
                 {!isMobile && (
-                  <Box sx={{ width: "fit-content" }}>
+                  <Box
+                    sx={{
+                      width: "fit-content",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-end",
+                      justifyContent: "center",
+                      p: 0,
+                    }}
+                  >
                     <Typography
                       noWrap
                       variant="body1"
@@ -104,12 +111,15 @@ const Header = () => {
                       variant="body2"
                       sx={{
                         color: theme.palette.customText.primary.p3.active,
+                        width: "fit-content",
                       }}
                     >
                       {user.jobRole}
                     </Typography>
                   </Box>
                 )}
+
+                <UserDropdown avatarSize={44} />
               </Stack>
             </>
           )}
