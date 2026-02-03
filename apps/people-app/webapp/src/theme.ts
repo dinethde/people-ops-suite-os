@@ -181,7 +181,7 @@ export const tokens = (mode: PaletteMode) => {
               disabled: "#0A475C96",
             },
             secondary_light: {
-              active: colors.secondary["1400"],
+              active: colors.secondary["1700"],
               hover: "#fff",
             },
             neutral_light: {
@@ -295,7 +295,7 @@ export const tokens = (mode: PaletteMode) => {
               disabled: "#00CEFF96",
             },
             secondary_light: {
-              active: colors.secondary["100"],
+              active: colors.secondary["0"],
               hover: "#FFFFFF",
             },
             neutral_light: {
