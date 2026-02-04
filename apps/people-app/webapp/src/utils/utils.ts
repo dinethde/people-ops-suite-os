@@ -44,3 +44,18 @@ export const markAllFieldsTouched = (errors: any) => {
   markTouched(errors, touched);
   return touched;
 };
+
+// Format date function
+export const formatDate = (dateString?: string | null) => {
+  if (!dateString) return null;
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  } catch {
+    return dateString;
+  }
+};
