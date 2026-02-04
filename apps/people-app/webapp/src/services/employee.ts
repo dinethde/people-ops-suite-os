@@ -303,7 +303,7 @@ export const employeeApi = createApi({
     // Update employee personal info
     updateEmployeePersonalInfo: builder.mutation<
       EmployeePersonalInfo,
-      { employeeId: string; data: EmployeePersonalInfoUpdate }
+      { employeeId: string; data: Partial<EmployeePersonalInfoUpdate> }
     >({
       query: ({ employeeId, data }) => ({
         url: AppConfig.serviceUrls.employeePersonalInfo(employeeId),
