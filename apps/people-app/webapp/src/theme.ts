@@ -681,10 +681,11 @@ export const themeSettings = (mode: PaletteMode) => {
           root: {
             "& .MuiOutlinedInput-root": {
               borderRadius: 8,
-              fontSize: "14px",
+              fontSize: "16px",
               fontWeight: 400,
               "& .MuiOutlinedInput-input": {
-                color: colors.text.primary.p3.active,
+                color: colors.text.primary.p2.active,
+                padding: "10px 12px",
               },
               "& fieldset": {
                 borderColor: colors.border.territory.active,
@@ -713,6 +714,10 @@ export const themeSettings = (mode: PaletteMode) => {
               },
               "&.Mui-error": {
                 color: "#F23B0D",
+              },
+              "&.MuiInputLabel-shrink": {
+                color: colors.text.primary.p3.active,
+                fontSize: "18px", // This sets the label size when focused/shrunk (will scale to 75% = 13.5px)
               },
             },
             "& .MuiFormHelperText-root": {
