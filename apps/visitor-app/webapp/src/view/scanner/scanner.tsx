@@ -13,26 +13,24 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Box, Divider } from "@mui/material";
 
-import { MicroAppType } from "@/types/types";
-import { isMicroApp } from "@config/config";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
+import CommonPage from "@layout/pages/CommonPage";
+import ScanVisit from "@view/scanner/panel/scanVisit";
 
-import DinnerOnDemand from "./components/dod/DinnerOnDemand";
-import Menu from "./components/menu/Menu";
-
-export default function Home() {
-  if (isMicroApp === MicroAppType.Menu) return <Menu />;
-
-  if (isMicroApp === MicroAppType.Dod) return <DinnerOnDemand />;
-
+export default function Scanner() {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <Menu />
-
-      <Divider />
-
-      <DinnerOnDemand />
-    </Box>
+    <CommonPage
+      title="Scanner"
+      icon={<QrCodeScannerIcon />}
+      commonPageTabs={[
+        {
+          tabTitle: "Scanner",
+          tabPath: "scanner",
+          icon: <QrCodeScannerIcon />,
+          page: <ScanVisit />,
+        },
+      ]}
+    />
   );
 }
