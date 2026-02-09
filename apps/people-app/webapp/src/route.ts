@@ -47,14 +47,23 @@ export const routes: RouteObjectWithRole[] = [
     element: React.createElement(View.employees),
     allowRoles: [Role.ADMIN],
   },
-  {
-    path: "/help",
-    text: "Help & Support",
+ {
+    path: "/master-data",
+    text: "Master Data",
     icon: React.createElement(CircleQuestionMark),
-    element: React.createElement(View.help),
+    element: React.createElement(View.masterData),
     allowRoles: [Role.ADMIN, Role.EMPLOYEE],
-    bottomNav: true,
   },
+
+  // Temporarily remove the Help view
+  // {
+  //   path: "/help",
+  //   text: "Help & Support",
+  //   icon: React.createElement(CircleQuestionMark),
+  //   element: React.createElement(View.help),
+  //   allowRoles: [Role.ADMIN, Role.EMPLOYEE],
+  //   bottomNav: true,
+  // },
 ];
 
 export const getAllowedRoutes = (roles: string[]): RouteDetail[] => {
