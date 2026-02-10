@@ -13,11 +13,30 @@
 // KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations
 // under the License.
+import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
+
+import TabsPage from "@layout/pages/TabsPage";
+
+import OrgStructure from "./panel/OrgStructure";
 
 export default function MasterData() {
   return (
-    <div>
-      <h1>MasterData</h1>
-    </div>
+    <TabsPage
+      title="Me"
+      tabsPage={[
+        {
+          tabTitle: "Org Structure",
+          tabPath: "org-structure",
+          icon: <AccountTreeOutlinedIcon />,
+          page: <OrgStructure />,
+        },
+        {
+          tabTitle: "Edit Org Structure",
+          tabPath: "edit-org-structure",
+          icon: <AccountTreeOutlinedIcon />,
+          page: <OrgStructure />,
+        },
+      ]}
+    />
   );
 }
