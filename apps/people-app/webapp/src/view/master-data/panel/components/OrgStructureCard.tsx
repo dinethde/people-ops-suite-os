@@ -84,7 +84,8 @@ const OrgStructureCard = ({
         borderTop: "2px solid",
         borderTopColor: theme.palette.customBorder.brand.active,
         borderRadius: "6px",
-        padding: "12px",       boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.12)",
+        padding: "12px",
+        boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.12)",
         display: "flex",
         flexDirection: "column",
         gap: "16px",
@@ -177,11 +178,8 @@ const OrgStructureCard = ({
                   }}
                 >
                   <Typography
+                    variant="body2"
                     sx={{
-                      fontSize: "14px",
-                      fontWeight: 500,
-                      lineHeight: 1.6,
-                      letterSpacing: "0.12px",
                       color: theme.palette.customText.primary.p2.active,
                       textTransform: "capitalize",
                     }}
@@ -190,10 +188,8 @@ const OrgStructureCard = ({
                   </Typography>
 
                   <Typography
+                    variant="caption"
                     sx={{
-                      fontSize: "12px",
-                      fontWeight: 500,
-                      lineHeight: 1.2,
                       color: theme.palette.customText.primary.p4.active,
                     }}
                   >
@@ -311,21 +307,7 @@ const OrgStructureCard = ({
               {TYPE_LABELS[type]}
             </Typography>
           </Box>
-          {/* {/* Business Unit Type - Without Badge */} {/* {type === "BUSINESS_UNIT" && ( */}
-          {/*   <Typography */}
-          {/*     sx={{ */}
-          {/*       fontSize: "12px", */}
-          {/*       fontWeight: 500, */}
-          {/*       lineHeight: 1.6, */}
-          {/*       letterSpacing: "0.12px", */}
-          {/*       color: theme.palette.primary.main, */}
-          {/*       textTransform: "uppercase", */}
-          {/*     }} */}
-          {/*   > */}
-          {/*     {TYPE_LABELS[type]} */}
-          {/*   </Typography> */}
-          {/* )} */}
-          {/* Head Count */}
+
           <Box
             sx={{
               display: "flex",
