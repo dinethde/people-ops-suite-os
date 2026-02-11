@@ -23,7 +23,7 @@ import { FunctionLead, TeamHead } from "@root/src/services/orgStructure";
 
 interface OrgStructureCardProps {
   name: string;
-  type: "BUSINESS_UNIT" | "TEAM" | "SUB_TEAM" | "UNIT";
+  type: "COMPANY" | "BUSINESS_UNIT" | "TEAM" | "SUB_TEAM" | "UNIT";
   headCount: number;
   teamHead?: TeamHead;
   functionLead?: FunctionLead;
@@ -35,6 +35,7 @@ interface OrgStructureCardProps {
 }
 
 const TYPE_LABELS = {
+  COMPANY: "Company",
   BUSINESS_UNIT: "Business Unit",
   TEAM: "Team",
   SUB_TEAM: "Sub Team",
@@ -163,8 +164,8 @@ const OrgStructureCard = ({
                 <Avatar
                   src={teamHead.avatar}
                   sx={{
-                    width: "30px",
-                    height: "30px",
+                    width: "36px",
+                    height: "36px",
                     borderRadius: "4px",
                   }}
                 >
@@ -214,8 +215,8 @@ const OrgStructureCard = ({
                 <Avatar
                   src={functionLead.avatar}
                   sx={{
-                    width: "30px",
-                    height: "30px",
+                    width: "36px",
+                    height: "36px",
                     borderRadius: "4px",
                   }}
                 >
