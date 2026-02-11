@@ -125,7 +125,7 @@ const OrgStructureTree = ({
       key={unit.id}
       sx={{
         display: "flex",
-        gap: "64px",
+        gap: "16px",
         alignItems: "flex-start",
         position: "relative",
       }}
@@ -163,7 +163,7 @@ const OrgStructureTree = ({
         key={subTeam.id}
         sx={{
           display: "flex",
-          gap: "64px",
+          gap: "16px",
           alignItems: "flex-start",
           position: "relative",
         }}
@@ -195,7 +195,7 @@ const OrgStructureTree = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: "64px",
+              gap: "16px",
               alignItems: "flex-start",
               position: "relative",
               mt: "200px",
@@ -217,7 +217,7 @@ const OrgStructureTree = ({
         key={team.id}
         sx={{
           display: "flex",
-          gap: "64px",
+          gap: "16px",
           alignItems: "flex-start",
           position: "relative",
         }}
@@ -249,7 +249,7 @@ const OrgStructureTree = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: "64px",
+              gap: "16px",
               alignItems: "flex-start",
               position: "relative",
               mt: "200px",
@@ -271,7 +271,7 @@ const OrgStructureTree = ({
         key={bu.id}
         sx={{
           display: "flex",
-          gap: "64px",
+          gap: "16px",
           alignItems: "flex-start",
           position: "relative",
         }}
@@ -303,7 +303,7 @@ const OrgStructureTree = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: "64px",
+              gap: "16px",
               alignItems: "flex-start",
               position: "relative",
               mt: "200px",
@@ -324,7 +324,7 @@ const OrgStructureTree = ({
       ref={containerRef}
       sx={{
         display: "flex",
-        gap: "64px",
+        gap: "16px",
         alignItems: "flex-start",
         position: "relative",
       }}
