@@ -20,6 +20,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/orgStructure";
 
 import OrgStructureCard from "./OrgStructureCard";
+import { calculateArrowPath } from "./utils/svgPathCalculator";
 
 interface OrgStructureTreeProps {
   company: Company;
@@ -95,31 +96,6 @@ const OrgStructureTree = ({
     setConnections(newConnections);
   }, [company, expandedNodes]);
 
-  // Calculate SVG path for arrow with straight lines
-  const getArrowPath = (parentId: string, childId: string): string | null => {
-    const parentEl = cardRefs.current.get(parentId);
-    const childEl = cardRefs.current.get(childId);
-    const container = containerRef.current;
-
-    if (!parentEl || !childEl || !container) return null;
-
-    const containerRect = container.getBoundingClientRect();
-    const parentRect = parentEl.getBoundingClientRect();
-    const childRect = childEl.getBoundingClientRect();
-
-    // Calculate positions relative to container
-    const x1 = parentRect.left - containerRect.left + parentRect.width / 2;
-    const y1 = parentRect.bottom - containerRect.top;
-
-    // Stop the line 12px before the card edge to leave space for the arrow
-    const x2 = childRect.left - containerRect.left;
-    const y2 = childRect.top - containerRect.top + childRect.height / 2;
-
-    // Create path with straight lines and right angles
-    // Line goes: down from parent -> right -> to child
-    return `M ${x1} ${y1} L ${x1} ${y2} L ${x2} ${y2}`;
-  };
-
   const renderUnit = (unit: Unit) => (
     <Box
       key={unit.id}
@@ -146,7 +122,7 @@ const OrgStructureTree = ({
           functionLead={unit.functionLead}
           hasChildren={false}
           isExpanded={false}
-          onCollapse={() => { }}
+          onCollapse={() => {}}
           onEdit={() => onEdit(unit.id, "UNIT")}
           onAdd={() => onAdd(unit.id, "UNIT")}
         />
@@ -343,7 +319,10 @@ const OrgStructureTree = ({
         }}
       >
         {connections.map(({ parentId, childId }) => {
-          const path = getArrowPath(parentId, childId);
+          const parentEl = cardRefs.current.get(parentId);
+          const childEl = cardRefs.current.get(childId);
+          const path = calculateArrowPath(parentEl, childEl, containerRef.current);
+
           if (!path) return null;
 
           return (
@@ -405,4 +384,3 @@ const OrgStructureTree = ({
 };
 
 export default OrgStructureTree;
-
