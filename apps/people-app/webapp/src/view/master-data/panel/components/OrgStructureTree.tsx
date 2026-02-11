@@ -95,7 +95,7 @@ const OrgStructureTree = ({
     setConnections(newConnections);
   }, [company, expandedNodes]);
 
-  // Calculate SVG path for arrow
+  // Calculate SVG path for arrow with straight lines
   const getArrowPath = (parentId: string, childId: string): string | null => {
     const parentEl = cardRefs.current.get(parentId);
     const childEl = cardRefs.current.get(childId);
@@ -116,13 +116,9 @@ const OrgStructureTree = ({
     const x2 = childRect.left - containerRect.left - arrowOffset;
     const y2 = childRect.top - containerRect.top + childRect.height / 2;
 
-    // Create smooth bezier curve
-    const controlX1 = x1;
-    const controlY1 = y1 + (y2 - y1) / 2;
-    const controlX2 = x2 - 50;
-    const controlY2 = y2;
-
-    return `M ${x1} ${y1} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${x2} ${y2}`;
+    // Create path with straight lines and right angles
+    // Line goes: down from parent -> right -> to child
+    return `M ${x1} ${y1} L ${x1} ${y2} L ${x2} ${y2}`;
   };
   const renderUnit = (unit: Unit) => (
     <Box
