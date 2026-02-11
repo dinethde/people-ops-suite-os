@@ -15,12 +15,12 @@
 // under the License.
 import { Box } from "@mui/material";
 
+import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/orgStructure";
+
 import OrgStructureCard from "./OrgStructureCard";
 
 interface OrgStructureTreeProps {
-  node: any; // BusinessUnit | Team | SubTeam | Unit
-  type: "BUSINESS_UNIT" | "TEAM" | "SUB_TEAM" | "UNIT";
-  depth: number;
+  company: Company;
   expandedNodes: Set<string>;
   onToggle: (id: string) => void;
   onEdit: (id: string, type: string) => void;
@@ -28,37 +28,206 @@ interface OrgStructureTreeProps {
 }
 
 const OrgStructureTree = ({
-  node,
-  type,
-  depth,
+  company,
   expandedNodes,
   onToggle,
   onEdit,
   onAdd,
 }: OrgStructureTreeProps) => {
-  // Determine if this node has children
-  const hasChildren =
-    (type === "BUSINESS_UNIT" && node.teams?.length > 0) ||
-    (type === "TEAM" && node.subTeams?.length > 0) ||
-    (type === "SUB_TEAM" && node.units?.length > 0);
+  const renderUnit = (unit: Unit) => (
+    <Box
+      key={unit.id}
+      sx={{
+        display: "flex",
+        gap: "64px",
+        alignItems: "flex-start",
+        position: "relative",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0px",
+        }}
+      >
+        <OrgStructureCard
+          name={unit.name}
+          type="UNIT"
+          headCount={unit.headCount}
+          teamHead={unit.teamHead}
+          functionLead={unit.functionLead}
+          hasChildren={false}
+          isExpanded={false}
+          onCollapse={() => {}}
+          onEdit={() => onEdit(unit.id, "UNIT")}
+          onAdd={() => onAdd(unit.id, "UNIT")}
+        />
+      </Box>
+    </Box>
+  );
 
-  const isExpanded = expandedNodes.has(node.id);
+  const renderSubTeam = (subTeam: SubTeam) => {
+    const hasUnits = subTeam.units?.length > 0;
+    const isExpanded = expandedNodes.has(subTeam.id);
 
-  // Get children based on node type
-  const getChildren = () => {
-    switch (type) {
-      case "BUSINESS_UNIT":
-        return { items: node.teams || [], childType: "TEAM" as const };
-      case "TEAM":
-        return { items: node.subTeams || [], childType: "SUB_TEAM" as const };
-      case "SUB_TEAM":
-        return { items: node.units || [], childType: "UNIT" as const };
-      default:
-        return { items: [], childType: "UNIT" as const };
-    }
+    return (
+      <Box
+        key={subTeam.id}
+        sx={{
+          display: "flex",
+          gap: "64px",
+          alignItems: "flex-start",
+          position: "relative",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0px",
+          }}
+        >
+          <OrgStructureCard
+            name={subTeam.name}
+            type="SUB_TEAM"
+            headCount={subTeam.headCount}
+            teamHead={subTeam.teamHead}
+            functionLead={subTeam.functionLead}
+            hasChildren={hasUnits}
+            isExpanded={isExpanded}
+            onCollapse={() => onToggle(subTeam.id)}
+            onEdit={() => onEdit(subTeam.id, "SUB_TEAM")}
+            onAdd={() => onAdd(subTeam.id, "SUB_TEAM")}
+          />
+        </Box>
+
+        {hasUnits && isExpanded && (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "64px",
+              alignItems: "flex-start",
+              position: "relative",
+              mt: "200px",
+            }}
+          >
+            {subTeam.units.map(renderUnit)}
+          </Box>
+        )}
+      </Box>
+    );
   };
 
-  const children = getChildren();
+  const renderTeam = (team: Team) => {
+    const hasSubTeams = team.subTeams?.length > 0;
+    const isExpanded = expandedNodes.has(team.id);
+
+    return (
+      <Box
+        key={team.id}
+        sx={{
+          display: "flex",
+          gap: "64px",
+          alignItems: "flex-start",
+          position: "relative",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0px",
+          }}
+        >
+          <OrgStructureCard
+            name={team.name}
+            type="TEAM"
+            headCount={team.headCount}
+            teamHead={team.teamHead}
+            functionLead={team.functionLead}
+            hasChildren={hasSubTeams}
+            isExpanded={isExpanded}
+            onCollapse={() => onToggle(team.id)}
+            onEdit={() => onEdit(team.id, "TEAM")}
+            onAdd={() => onAdd(team.id, "TEAM")}
+          />
+        </Box>
+
+        {hasSubTeams && isExpanded && (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "64px",
+              alignItems: "flex-start",
+              position: "relative",
+              mt: "200px",
+            }}
+          >
+            {team.subTeams.map(renderSubTeam)}
+          </Box>
+        )}
+      </Box>
+    );
+  };
+
+  const renderBusinessUnit = (bu: BusinessUnit) => {
+    const hasTeams = bu.teams?.length > 0;
+    const isExpanded = expandedNodes.has(bu.id);
+
+    return (
+      <Box
+        key={bu.id}
+        sx={{
+          display: "flex",
+          gap: "64px",
+          alignItems: "flex-start",
+          position: "relative",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0px",
+          }}
+        >
+          <OrgStructureCard
+            name={bu.name}
+            type="BUSINESS_UNIT"
+            headCount={bu.headCount}
+            teamHead={bu.teamHead}
+            functionLead={bu.functionLead}
+            hasChildren={hasTeams}
+            isExpanded={isExpanded}
+            onCollapse={() => onToggle(bu.id)}
+            onEdit={() => onEdit(bu.id, "BUSINESS_UNIT")}
+            onAdd={() => onAdd(bu.id, "BUSINESS_UNIT")}
+          />
+        </Box>
+
+        {hasTeams && isExpanded && (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "64px",
+              alignItems: "flex-start",
+              position: "relative",
+              mt: "200px",
+            }}
+          >
+            {bu.teams.map(renderTeam)}
+          </Box>
+        )}
+      </Box>
+    );
+  };
+
+  const hasBusinessUnits = company.businessUnits?.length > 0;
+  const isCompanyExpanded = expandedNodes.has(company.id);
 
   return (
     <Box
@@ -69,31 +238,30 @@ const OrgStructureTree = ({
         position: "relative",
       }}
     >
-      {/* Current Node Card */}
+      {/* Company Card */}
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: "0px",
-          // mb: type !== "BUSINESS_UNIT" ? "120px" : "0",
         }}
       >
         <OrgStructureCard
-          name={node.name}
-          type={type}
-          headCount={node.headCount}
-          teamHead={node.teamHead}
-          functionLead={node.functionLead}
-          hasChildren={hasChildren}
-          isExpanded={isExpanded}
-          onCollapse={() => onToggle(node.id)}
-          onEdit={() => onEdit(node.id, type)}
-          onAdd={() => onAdd(node.id, type)}
+          name={company.name}
+          type="COMPANY"
+          headCount={company.headCount}
+          teamHead={company.teamHead}
+          functionLead={company.functionLead}
+          hasChildren={hasBusinessUnits}
+          isExpanded={isCompanyExpanded}
+          onCollapse={() => onToggle(company.id)}
+          onEdit={() => onEdit(company.id, "COMPANY")}
+          onAdd={() => onAdd(company.id, "COMPANY")}
         />
       </Box>
 
-      {/* Children - Only render if expanded and has children */}
-      {hasChildren && isExpanded && (
+      {/* Business Units */}
+      {hasBusinessUnits && isCompanyExpanded && (
         <Box
           sx={{
             display: "flex",
@@ -101,21 +269,10 @@ const OrgStructureTree = ({
             gap: "64px",
             alignItems: "flex-start",
             position: "relative",
-            // mb: "140px"
+            mt: "200px",
           }}
         >
-          {children.items.map((child: any) => (
-            <OrgStructureTree
-              key={child.id}
-              node={child}
-              type={children.childType}
-              depth={depth + 1}
-              expandedNodes={expandedNodes}
-              onToggle={onToggle}
-              onEdit={onEdit}
-              onAdd={onAdd}
-            />
-          ))}
+          {company.businessUnits.map(renderBusinessUnit)}
         </Box>
       )}
     </Box>
@@ -123,4 +280,3 @@ const OrgStructureTree = ({
 };
 
 export default OrgStructureTree;
-
