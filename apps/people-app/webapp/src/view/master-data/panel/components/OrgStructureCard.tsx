@@ -106,11 +106,8 @@ const OrgStructureCard = ({
           }}
         >
           <Typography
+            variant="h6"
             sx={{
-              fontSize: "18px",
-              fontWeight: 500,
-              lineHeight: 1.3,
-              letterSpacing: type === "BUSINESS_UNIT" ? "-0.54px" : "0",
               color: theme.palette.customText.primary.p2.active,
             }}
           >
@@ -246,7 +243,7 @@ const OrgStructureCard = ({
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: type === "BUSINESS_UNIT" ? "12px" : "16px",
+            gap: "16px",
           }}
         >
           {onEdit && (
