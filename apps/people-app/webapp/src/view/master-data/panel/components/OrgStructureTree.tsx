@@ -21,6 +21,7 @@ import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/orgStructu
 
 import OrgStructureCard from "./OrgStructureCard";
 import { calculateArrowPath } from "./utils/svgPathCalculator";
+import { NodeType } from "@utils/types";
 
 interface OrgStructureTreeProps {
   company: Company;
@@ -116,13 +117,13 @@ const OrgStructureTree = ({
       >
         <OrgStructureCard
           name={unit.name}
-          type="UNIT"
+          type={NodeType.Unit}
           headCount={unit.headCount}
           teamHead={unit.teamHead}
           functionLead={unit.functionLead}
           hasChildren={false}
           isExpanded={false}
-          onCollapse={() => {}}
+          onCollapse={() => { }}
           onEdit={() => onEdit(unit.id, "UNIT")}
           onAdd={() => onAdd(unit.id, "UNIT")}
         />
@@ -154,7 +155,7 @@ const OrgStructureTree = ({
         >
           <OrgStructureCard
             name={subTeam.name}
-            type="SUB_TEAM"
+            type={NodeType.SubTeam}
             headCount={subTeam.headCount}
             teamHead={subTeam.teamHead}
             functionLead={subTeam.functionLead}
@@ -208,7 +209,7 @@ const OrgStructureTree = ({
         >
           <OrgStructureCard
             name={team.name}
-            type="TEAM"
+            type={NodeType.Team}
             headCount={team.headCount}
             teamHead={team.teamHead}
             functionLead={team.functionLead}
@@ -262,7 +263,7 @@ const OrgStructureTree = ({
         >
           <OrgStructureCard
             name={bu.name}
-            type="BUSINESS_UNIT"
+            type={NodeType.BusinessUnit}
             headCount={bu.headCount}
             teamHead={bu.teamHead}
             functionLead={bu.functionLead}
@@ -351,7 +352,7 @@ const OrgStructureTree = ({
       >
         <OrgStructureCard
           name={company.name}
-          type="COMPANY"
+          type={NodeType.Company}
           headCount={company.headCount}
           teamHead={company.teamHead}
           functionLead={company.functionLead}
@@ -384,3 +385,4 @@ const OrgStructureTree = ({
 };
 
 export default OrgStructureTree;
+
