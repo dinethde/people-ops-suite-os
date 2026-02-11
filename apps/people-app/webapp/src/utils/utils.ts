@@ -18,8 +18,6 @@ export function isIncludedRole(roles: string[], allowedRoles: string[]) {
   return roles.some((role) => allowedRoles.includes(role));
 }
 
-//
-
 export const markAllFieldsTouched = (errors: any) => {
   const touched: any = {};
   const markTouched = (obj: any, touchedObj: any) => {
