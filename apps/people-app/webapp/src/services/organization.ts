@@ -75,15 +75,15 @@ export interface Company {
   businessUnits: BusinessUnit[];
 }
 
-export const orgStructureApi = createApi({
-  reducerPath: "orgStructureApi",
+export const organizationApi = createApi({
+  reducerPath: "organizationApi",
   baseQuery: baseQueryWithRetry,
   tagTypes: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
   endpoints: (builder) => ({
     getOrgStructure: builder.query<Company, void>({
-      query: () => AppConfig.serviceUrls.orgStructure,
+      query: () => AppConfig.serviceUrls.organization,
     }),
   }),
 });
 
-export const { useGetOrgStructureQuery } = orgStructureApi;
+export const { useGetOrgStructureQuery } = organizationApi;
