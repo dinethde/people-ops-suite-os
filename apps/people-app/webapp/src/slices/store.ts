@@ -19,6 +19,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import { configApi } from "@services/config.api";
 import { employeeApi } from "@services/employee";
+import { orgStructureApi } from "@services/orgStructure.ts";
 import { userApi } from "@services/user.api";
 import authReducer from "@slices/authSlice/auth";
 import commonReducer from "@slices/commonSlice/common";
@@ -41,12 +42,14 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [configApi.reducerPath]: configApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
+    [orgStructureApi.reducerPath]: orgStructureApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(userApi.middleware)
       .concat(configApi.middleware)
-      .concat(employeeApi.middleware),
+      .concat(employeeApi.middleware)
+      .concat(orgStructureApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
