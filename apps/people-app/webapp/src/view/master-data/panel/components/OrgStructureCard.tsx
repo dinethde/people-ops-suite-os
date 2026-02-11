@@ -17,13 +17,16 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import { Avatar, Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 
-import { FunctionLead, TeamHead } from "@root/src/services/orgStructure";
+import { FunctionLead, TeamHead } from "@services/orgStructure";
+import { NodeType } from "@utils/types";
+
+import PersonCard from "./PersonCard";
 
 interface OrgStructureCardProps {
   name: string;
-  type: "COMPANY" | "BUSINESS_UNIT" | "TEAM" | "SUB_TEAM" | "UNIT";
+  type: NodeType;
   headCount: number;
   teamHead?: TeamHead;
   functionLead?: FunctionLead;
@@ -69,12 +72,6 @@ const OrgStructureCard = ({
   const handleCollapse = (e: React.MouseEvent) => {
     e.stopPropagation();
     onCollapse?.();
-  };
-
-  // Helper function to truncate name if too long
-  const truncateName = (name: string, maxLength: number = 15) => {
-    if (name.length <= maxLength) return name;
-    return name.substring(0, maxLength) + "...";
   };
 
   return (
@@ -151,109 +148,22 @@ const OrgStructureCard = ({
           >
             {/* Team Head */}
             {teamHead && (
-              <Box
-                sx={{
-                  backgroundColor: "#FFFFFF",
-                  display: "flex",
-                  gap: "8px",
-                  alignItems: "center",
-                  padding: "4px",
-                  borderRadius: "4px",
-                }}
-              >
-                <Avatar
-                  src={teamHead.avatar}
-                  sx={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "4px",
-                  }}
-                >
-                  {teamHead.name.charAt(0)}
-                </Avatar>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: theme.palette.customText.primary.p2.active,
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {truncateName(teamHead.name)}
-                  </Typography>
-
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      color: theme.palette.customText.primary.p4.active,
-                    }}
-                  >
-                    {teamHead.title}
-                  </Typography>
-                </Box>
-              </Box>
+              <PersonCard
+                name={teamHead.name}
+                title={teamHead.title}
+                avatar={teamHead.avatar}
+                maxNameLength={15}
+              />
             )}
 
             {/* Function Lead */}
             {functionLead && (
-              <Box
-                sx={{
-                  backgroundColor: "#FFFFFF",
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "4px",
-                  gap: "8px",
-                  borderRadius: "4px",
-                }}
-              >
-                <Avatar
-                  src={functionLead.avatar}
-                  sx={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "4px",
-                  }}
-                >
-                  {functionLead.name.charAt(0)}
-                </Avatar>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: "14px",
-                      fontWeight: 500,
-                      lineHeight: 1.6,
-                      letterSpacing: "0.12px",
-                      color: theme.palette.customText.primary.p2.active,
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {truncateName(functionLead.name, 12)}
-                  </Typography>
-
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      fontWeight: 400,
-                      lineHeight: 1.6,
-                      color: theme.palette.customText.primary.p4.active,
-                    }}
-                  >
-                    {functionLead.title}
-                  </Typography>
-                </Box>
-              </Box>
+              <PersonCard
+                name={functionLead.name}
+                title={functionLead.title}
+                avatar={functionLead.avatar}
+                maxNameLength={12}
+              />
             )}
           </Box>
         )}
@@ -296,11 +206,8 @@ const OrgStructureCard = ({
             }}
           >
             <Typography
+              variant="caption"
               sx={{
-                fontSize: "12px",
-                fontWeight: 500,
-                lineHeight: 1.6,
-                letterSpacing: "0.12px",
                 color: theme.palette.primary.main,
                 textTransform: "uppercase",
               }}
@@ -322,11 +229,10 @@ const OrgStructureCard = ({
                 color: theme.palette.customText.primary.p3.active,
               }}
             />
+
             <Typography
+              variant="body2"
               sx={{
-                fontSize: "14px",
-                fontWeight: type === "BUSINESS_UNIT" ? 500 : 400,
-                lineHeight: 1.5,
                 color: theme.palette.customText.primary.p3.active,
               }}
             >
