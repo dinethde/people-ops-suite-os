@@ -31,7 +31,7 @@ export interface FunctionLead {
   avatar?: string;
 }
 
-interface Unit {
+export interface Unit {
   id: string;
   name: string;
   headCount: number;
@@ -39,7 +39,7 @@ interface Unit {
   functionLead?: FunctionLead;
 }
 
-interface SubTeam {
+export interface SubTeam {
   id: string;
   name: string;
   headCount: number;
@@ -48,7 +48,7 @@ interface SubTeam {
   units: Unit[];
 }
 
-interface Team {
+export interface Team {
   id: string;
   name: string;
   headCount: number;
@@ -66,12 +66,21 @@ export interface BusinessUnit {
   teams: Team[];
 }
 
+export interface Company {
+  id: string;
+  name: string;
+  headCount: number;
+  teamHead?: TeamHead;
+  functionLead?: FunctionLead;
+  businessUnits: BusinessUnit[];
+}
+
 export const orgStructureApi = createApi({
   reducerPath: "orgStructureApi",
   baseQuery: baseQueryWithRetry,
   tagTypes: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
   endpoints: (builder) => ({
-    getOrgStructure: builder.query<BusinessUnit[], void>({
+    getOrgStructure: builder.query<Company, void>({
       query: () => AppConfig.serviceUrls.orgStructure,
     }),
   }),
