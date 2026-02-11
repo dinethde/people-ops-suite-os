@@ -17,11 +17,11 @@ import { Box } from "@mui/material";
 
 import { useEffect, useState } from "react";
 
-import { useGetOrgStructureQuery } from "@services/orgStructure";
+import ErrorHandler from "@component/common/ErrorHandler";
+import PreLoader from "@component/common/PreLoader";
+import { useGetOrgStructureQuery } from "@services/organization";
 
 import OrgStructureTree from "./components/OrgStructureTree";
-import PreLoader from "@component/common/PreLoader";
-import ErrorHandler from "@component/common/ErrorHandler";
 
 export default function OrgStructure() {
   const { data: orgStructure, isLoading, isError } = useGetOrgStructureQuery();
@@ -57,21 +57,15 @@ export default function OrgStructure() {
   };
 
   if (isLoading) {
-    return (
-      <PreLoader isLoading message="Loading organization structure ..." />
-    );
+    return <PreLoader isLoading message="Loading organization structure ..." />;
   }
 
   if (isError) {
-    return (
-      <ErrorHandler message="Failled to load organization structure" />
-    );
+    return <ErrorHandler message="Failed to load organization structure" />;
   }
 
   if (!orgStructure) {
-    return (
-      <ErrorHandler message="No organization structure data available" />
-    );
+    return <ErrorHandler message="No organization structure data available" />;
   }
 
   return (
@@ -106,4 +100,3 @@ export default function OrgStructure() {
     </Box>
   );
 }
-

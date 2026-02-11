@@ -17,7 +17,7 @@ import { Box } from "@mui/material";
 
 import { useLayoutEffect, useRef, useState } from "react";
 
-import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/orgStructure";
+import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/organization";
 import { NodeType } from "@utils/types";
 
 import ConnectionArrows from "./ConnectionArrows";
