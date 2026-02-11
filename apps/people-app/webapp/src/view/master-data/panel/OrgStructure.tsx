@@ -15,15 +15,22 @@
 // under the License
 import { Box, Typography } from "@mui/material";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { useGetOrgStructureQuery } from "@root/src/services/orgStructure";
+import { useGetOrgStructureQuery } from "@services/orgStructure";
 
 import OrgStructureTree from "./components/OrgStructureTree";
 
 export default function OrgStructure() {
   const { data: orgStructure, isLoading, isError } = useGetOrgStructureQuery();
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
+
+  // Expand company by default when data loads
+  useEffect(() => {
+    if (orgStructure && !expandedNodes.has(orgStructure.id)) {
+      setExpandedNodes(new Set([orgStructure.id]));
+    }
+  }, [orgStructure]);
 
   const toggleNode = (id: string) => {
     setExpandedNodes((prev) => {
@@ -63,7 +70,7 @@ export default function OrgStructure() {
     );
   }
 
-  if (!orgStructure || orgStructure.length === 0) {
+  if (!orgStructure) {
     return (
       <Box sx={{ p: 3 }}>
         <Typography>No organization structure data available</Typography>
@@ -74,7 +81,7 @@ export default function OrgStructure() {
   return (
     <Box
       sx={{
-        p: 3,
+        p: 1,
         display: "flex",
         flexDirection: "column",
         gap: 3,
@@ -83,10 +90,6 @@ export default function OrgStructure() {
         height: "100%",
       }}
     >
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        Organization Structure
-      </Typography>
-
       {/* Display organization structure as vertical tree */}
       <Box
         sx={{
@@ -97,18 +100,13 @@ export default function OrgStructure() {
           pb: 4,
         }}
       >
-        {orgStructure.map((businessUnit) => (
-          <OrgStructureTree
-            key={businessUnit.id}
-            node={businessUnit}
-            type="BUSINESS_UNIT"
-            depth={0}
-            expandedNodes={expandedNodes}
-            onToggle={toggleNode}
-            onEdit={handleEdit}
-            onAdd={handleAdd}
-          />
-        ))}
+        <OrgStructureTree
+          company={orgStructure}
+          expandedNodes={expandedNodes}
+          onToggle={toggleNode}
+          onEdit={handleEdit}
+          onAdd={handleAdd}
+        />
       </Box>
     </Box>
   );
