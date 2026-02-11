@@ -112,14 +112,14 @@ const OrgStructureTree = ({
     const y1 = parentRect.bottom - containerRect.top;
 
     // Stop the line 12px before the card edge to leave space for the arrow
-    const arrowOffset = 12;
-    const x2 = childRect.left - containerRect.left - arrowOffset;
+    const x2 = childRect.left - containerRect.left;
     const y2 = childRect.top - containerRect.top + childRect.height / 2;
 
     // Create path with straight lines and right angles
     // Line goes: down from parent -> right -> to child
     return `M ${x1} ${y1} L ${x1} ${y2} L ${x2} ${y2}`;
   };
+
   const renderUnit = (unit: Unit) => (
     <Box
       key={unit.id}
@@ -146,7 +146,7 @@ const OrgStructureTree = ({
           functionLead={unit.functionLead}
           hasChildren={false}
           isExpanded={false}
-          onCollapse={() => {}}
+          onCollapse={() => { }}
           onEdit={() => onEdit(unit.id, "UNIT")}
           onAdd={() => onAdd(unit.id, "UNIT")}
         />
@@ -195,7 +195,7 @@ const OrgStructureTree = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: "16px",
+              gap: "64px",
               alignItems: "flex-start",
               position: "relative",
               mt: "200px",
@@ -249,7 +249,7 @@ const OrgStructureTree = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: "16px",
+              gap: "64px",
               alignItems: "flex-start",
               position: "relative",
               mt: "200px",
@@ -303,7 +303,7 @@ const OrgStructureTree = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: "16px",
+              gap: "64px",
               alignItems: "flex-start",
               position: "relative",
               mt: "200px",
@@ -342,21 +342,6 @@ const OrgStructureTree = ({
           overflow: "visible",
         }}
       >
-        {/* Define arrow marker */}
-        <defs>
-          <marker
-            id="arrowhead"
-            markerWidth="10"
-            markerHeight="10"
-            refX="5"
-            refY="3"
-            orient="auto"
-            markerUnits="strokeWidth"
-          >
-            <polygon points="0 0, 10 3, 0 6" fill="#FF6B2C" />
-          </marker>
-        </defs>
-
         {connections.map(({ parentId, childId }) => {
           const path = getArrowPath(parentId, childId);
           if (!path) return null;
@@ -420,3 +405,4 @@ const OrgStructureTree = ({
 };
 
 export default OrgStructureTree;
+
