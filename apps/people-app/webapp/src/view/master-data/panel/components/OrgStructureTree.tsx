@@ -18,10 +18,10 @@ import { Box } from "@mui/material";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/orgStructure";
-
-import OrgStructureCard from "./OrgStructureCard";
-import { calculateArrowPath } from "./utils/svgPathCalculator";
 import { NodeType } from "@utils/types";
+
+import { calculateArrowPath } from "../utils/svgPathCalculator";
+import OrgStructureCard from "./OrgStructureCard";
 
 interface OrgStructureTreeProps {
   company: Company;
@@ -123,7 +123,7 @@ const OrgStructureTree = ({
           functionLead={unit.functionLead}
           hasChildren={false}
           isExpanded={false}
-          onCollapse={() => { }}
+          onCollapse={() => {}}
           onEdit={() => onEdit(unit.id, "UNIT")}
           onAdd={() => onAdd(unit.id, "UNIT")}
         />
@@ -385,4 +385,3 @@ const OrgStructureTree = ({
 };
 
 export default OrgStructureTree;
-
