@@ -13,13 +13,15 @@
 // KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations
 // under the License
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { useEffect, useState } from "react";
 
 import { useGetOrgStructureQuery } from "@services/orgStructure";
 
 import OrgStructureTree from "./components/OrgStructureTree";
+import PreLoader from "@component/common/PreLoader";
+import ErrorHandler from "@component/common/ErrorHandler";
 
 export default function OrgStructure() {
   const { data: orgStructure, isLoading, isError } = useGetOrgStructureQuery();
@@ -56,25 +58,19 @@ export default function OrgStructure() {
 
   if (isLoading) {
     return (
-      <Box sx={{ p: 3 }}>
-        <Typography>Loading organization structure...</Typography>
-      </Box>
+      <PreLoader isLoading message="Loading organization structure ..." />
     );
   }
 
   if (isError) {
     return (
-      <Box sx={{ p: 3 }}>
-        <Typography color="error">Failed to load organization structure</Typography>
-      </Box>
+      <ErrorHandler message="Failled to load organization structure" />
     );
   }
 
   if (!orgStructure) {
     return (
-      <Box sx={{ p: 3 }}>
-        <Typography>No organization structure data available</Typography>
-      </Box>
+      <ErrorHandler message="No organization structure data available" />
     );
   }
 
@@ -90,14 +86,13 @@ export default function OrgStructure() {
         height: "100%",
       }}
     >
-      {/* Display organization structure as vertical tree */}
+      {/* Display organization structure as centered tree */}
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: "64px",
           minWidth: "max-content",
-          pb: 4,
         }}
       >
         <OrgStructureTree
@@ -111,3 +106,4 @@ export default function OrgStructure() {
     </Box>
   );
 }
+
