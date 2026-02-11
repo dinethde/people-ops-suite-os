@@ -15,6 +15,8 @@
 // under the License.
 import { Box } from "@mui/material";
 
+import { useLayoutEffect, useRef, useState } from "react";
+
 import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/orgStructure";
 
 import OrgStructureCard from "./OrgStructureCard";
@@ -27,6 +29,11 @@ interface OrgStructureTreeProps {
   onAdd: (id: string, type: string) => void;
 }
 
+interface Connection {
+  parentId: string;
+  childId: string;
+}
+
 const OrgStructureTree = ({
   company,
   expandedNodes,
@@ -34,6 +41,89 @@ const OrgStructureTree = ({
   onEdit,
   onAdd,
 }: OrgStructureTreeProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+  const [connections, setConnections] = useState<Connection[]>([]);
+
+  // Register card ref
+  const registerCardRef = (id: string, element: HTMLDivElement | null) => {
+    if (element) {
+      cardRefs.current.set(id, element);
+    } else {
+      cardRefs.current.delete(id);
+    }
+  };
+
+  // Build connections based on expanded nodes
+  useLayoutEffect(() => {
+    const newConnections: Connection[] = [];
+
+    // Company -> Business Units
+    if (expandedNodes.has(company.id)) {
+      company.businessUnits?.forEach((bu) => {
+        newConnections.push({ parentId: company.id, childId: bu.id });
+      });
+
+      // Business Units -> Teams
+      company.businessUnits?.forEach((bu) => {
+        if (expandedNodes.has(bu.id)) {
+          bu.teams?.forEach((team) => {
+            newConnections.push({ parentId: bu.id, childId: team.id });
+          });
+
+          // Teams -> Sub Teams
+          bu.teams?.forEach((team) => {
+            if (expandedNodes.has(team.id)) {
+              team.subTeams?.forEach((subTeam) => {
+                newConnections.push({ parentId: team.id, childId: subTeam.id });
+              });
+
+              // Sub Teams -> Units
+              team.subTeams?.forEach((subTeam) => {
+                if (expandedNodes.has(subTeam.id)) {
+                  subTeam.units?.forEach((unit) => {
+                    newConnections.push({ parentId: subTeam.id, childId: unit.id });
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+
+    setConnections(newConnections);
+  }, [company, expandedNodes]);
+
+  // Calculate SVG path for arrow
+  const getArrowPath = (parentId: string, childId: string): string | null => {
+    const parentEl = cardRefs.current.get(parentId);
+    const childEl = cardRefs.current.get(childId);
+    const container = containerRef.current;
+
+    if (!parentEl || !childEl || !container) return null;
+
+    const containerRect = container.getBoundingClientRect();
+    const parentRect = parentEl.getBoundingClientRect();
+    const childRect = childEl.getBoundingClientRect();
+
+    // Calculate positions relative to container
+    const x1 = parentRect.left - containerRect.left + parentRect.width / 2;
+    const y1 = parentRect.bottom - containerRect.top;
+
+    // Stop the line 12px before the card edge to leave space for the arrow
+    const arrowOffset = 12;
+    const x2 = childRect.left - containerRect.left - arrowOffset;
+    const y2 = childRect.top - containerRect.top + childRect.height / 2;
+
+    // Create smooth bezier curve
+    const controlX1 = x1;
+    const controlY1 = y1 + (y2 - y1) / 2;
+    const controlX2 = x2 - 50;
+    const controlY2 = y2;
+
+    return `M ${x1} ${y1} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${x2} ${y2}`;
+  };
   const renderUnit = (unit: Unit) => (
     <Box
       key={unit.id}
@@ -45,6 +135,7 @@ const OrgStructureTree = ({
       }}
     >
       <Box
+        ref={(el) => registerCardRef(unit.id, el as HTMLDivElement | null)}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -82,6 +173,7 @@ const OrgStructureTree = ({
         }}
       >
         <Box
+          ref={(el) => registerCardRef(subTeam.id, el as HTMLDivElement | null)}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -135,6 +227,7 @@ const OrgStructureTree = ({
         }}
       >
         <Box
+          ref={(el) => registerCardRef(team.id, el as HTMLDivElement | null)}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -188,6 +281,7 @@ const OrgStructureTree = ({
         }}
       >
         <Box
+          ref={(el) => registerCardRef(bu.id, el as HTMLDivElement | null)}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -231,6 +325,7 @@ const OrgStructureTree = ({
 
   return (
     <Box
+      ref={containerRef}
       sx={{
         display: "flex",
         gap: "64px",
@@ -238,12 +333,60 @@ const OrgStructureTree = ({
         position: "relative",
       }}
     >
+      {/* SVG Overlay for Arrows */}
+      <svg
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+          zIndex: 0,
+          overflow: "visible",
+        }}
+      >
+        {/* Define arrow marker */}
+        <defs>
+          <marker
+            id="arrowhead"
+            markerWidth="10"
+            markerHeight="10"
+            refX="5"
+            refY="3"
+            orient="auto"
+            markerUnits="strokeWidth"
+          >
+            <polygon points="0 0, 10 3, 0 6" fill="#FF6B2C" />
+          </marker>
+        </defs>
+
+        {connections.map(({ parentId, childId }) => {
+          const path = getArrowPath(parentId, childId);
+          if (!path) return null;
+
+          return (
+            <path
+              key={`${parentId}-${childId}`}
+              d={path}
+              stroke="#FF6B2C"
+              strokeWidth="2"
+              fill="none"
+              markerEnd="url(#arrowhead)"
+            />
+          );
+        })}
+      </svg>
+
       {/* Company Card */}
       <Box
+        ref={(el) => registerCardRef(company.id, el as HTMLDivElement | null)}
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: "0px",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         <OrgStructureCard
@@ -270,6 +413,7 @@ const OrgStructureTree = ({
             alignItems: "flex-start",
             position: "relative",
             mt: "200px",
+            zIndex: 1,
           }}
         >
           {company.businessUnits.map(renderBusinessUnit)}
