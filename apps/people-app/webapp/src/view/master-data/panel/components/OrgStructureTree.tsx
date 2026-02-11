@@ -20,7 +20,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/orgStructure";
 import { NodeType } from "@utils/types";
 
-import { calculateArrowPath } from "../utils/svgPathCalculator";
+import ConnectionArrows from "./ConnectionArrows";
 import OrgStructureCard from "./OrgStructureCard";
 
 interface OrgStructureTreeProps {
@@ -307,37 +307,11 @@ const OrgStructureTree = ({
       }}
     >
       {/* SVG Overlay for Arrows */}
-      <svg
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          pointerEvents: "none",
-          zIndex: 0,
-          overflow: "visible",
-        }}
-      >
-        {connections.map(({ parentId, childId }) => {
-          const parentEl = cardRefs.current.get(parentId);
-          const childEl = cardRefs.current.get(childId);
-          const path = calculateArrowPath(parentEl, childEl, containerRef.current);
-
-          if (!path) return null;
-
-          return (
-            <path
-              key={`${parentId}-${childId}`}
-              d={path}
-              stroke="#FF6B2C"
-              strokeWidth="2"
-              fill="none"
-              markerEnd="url(#arrowhead)"
-            />
-          );
-        })}
-      </svg>
+      <ConnectionArrows
+        connections={connections}
+        cardRefs={cardRefs.current}
+        containerRef={containerRef.current}
+      />
 
       {/* Company Card */}
       <Box
