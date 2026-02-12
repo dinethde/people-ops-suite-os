@@ -58,5 +58,6 @@ export const AppConfig = {
     designations: SERVICE_BASE_URL + "/designations",
     employeesBasicInfo: SERVICE_BASE_URL + "/employees/basic-info",
     continuousServiceRecord: SERVICE_BASE_URL + "/continuous-service-records",
+    organization: SERVICE_BASE_URL + "/organization",
   },
 };
