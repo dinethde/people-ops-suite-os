@@ -13,7 +13,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Avatar, Box, Typography, useTheme } from "@mui/material";
+import { Avatar, Box, Tooltip, Typography, useTheme } from "@mui/material";
 
 import { memo } from "react";
 
@@ -78,16 +78,21 @@ const PersonCard = memo<PersonCardProps>(({ name, title, avatar, maxNameLength =
           {truncateName(name, maxNameLength)}
         </Typography>
 
-        <Typography
-          sx={{
-            fontSize: "12px",
-            fontWeight: 400,
-            lineHeight: 1.6,
-            color: theme.palette.customText.primary.p4.active,
-          }}
+        <Tooltip
+          title={title}
+          placement="top"
         >
-          {title}
-        </Typography>
+          <Typography
+            sx={{
+              fontSize: "12px",
+              fontWeight: 400,
+              lineHeight: 1.6,
+              color: theme.palette.customText.primary.p4.active,
+            }}
+          >
+            {truncateName(title, maxNameLength)}
+          </Typography>
+        </Tooltip>
       </Box>
     </Box>
   );
