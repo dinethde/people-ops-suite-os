@@ -19,13 +19,22 @@ import { useEffect, useState } from "react";
 
 import ErrorHandler from "@component/common/ErrorHandler";
 import PreLoader from "@component/common/PreLoader";
+import { EXPANDED_NODES_KEY } from "@root/src/config/constant";
 import { useGetOrgStructureQuery } from "@services/organization";
 
 import OrgStructureTree from "./components/OrgStructureTree";
 
 export default function OrgStructure() {
   const { data: orgStructure, isLoading, isError } = useGetOrgStructureQuery();
-  const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
+
+  const [expandedNodes, setExpandedNodes] = useState<Set<string>>(() => {
+    const stored = sessionStorage.getItem(EXPANDED_NODES_KEY);
+    return stored ? new Set(JSON.parse(stored)) : new Set();
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem(EXPANDED_NODES_KEY, JSON.stringify(Array.from(expandedNodes)));
+  }, [expandedNodes]);
 
   // Expand company by default when data loads
   useEffect(() => {
@@ -61,7 +70,7 @@ export default function OrgStructure() {
   }
 
   if (isError) {
-    return <ErrorHandler message="Failed to load organization structure" />;
+    return <ErrorHandler message="Failled to load organization structure" />;
   }
 
   if (!orgStructure) {
