@@ -97,6 +97,7 @@ const OrgStructureTree = ({
     setConnections(newConnections);
   }, [company, expandedNodes]);
 
+  // Render Units
   const renderUnit = (unit: Unit) => (
     <Box
       key={unit.id}
@@ -131,6 +132,7 @@ const OrgStructureTree = ({
     </Box>
   );
 
+  // Render sub teams
   const renderSubTeam = (subTeam: SubTeam) => {
     const hasUnits = subTeam.units?.length > 0;
     const isExpanded = expandedNodes.has(subTeam.id);
@@ -185,6 +187,7 @@ const OrgStructureTree = ({
     );
   };
 
+  // Render Teams
   const renderTeam = (team: Team) => {
     const hasSubTeams = team.subTeams?.length > 0;
     const isExpanded = expandedNodes.has(team.id);
@@ -239,6 +242,7 @@ const OrgStructureTree = ({
     );
   };
 
+  // Render Business Units
   const renderBusinessUnit = (bu: BusinessUnit) => {
     const hasTeams = bu.teams?.length > 0;
     const isExpanded = expandedNodes.has(bu.id);
