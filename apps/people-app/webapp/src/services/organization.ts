@@ -82,6 +82,26 @@ export const organizationApi = createApi({
   endpoints: (builder) => ({
     getOrgStructure: builder.query<Company, void>({
       query: () => AppConfig.serviceUrls.organization,
+      transformResponse: (response: Company, meta, args) => {
+        response.businessUnits.forEach((bu) => {
+          bu.teams.forEach((team) => {
+            const teamLeadTitle = `${bu.name} ${team.name} Lead`;
+            if (team.functionLead?.title) team.functionLead.title = teamLeadTitle;
+
+            team.subTeams.forEach((subTeam) => {
+              const subTeamLeadTitle = `${teamLeadTitle} ${subTeam.name} Lead`;
+              if (subTeam.functionLead?.title) subTeam.functionLead.title = subTeamLeadTitle;
+
+              subTeam.units.forEach((unit) => {
+                const unitLeadTitle = `${subTeamLeadTitle} ${unit.name} Lead`;
+                if (unit.functionLead?.title) unit.functionLead.title = unitLeadTitle;
+              });
+            });
+          });
+        });
+
+        return response;
+      },
     }),
   }),
 });
