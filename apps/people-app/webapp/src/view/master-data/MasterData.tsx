@@ -22,7 +22,7 @@ import OrgStructure from "./panel/OrgStructure";
 export default function MasterData() {
   return (
     <TabsPage
-      title="Me"
+      title="Master Data"
       tabsPage={[
         {
           tabTitle: "Org Structure",
@@ -34,7 +34,7 @@ export default function MasterData() {
           tabTitle: "Edit Org Structure",
           tabPath: "edit-org-structure",
           icon: <AccountTreeOutlinedIcon />,
-          page: <OrgStructure />,
+          page: <></>,
         },
       ]}
     />
