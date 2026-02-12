@@ -45,6 +45,8 @@ export const EmployeeTypes = [
   { id: 3, label: "Consultancy" },
 ];
 
+export const EXPANDED_NODES_KEY = "expanded node key";
+
 export const EmployeeFormSteps = ["Personal Info", "Job Info", "Review"];
 
 export const EmployeeTitle = ["Mr.", "Mrs.", "Miss.", "Ms.", "Dr.", "Prof."];
