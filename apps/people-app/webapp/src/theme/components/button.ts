@@ -66,5 +66,12 @@ export const muiButton: Components<Theme>["MuiButton"] = {
       }),
     },
 
+    {
+      props: { variant: "outline-neutral" as any },
+      style: ({ theme }) => ({
+        border: `1px solid ${theme.palette.customBorder.brand.active}`,
+      })
+    }
+
   ],
 };
