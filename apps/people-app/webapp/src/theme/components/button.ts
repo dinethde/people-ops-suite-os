@@ -57,7 +57,7 @@ export const muiButton: Components<Theme>["MuiButton"] = {
       props: { variant: "outlined" as any },
       style: ({ theme }) => ({
         backgroundColor: "transparent",
-        border: `1px solid ${theme.palette.customBorder.brand.active}`,
+        border: `1px solid ${theme.palette.customBorder.brand.b1.active}`,
         color: theme.palette.customText.brand.p1.active,
         "&:hover": {
           backgroundColor: theme.palette.fill.primary.light.active,
@@ -65,26 +65,44 @@ export const muiButton: Components<Theme>["MuiButton"] = {
         "&.Mui-disabled": {
           backgroundColor: "transparent",
           color: theme.palette.customText.brand.p1.disabled,
-          borderColor: theme.palette.customBorder.brand.disabled,
-        }
+          borderColor: theme.palette.customBorder.brand.b1.disabled,
+        },
       }),
     },
 
     {
       props: { variant: "outline_neutral" as any },
       style: ({ theme }) => ({
-        border: `1px solid ${theme.palette.customBorder.primary.active}`,
-        color: theme.palette.customText.primary.p2.active,
+        border: `1px solid ${theme.palette.customBorder.primary.b3.active}`,
+        color: theme.palette.customText.primary.p3.active,
         "&:hover": {
-          borderColor: theme.palette.customBorder.primary.hover,
+          border: `1px solid ${theme.palette.customBorder.primary.b3.hover}`,
           backgroundColor: theme.palette.fill.neutral.light.active,
         },
         "&.Mui-disabled": {
           backgroundColor: "transparent",
-          borderColor: theme.palette.customBorder.brand.disabled,
-          color: theme.palette.customText.primary.p2.active,
-        }
+          borderColor: theme.palette.customBorder.primary.b3.disabled,
+          color: theme.palette.customText.primary.p2.disabled,
+        },
       }),
     },
+
+    {
+      props: { variant: "half_neutral" as any },
+      style: ({ theme }) => ({
+        border: `1px solid ${theme.palette.customBorder.primary.b3.active}`,
+        color: theme.palette.customText.primary.p3.active,
+        "&:hover": {
+          border: `1px solid ${theme.palette.customBorder.brand.b1.active}`,
+          color: theme.palette.customText.brand.p1.active,
+          backgroundColor: theme.palette.fill.primary.light.active,
+        },
+        "&.Mui-disabled": {
+          backgroundColor: "transparent",
+          borderColor: theme.palette.customBorder.brand.b1.disabled,
+          color: theme.palette.customText.brand.p1.disabled,
+        },
+      }),
+    }
   ],
 };
