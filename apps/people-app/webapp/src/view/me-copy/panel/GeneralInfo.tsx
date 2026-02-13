@@ -156,7 +156,7 @@ export default function GeneralInfo() {
   return (
     <Box
       sx={{
-        bgcolor: alpha(theme.palette.fill.secondary_light.active, 0.5),
+        bgcolor: alpha(theme.palette.fill.secondary.light.active, 0.5),
         border: `1px solid ${theme.palette.customBorder.territory.active}`,
         borderRadius: "16px",
         display: "flex",
