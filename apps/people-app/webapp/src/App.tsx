@@ -23,7 +23,7 @@ import { createContext, useMemo, useState } from "react";
 
 import { APP_NAME, AsgardeoConfig } from "@config/config";
 import AppAuthProvider from "@context/AuthContext";
-import { themeSettings } from "@root/src/theme";
+import { themeSettings } from "@root/src/theme/index";
 import { store } from "@slices/store";
 import { ThemeMode } from "@utils/types";
 
