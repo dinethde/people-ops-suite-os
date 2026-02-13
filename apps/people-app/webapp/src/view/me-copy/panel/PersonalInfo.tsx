@@ -115,7 +115,7 @@ export default function PersonalInfo() {
       onSubmit={handleSubmit(onSubmit)}
       sx={{
         bgcolor: alpha(theme.palette.fill.secondary.light.active, 0.5),
-        border: `1px solid ${theme.palette.customBorder.territory.active}`,
+        border: `1px solid ${theme.palette.customBorder.primary.b2.active}`,
         borderRadius: "16px",
         display: "flex",
         flexDirection: "column",
@@ -163,7 +163,7 @@ export default function PersonalInfo() {
       <Box
         sx={{
           bgcolor: alpha(theme.palette.surface.secondary.active, 0.5),
-          border: `0.5px solid ${theme.palette.customBorder.territory.active}`,
+          border: `0.5px solid ${theme.palette.customBorder.primary.b2.active}`,
           borderRadius: "12px",
           display: "flex",
           flexDirection: "column",
