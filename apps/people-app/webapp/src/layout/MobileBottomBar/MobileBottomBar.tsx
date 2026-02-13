@@ -86,7 +86,7 @@ export default function MobileBottomBar({
             gap: "6px",
             padding: "5px 8px",
             borderRadius: "8px",
-            backgroundColor: theme.palette.fill.primary_light.active,
+            backgroundColor: theme.palette.fill.primary.light.active,
             cursor: "pointer",
             transition: "background-color 0.2s ease",
             color: theme.palette.customText.brand.p1.active,
