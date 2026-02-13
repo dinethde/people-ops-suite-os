@@ -13,7 +13,6 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import { alpha } from "@mui/material";
 import type { Components, Theme } from "@mui/material/styles";
 
@@ -27,18 +26,18 @@ export const muiSwitch = (colors: any): Components<Theme>["MuiSwitch"] => ({
         padding: 0,
         margin: "7px",
         transitionDuration: "300ms",
-        color: alpha(colors.fill.secondary.active, 0.59),
+        color: alpha(colors.fill.secondary.main.active, 0.59),
         "&.Mui-checked": {
           transform: "translateX(20px)",
-          color: colors.fill.secondary.active,
+          color: colors.fill.secondary.main.active,
           "& + .MuiSwitch-track": {
-            backgroundColor: colors.fill.secondary_light.active,
+            backgroundColor: colors.fill.secondary.light.active,
           },
         },
         "&.Mui-disabled": {
-          color: alpha(colors.fill.secondary.active, 0.35),
+          color: alpha(colors.fill.secondary.main.active, 0.35),
           "& + .MuiSwitch-track": {
-            backgroundColor: colors.fill.secondary.disabled,
+            backgroundColor: colors.fill.secondary.main.disabled,
           },
         },
       },
@@ -48,7 +47,7 @@ export const muiSwitch = (colors: any): Components<Theme>["MuiSwitch"] => ({
       },
       "& .MuiSwitch-track": {
         borderRadius: 38 / 2,
-        backgroundColor: alpha(colors.fill.secondary_light.active, 0.59),
+        backgroundColor: alpha(colors.fill.secondary.light.active, 0.59),
         opacity: 1,
       },
     },
