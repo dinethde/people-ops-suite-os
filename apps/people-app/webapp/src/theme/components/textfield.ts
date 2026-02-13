@@ -13,7 +13,6 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import type { Components, Theme } from "@mui/material/styles";
 
 export const muiTextField = (colors: any): Components<Theme>["MuiTextField"] => ({
@@ -28,21 +27,21 @@ export const muiTextField = (colors: any): Components<Theme>["MuiTextField"] => 
           padding: "10px 12px",
         },
         "& fieldset": {
-          borderColor: colors.border.territory.active,
+          borderColor: colors.border.primary.b2.active,
           borderWidth: "1px",
         },
         "&:hover fieldset": {
-          borderColor: colors.border.territory.hover,
+          borderColor: colors.border.primary.b2.hover,
         },
         "&.Mui-focused fieldset": {
-          borderColor: colors.border.secondary.active,
+          borderColor: colors.border.secondary.b1.active,
           borderWidth: "2px",
         },
         "&.Mui-error fieldset": {
           borderColor: "#F23B0D",
         },
         "&.Mui-disabled fieldset": {
-          borderColor: colors.border.territory.disabled,
+          borderColor: colors.border.primary.b2.disabled,
         },
       },
       "& .MuiInputLabel-root": {
@@ -50,7 +49,7 @@ export const muiTextField = (colors: any): Components<Theme>["MuiTextField"] => 
         fontSize: "14px",
         fontWeight: 400,
         "&.Mui-focused": {
-          color: colors.border.brand.active,
+          color: colors.border.brand.b1.active,
         },
         "&.Mui-error": {
           color: "#F23B0D",
