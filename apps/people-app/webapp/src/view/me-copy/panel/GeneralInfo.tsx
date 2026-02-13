@@ -142,10 +142,10 @@ export default function GeneralInfo() {
       <ErrorHandler
         message={
           error &&
-          "data" in error &&
-          typeof error.data === "object" &&
-          error.data &&
-          "message" in error.data
+            "data" in error &&
+            typeof error.data === "object" &&
+            error.data &&
+            "message" in error.data
             ? String(error.data.message)
             : "Failed to load employee information. Please try again later."
         }
@@ -157,7 +157,7 @@ export default function GeneralInfo() {
     <Box
       sx={{
         bgcolor: alpha(theme.palette.fill.secondary.light.active, 0.5),
-        border: `1px solid ${theme.palette.customBorder.territory.active}`,
+        border: `1px solid ${theme.palette.customBorder.primary.b2.active}`,
         borderRadius: "16px",
         display: "flex",
         flexDirection: "column",
@@ -199,7 +199,7 @@ export default function GeneralInfo() {
       <Box
         sx={{
           bgcolor: alpha(theme.palette.surface.secondary.active, 0.5),
-          border: `0.5px solid ${theme.palette.customBorder.territory.active}`,
+          border: `0.5px solid ${theme.palette.customBorder.primary.b2.active}`,
           borderRadius: "12px",
           display: "flex",
           flexDirection: "column",
@@ -224,7 +224,7 @@ export default function GeneralInfo() {
             {rowIndex < infoRows.length - 1 && (
               <Divider
                 sx={{
-                  borderColor: theme.palette.customBorder.territory.active,
+                  borderColor: theme.palette.customBorder.primary.b2.active,
                 }}
               />
             )}
