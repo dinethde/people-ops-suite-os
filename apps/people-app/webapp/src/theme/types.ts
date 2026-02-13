@@ -20,8 +20,11 @@ declare module "@mui/material/Button" {
     submit: true;
     primary: true;
     secondary: true;
-    outline_neutral: true;
-    half_neutral: true;
+  }
+
+  interface ButtonPropsColorOverrides {
+    neutral: true;
+    brand: true;
   }
 }
 
