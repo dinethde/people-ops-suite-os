@@ -20,6 +20,7 @@ declare module "@mui/material/Button" {
     submit: true;
     primary: true;
     secondary: true;
+    outline_neutral: true;
   }
 }
 
@@ -203,4 +204,4 @@ declare module "@mui/material/styles" {
   }
 }
 
-export {};
+export { };
