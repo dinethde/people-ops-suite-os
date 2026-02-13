@@ -123,14 +123,14 @@ export function Tabs({ tabs, activeIndex, handleTabClick }: TabToggleProps) {
                 gap: 1,
                 borderRadius: "6px",
                 backgroundColor:
-                  activeIndex === index ? theme.palette.fill.primary_light.active : "none",
+                  activeIndex === index ? theme.palette.fill.primary.light.active : "none",
                 color:
                   activeIndex === index
                     ? theme.palette.customText.brand.p1.active
                     : theme.palette.customText.primary.p2.active,
                 "&:hover": {
                   backgroundColor:
-                    activeIndex === index ? theme.palette.fill.primary_light.active : "transparent",
+                    activeIndex === index ? theme.palette.fill.primary.light.active : "transparent",
                 },
               }}
             >
