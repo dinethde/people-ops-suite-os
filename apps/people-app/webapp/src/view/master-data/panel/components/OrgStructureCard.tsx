@@ -80,7 +80,7 @@ const OrgStructureCard = ({
         minWidth: "350PX",
         backgroundColor: theme.palette.surface.secondary.active,
         borderTop: "2px solid",
-        borderTopColor: theme.palette.customBorder.brand.active,
+        borderTopColor: theme.palette.customBorder.brand.b1.active,
         borderRadius: "6px",
         padding: "12px",
         boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.12)",
@@ -171,7 +171,7 @@ const OrgStructureCard = ({
         <Box
           sx={{
             height: "1px",
-            backgroundColor: theme.palette.customBorder.territory.active,
+            backgroundColor: theme.palette.customBorder.primary.b2.active,
           }}
         />
       )}

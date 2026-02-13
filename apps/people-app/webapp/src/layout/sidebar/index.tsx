@@ -175,7 +175,7 @@ const Sidebar = (props: SidebarProps) => {
           <Divider
             sx={{
               width: "100%",
-              backgroundColor: theme.palette.customBorder.primary.active,
+              backgroundColor: theme.palette.customBorder.primary.b1.active,
             }}
           />
 

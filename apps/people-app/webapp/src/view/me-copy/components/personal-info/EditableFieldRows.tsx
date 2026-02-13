@@ -100,7 +100,7 @@ export default function EditableFieldRows({ control, errors }: EditableFieldRows
 
       <Divider
         sx={{
-          borderColor: theme.palette.customBorder.territory.active,
+          borderColor: theme.palette.customBorder.primary.b2.active,
         }}
       />
 
@@ -118,7 +118,7 @@ export default function EditableFieldRows({ control, errors }: EditableFieldRows
 
       <Divider
         sx={{
-          borderColor: theme.palette.customBorder.territory.active,
+          borderColor: theme.palette.customBorder.primary.b2.active,
         }}
       />
 

@@ -55,7 +55,7 @@ export default function InfoSkeleton() {
     <Box
       sx={{
         bgcolor: "#f7f7f7",
-        border: `1px solid ${theme.palette.customBorder.territory.active}`,
+        border: `1px solid ${theme.palette.customBorder.primary.b2.active}`,
         borderRadius: "16px",
         display: "flex",
         flexDirection: "column",
@@ -90,7 +90,7 @@ export default function InfoSkeleton() {
       <Box
         sx={{
           bgcolor: theme.palette.surface.primary.active,
-          border: `0.5px solid ${theme.palette.customBorder.territory.active}`,
+          border: `0.5px solid ${theme.palette.customBorder.primary.b2.active}`,
           borderRadius: "12px",
           display: "flex",
           flexDirection: "column",
@@ -117,7 +117,7 @@ export default function InfoSkeleton() {
               <Divider
                 sx={{
                   mt: 2.5,
-                  borderColor: theme.palette.customBorder.territory.active,
+                  borderColor: theme.palette.customBorder.primary.b2.active,
                 }}
               />
             )}

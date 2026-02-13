@@ -96,7 +96,7 @@ export function Tabs({ tabs, activeIndex, handleTabClick }: TabToggleProps) {
         sx={{
           display: "flex",
           borderBottom: 1,
-          borderColor: theme.palette.customBorder.territory.active,
+          borderColor: theme.palette.customBorder.primary.b2.active,
           width: "100%",
           position: "relative",
           transition: "color 200ms",
@@ -158,7 +158,9 @@ export function Tabs({ tabs, activeIndex, handleTabClick }: TabToggleProps) {
                 position: "relative",
                 top: "1.5px",
                 backgroundColor:
-                  activeIndex === index ? theme.palette.customBorder.brand.active : "transparent",
+                  activeIndex === index
+                    ? theme.palette.customBorder.brand.b1.active
+                    : "transparent",
               }}
             />
           </Box>
