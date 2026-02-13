@@ -13,7 +13,6 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import type { Components, Theme } from "@mui/material/styles";
 
 export const muiButton: Components<Theme>["MuiButton"] = {
@@ -31,17 +30,17 @@ export const muiButton: Components<Theme>["MuiButton"] = {
     {
       props: { variant: "primary" as any },
       style: ({ theme }) => ({
-        backgroundColor: theme.palette.fill.primary.clicked,
+        backgroundColor: theme.palette.fill.primary.main.clicked,
         color: theme.palette.customText.brand.p2.active,
         boxShadow: "none" as const,
         "&:hover": {
-          backgroundColor: theme.palette.fill.primary.hover,
+          backgroundColor: theme.palette.fill.primary.main.hover,
           boxShadow: "none" as const,
         },
         "&.Mui-disabled": {
-          backgroundColor: theme.palette.fill.primary.disabled,
+          backgroundColor: theme.palette.fill.primary.main.disabled,
           color: theme.palette.customText.brand.p2.disabled,
-        }
+        },
       }),
     },
 
@@ -59,10 +58,15 @@ export const muiButton: Components<Theme>["MuiButton"] = {
       style: ({ theme }) => ({
         backgroundColor: "transparent",
         border: `1px solid ${theme.palette.customBorder.brand.active}`,
-        color: theme.palette.customText.primary.p2.active,
+        color: theme.palette.customText.brand.p1.active,
         "&:hover": {
-          backgroundColor: theme.palette.fill.neutral_light
+          backgroundColor: theme.palette.fill.primary.light.active,
         },
+        "&.Mui-disabled": {
+          backgroundColor: "transparent",
+          color: theme.palette.customText.brand.p1.disabled,
+          borderColor: theme.palette.customBorder.brand.disabled,
+        }
       }),
     },
 
@@ -70,8 +74,8 @@ export const muiButton: Components<Theme>["MuiButton"] = {
       props: { variant: "outline-neutral" as any },
       style: ({ theme }) => ({
         border: `1px solid ${theme.palette.customBorder.brand.active}`,
-      })
-    }
-
+        "&:hover": {},
+      }),
+    },
   ],
 };
