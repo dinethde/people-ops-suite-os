@@ -114,7 +114,7 @@ export default function PersonalInfo() {
       component="form"
       onSubmit={handleSubmit(onSubmit)}
       sx={{
-        bgcolor: alpha(theme.palette.fill.secondary_light.active, 0.5),
+        bgcolor: alpha(theme.palette.fill.secondary.light.active, 0.5),
         border: `1px solid ${theme.palette.customBorder.territory.active}`,
         borderRadius: "16px",
         display: "flex",
@@ -190,7 +190,7 @@ export default function PersonalInfo() {
             Cancel
           </Button>
 
-          <Button type="submit" variant="contained" disabled={isUpdating || !isValid || !isDirty}>
+          <Button variant="primary" disabled={isUpdating || !isValid || !isDirty}>
             {isUpdating ? "Updating..." : "Update Info"}
           </Button>
         </Box>
