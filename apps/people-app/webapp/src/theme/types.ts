@@ -20,7 +20,6 @@ declare module "@mui/material/Button" {
     submit: true;
     primary: true;
     secondary: true;
-    // Note: 'outlined' is already a default MUI variant, no need to add it here
   }
 }
 
@@ -83,13 +82,20 @@ declare module "@mui/material/styles" {
       secondary: Record<string, string>;
     };
     fill: {
-      primary: Record<string, string>;
-      primary_light: Record<string, string>;
-      primary_dark: Record<string, string>;
-      secondary: Record<string, string>;
-      secondary_light: Record<string, string>;
-      neutral_light: Record<string, string>;
-      neutral_dark: Record<string, string>;
+      primary: {
+        main: Record<string, string>;
+        light: Record<string, string>;
+        dark: Record<string, string>;
+      };
+      secondary: {
+        main: Record<string, string>;
+        light: Record<string, string>;
+      };
+      neutral: {
+        main: Record<string, string>;
+        light: Record<string, string>;
+        dark: Record<string, string>;
+      };
       xmas: Record<string, string>;
     };
     shadow: {
@@ -159,13 +165,20 @@ declare module "@mui/material/styles" {
       secondary?: Record<string, string>;
     };
     fill?: {
-      primary?: Record<string, string>;
-      primary_light?: Record<string, string>;
-      primary_dark?: Record<string, string>;
-      secondary?: Record<string, string>;
-      secondary_light?: Record<string, string>;
-      neutral_light?: Record<string, string>;
-      neutral_dark?: Record<string, string>;
+      primary?: {
+        main?: Record<string, string>;
+        light?: Record<string, string>;
+        dark?: Record<string, string>;
+      };
+      secondary?: {
+        main?: Record<string, string>;
+        light?: Record<string, string>;
+      };
+      neutral?: {
+        main?: Record<string, string>;
+        light?: Record<string, string>;
+        dark?: Record<string, string>;
+      };
       xmas?: Record<string, string>;
     };
     shadow?: {
