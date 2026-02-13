@@ -21,6 +21,7 @@ declare module "@mui/material/Button" {
     primary: true;
     secondary: true;
     outline_neutral: true;
+    half_neutral: true;
   }
 }
 
@@ -44,28 +45,40 @@ declare module "@mui/material/styles" {
     secondaryShades: Record<string, string>;
     customBorder: {
       primary: {
-        active: string;
-        hover: string;
-        clicked: string;
-        disabled: string;
+        b1: {
+          active: string;
+          hover: string;
+          clicked: string;
+          disabled: string;
+        };
+        b2: {
+          active: string;
+          hover: string;
+          clicked: string;
+          disabled: string;
+        };
+        b3: {
+          active: string;
+          hover: string;
+          clicked: string;
+          disabled: string;
+        };
       };
       secondary: {
-        active: string;
-        hover: string;
-        clicked: string;
-        disabled: string;
-      };
-      territory: {
-        active: string;
-        hover: string;
-        clicked: string;
-        disabled: string;
+        b1: {
+          active: string;
+          hover: string;
+          clicked: string;
+          disabled: string;
+        };
       };
       brand: {
-        active: string;
-        hover: string;
-        clicked: string;
-        disabled: string;
+        b1: {
+          active: string;
+          hover: string;
+          clicked: string;
+          disabled: string;
+        };
       };
     };
     customNavigation: {
@@ -104,10 +117,10 @@ declare module "@mui/material/styles" {
     };
     customText: {
       primary: {
-        p1: { active: string; hover: string };
-        p2: { active: string; hover: string };
-        p3: { active: string; hover: string };
-        p4: { active: string; hover: string };
+        p1: { active: string; hover: string; disabled?: string };
+        p2: { active: string; hover: string; disabled?: string };
+        p3: { active: string; hover: string; disabled?: string };
+        p4: { active: string; hover: string; disabled?: string };
       };
       secondary: {
         p1: { active: string; hover: string; disabled?: string };
@@ -126,28 +139,40 @@ declare module "@mui/material/styles" {
     secondaryShades?: Record<string, string>;
     customBorder?: {
       primary?: {
-        active: string;
-        hover: string;
-        clicked: string;
-        disabled: string;
+        b1?: {
+          active: string;
+          hover: string;
+          clicked: string;
+          disabled: string;
+        };
+        b2?: {
+          active: string;
+          hover: string;
+          clicked: string;
+          disabled: string;
+        };
+        b3?: {
+          active: string;
+          hover: string;
+          clicked: string;
+          disabled: string;
+        };
       };
       secondary?: {
-        active: string;
-        hover: string;
-        clicked: string;
-        disabled: string;
-      };
-      territory?: {
-        active: string;
-        hover: string;
-        clicked: string;
-        disabled: string;
+        b1?: {
+          active: string;
+          hover: string;
+          clicked: string;
+          disabled: string;
+        };
       };
       brand?: {
-        active: string;
-        hover: string;
-        clicked: string;
-        disabled: string;
+        b1?: {
+          active: string;
+          hover: string;
+          clicked: string;
+          disabled: string;
+        };
       };
     };
     customNavigation?: {
@@ -187,10 +212,10 @@ declare module "@mui/material/styles" {
     };
     customText?: {
       primary?: {
-        p1?: { active: string; hover: string };
-        p2?: { active: string; hover: string };
-        p3?: { active: string; hover: string };
-        p4?: { active: string; hover: string };
+        p1?: { active: string; hover: string; disabled?: string };
+        p2?: { active: string; hover: string; disabled?: string };
+        p3?: { active: string; hover: string; disabled?: string };
+        p4?: { active: string; hover: string; disabled?: string };
       };
       secondary?: {
         p1?: { active: string; hover: string; disabled?: string };
@@ -204,4 +229,4 @@ declare module "@mui/material/styles" {
   }
 }
 
-export { };
+export {};
