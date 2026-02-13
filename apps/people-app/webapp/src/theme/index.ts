@@ -13,12 +13,12 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-
 import { type PaletteMode, alpha } from "@mui/material";
+
 import designTokens from "../styles/design-tokens.json";
 import { muiButton } from "./components/button";
-import { muiTextField } from "./components/textfield";
 import { muiSwitch } from "./components/switch";
+import { muiTextField } from "./components/textfield";
 import { muiTooltip } from "./components/tooltip";
 import "./types";
 
@@ -104,7 +104,7 @@ export const tokens = (mode: PaletteMode) => {
             p2: { active: colors.secondary["1000"], hover: "#FF6A0096", disabled: "#ff730096" },
           },
           brand: {
-            p1: { active: colors.primary["1200"], hover: "#FF6A0096", disabled: "#ff730096" },
+            p1: { active: colors.primary["1200"], hover: "#FF6A0096", disabled: alpha(colors.primary["1200"], 0.59) },
             p2: { active: colors.primary.main, hover: "#FF6A0096", disabled: "#ff73005c" },
           },
         },
@@ -165,36 +165,58 @@ export const tokens = (mode: PaletteMode) => {
         // Fill colors - Dark mode
         fill: {
           primary: {
-            active: colors.primary["1600"],
-            hover: colors.primary["1500"],
-            clicked: colors.primary["1700"],
-            disabled: "#3D190196",
-          },
-          primary_light: {
-            active: colors.primary["1800"],
-            hover: colors.primary["1500"],
-          },
-          primary_dark: {
-            active: colors.primary["1400"],
-            hover: colors.primary["1500"],
+            main: {
+              active: colors.primary["1700"],
+              hover: colors.primary["1600"],
+              clicked: colors.primary["1800"],
+              disabled: alpha(colors.primary["1700"], 0.59)
+            },
+            light: {
+              active: colors.primary["1800"],
+              hover: "#411b01",
+              clicked: "#FFFFFF",
+              disabled: alpha(colors.primary["1800"], 0.59),
+            },
+            dark: {
+              active: colors.primary["1400"],
+              hover: "#FFFFFF",
+              clicked: "#FFFFFF",
+              disabled: "#FFFFFF",
+            },
           },
           secondary: {
-            active: colors.secondary["1000"],
-            hover: colors.secondary["1100"],
-            clicked: colors.secondary["1200"],
-            disabled: "#0A475C96",
+            main: {
+              active: colors.secondary["1000"],
+              hover: colors.secondary["1100"],
+              clicked: colors.secondary["1200"],
+              disabled: "#0A475C96",
+            },
+            light: {
+              active: colors.secondary["1400"],
+              hover: colors.secondary["1300"],
+              clicked: colors.secondary["1500"],
+              disabled: "#0A475C96",
+            },
           },
-          secondary_light: {
-            active: colors.secondary["1700"],
-            hover: "#fff",
-          },
-          neutral_light: {
-            active: colors.secondary["1700"],
-            hover: "#fff",
-          },
-          neutral_dark: {
-            active: colors.secondary["1700"],
-            hover: "#fff",
+          neutral: {
+            main: {
+              active: "#FFFFFF",
+              hover: colors.neutral.black,
+              clicked: "#FFFFFF",
+              disabled: "#ffffff96",
+            },
+            light: {
+              active: colors.neutral["1800"],
+              hover: colors.neutral["1700"],
+              clicked: "#000000",
+              disabled: "#ffffff96",
+            },
+            dark: {
+              active: colors.neutral["1700"],
+              hover: "#FFFFFF",
+              clicked: "#FFFFFF",
+              disabled: "#ffffff96",
+            },
           },
           xmas: {
             active: "#B8D3E0d7",
@@ -279,36 +301,58 @@ export const tokens = (mode: PaletteMode) => {
         // Fill colors - Light mode
         fill: {
           primary: {
-            active: colors.primary.main,
-            hover: colors.primary["900"],
-            clicked: colors.primary["1100"],
-            disabled: "#FF730096",
-          },
-          primary_light: {
-            active: colors.primary["100"],
-            hover: colors.primary["1500"],
-          },
-          primary_dark: {
-            active: colors.primary["1200"],
-            hover: colors.primary["1500"],
+            main: {
+              active: colors.primary.main,
+              hover: colors.primary["900"],
+              clicked: colors.primary["1100"],
+              disabled: "#FF730096",
+            },
+            light: {
+              active: colors.primary["100"],
+              hover: colors.primary["200"],
+              clicked: colors.primary["300"],
+              disabled: alpha(colors.primary["100"], 0.5),
+            },
+            dark: {
+              active: colors.primary["1200"],
+              hover: colors.primary["1100"],
+              clicked: colors.primary["1300"],
+              disabled: alpha(colors.primary["1200"], 0.5),
+            },
           },
           secondary: {
-            active: colors.secondary.main,
-            hover: colors.secondary["600"],
-            clicked: colors.secondary["800"],
-            disabled: "#00CEFF96",
+            main: {
+              active: colors.secondary.main,
+              hover: colors.secondary["600"],
+              clicked: colors.secondary["800"],
+              disabled: "#00CEFF96",
+            },
+            light: {
+              active: colors.secondary["0"],
+              hover: colors.secondary["100"],
+              clicked: colors.secondary["200"],
+              disabled: alpha(colors.secondary["0"], 0.5),
+            },
           },
-          secondary_light: {
-            active: colors.secondary["0"],
-            hover: "#FFFFFF",
-          },
-          neutral_light: {
-            active: colors.neutral["100"],
-            hover: "#FFFFFF",
-          },
-          neutral_dark: {
-            active: colors.neutral["1700"],
-            hover: "#FFFFFF",
+          neutral: {
+            main: {
+              active: colors.neutral.white,
+              hover: colors.neutral["100"],
+              clicked: colors.neutral["200"],
+              disabled: alpha(colors.neutral.white, 0.5),
+            },
+            light: {
+              active: colors.neutral["100"],
+              hover: colors.neutral.white,
+              clicked: colors.neutral["200"],
+              disabled: alpha(colors.neutral["100"], 0.5),
+            },
+            dark: {
+              active: colors.neutral["1700"],
+              hover: colors.neutral["1600"],
+              clicked: colors.neutral["1800"],
+              disabled: alpha(colors.neutral["1700"], 0.5),
+            },
           },
           xmas: {
             active: "#A6C8D9",
