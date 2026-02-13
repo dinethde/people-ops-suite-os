@@ -53,8 +53,9 @@ export const muiButton: Components<Theme>["MuiButton"] = {
       }),
     },
 
+    // Outlined variant with primary/brand colors (default)
     {
-      props: { variant: "outlined" as any },
+      props: { variant: "outlined" },
       style: ({ theme }) => ({
         backgroundColor: "transparent",
         border: `1px solid ${theme.palette.customBorder.brand.b1.active}`,
@@ -70,9 +71,11 @@ export const muiButton: Components<Theme>["MuiButton"] = {
       }),
     },
 
+    // Outlined variant with neutral colors
     {
-      props: { variant: "outline_neutral" as any },
+      props: { variant: "outlined", color: "neutral" },
       style: ({ theme }) => ({
+        backgroundColor: "transparent",
         border: `1px solid ${theme.palette.customBorder.primary.b3.active}`,
         color: theme.palette.customText.primary.p3.active,
         "&:hover": {
@@ -87,9 +90,11 @@ export const muiButton: Components<Theme>["MuiButton"] = {
       }),
     },
 
+    // Outlined variant with neutral-to-brand transition on hover
     {
-      props: { variant: "half_neutral" as any },
+      props: { variant: "outlined", color: "brand" },
       style: ({ theme }) => ({
+        backgroundColor: "transparent",
         border: `1px solid ${theme.palette.customBorder.primary.b3.active}`,
         color: theme.palette.customText.primary.p3.active,
         "&:hover": {
@@ -103,6 +108,6 @@ export const muiButton: Components<Theme>["MuiButton"] = {
           color: theme.palette.customText.brand.p1.disabled,
         },
       }),
-    }
+    },
   ],
 };
