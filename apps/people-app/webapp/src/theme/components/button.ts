@@ -74,7 +74,16 @@ export const muiButton: Components<Theme>["MuiButton"] = {
       props: { variant: "outline-neutral" as any },
       style: ({ theme }) => ({
         border: `1px solid ${theme.palette.customBorder.brand.active}`,
-        "&:hover": {},
+        color: theme.palette.customText.primary.p2.active,
+        "&:hover": {
+          borderColor: theme.palette.customBorder.primary.hover,
+          backgroundColor: theme.palette.fill.primary.light.active
+        },
+        "&.Mui-disabled": {
+          backgroundColor: "transparent",
+          borderColor: theme.palette.customBorder.brand.disabled,
+          color: theme.palette.customText.primary.p2.active,
+        }
       }),
     },
   ],
