@@ -16,6 +16,7 @@
 import { type PaletteMode, alpha } from "@mui/material";
 
 import designTokens from "../styles/design-tokens.json";
+import { muiAutocomplete } from "./components/autocomplete";
 import { muiButton } from "./components/button";
 import { muiSwitch } from "./components/switch";
 import { muiTextField } from "./components/textfield";
@@ -558,6 +559,7 @@ export const themeSettings = (mode: PaletteMode) => {
       MuiTextField: muiTextField(colors),
       MuiSwitch: muiSwitch(colors),
       MuiTooltip: muiTooltip(colors),
+      muiAutocomplete: muiAutocomplete(colors),
     },
     breakpoints: {
       values: {
