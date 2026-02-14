@@ -19,49 +19,60 @@ export const muiTextField = (colors: any): Components<Theme>["MuiTextField"] => 
   styleOverrides: {
     root: {
       "& .MuiOutlinedInput-root": {
-        borderRadius: 8,
-        fontSize: "16px",
+        borderRadius: 6,
+        fontSize: "14px",
         fontWeight: 400,
+        fontFamily: "'Geist', sans-serif",
+        lineHeight: 1.5,
         "& .MuiOutlinedInput-input": {
           color: colors.text.primary.p2.active,
-          padding: "10px 12px",
+          padding: "8px",
         },
         "& fieldset": {
-          borderColor: colors.border.primary.b2.active,
+          borderColor: colors.border.primary.b2.active || "#e5e5e5",
           borderWidth: "1px",
         },
         "&:hover fieldset": {
-          borderColor: colors.border.primary.b2.hover,
+          borderColor: colors.border.primary.b2.hover || "#ccc",
         },
         "&.Mui-focused fieldset": {
-          borderColor: colors.border.secondary.b1.active,
-          borderWidth: "2px",
+          borderColor: colors.border.secondary.b1.active || "#00bfff",
+          borderWidth: "1px",
         },
         "&.Mui-error fieldset": {
           borderColor: "#F23B0D",
         },
-        "&.Mui-disabled fieldset": {
-          borderColor: colors.border.primary.b2.disabled,
+        "&.Mui-disabled": {
+          "& fieldset": {
+            borderColor: colors.border.primary.b2.active || "#e5e5e5",
+          },
+          "& .MuiOutlinedInput-input": {
+            color: colors.text.primary.p4.active || "#a6a6a6",
+          },
         },
       },
       "& .MuiInputLabel-root": {
-        color: colors.text.primary.p2.active,
         fontSize: "14px",
         fontWeight: 400,
+        fontFamily: "'Geist', sans-serif",
+        color: colors.text.primary.p3.active || "#666",
         "&.Mui-focused": {
-          color: colors.border.brand.b1.active,
+          color: colors.text.primary.p2.active || "#333",
         },
         "&.Mui-error": {
           color: "#F23B0D",
         },
+        "&.Mui-disabled": {
+          color: colors.text.primary.p4.active || "#a6a6a6",
+        },
         "&.MuiInputLabel-shrink": {
-          color: colors.text.primary.p3.active,
-          fontSize: "18px", // This sets the label size when focused/shrunk (will scale to 75% = 13.5px)
+          fontSize: "18px",
         },
       },
       "& .MuiFormHelperText-root": {
         fontSize: "12px",
         fontWeight: 400,
+        fontFamily: "'Geist', sans-serif",
         marginLeft: "2px",
         marginTop: "4px",
         "&.Mui-error": {
