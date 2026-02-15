@@ -17,78 +17,58 @@ import type { Components, Theme } from "@mui/material/styles";
 
 export const muiAutocomplete = (colors: any): Components<Theme>["MuiAutocomplete"] => ({
   styleOverrides: {
-    root: {
-      "& .MuiOutlinedInput-root": {
-        minHeight: "35px",
-        height: "35px",
-        borderRadius: "6px",
-        fontSize: "14px",
-        fontWeight: 400,
-        fontFamily: "'Geist', sans-serif",
-        lineHeight: 1.5,
-        padding: "6px 16px",
-        display: "flex",
-        alignItems: "center",
-        "& .MuiOutlinedInput-input": {
-          color: colors.text.primary.p3.active || "#666",
-          padding: "0 !important",
-          height: "auto",
-          lineHeight: 1.5,
-        },
-        "& fieldset": {
-          borderColor: colors.border.primary.b2.active || "#e5e5e5",
-          borderWidth: "1px",
-        },
-        "&:hover fieldset": {
-          borderColor: colors.border.primary.b2.hover || "#ccc",
-        },
-        "&.Mui-focused fieldset": {
-          borderColor: colors.border.secondary.b1.active || "#00bfff",
-          borderWidth: "1px",
-        },
-        "&.Mui-error fieldset": {
-          borderColor: "#f30",
-        },
-        "&.Mui-disabled": {
-          opacity: 0.59,
-          "& fieldset": {
-            borderColor: colors.border.primary.b2.active || "#e5e5e5",
-          },
-          "& .MuiOutlinedInput-input": {
-            color: colors.text.primary.p3.active || "#666",
-          },
-        },
-        "& .MuiAutocomplete-input": {
-          color: colors.text.primary.p3.active || "#666",
-          fontSize: "14px",
-          fontFamily: "'Geist', sans-serif",
-          fontWeight: 400,
-          lineHeight: 1.5,
-          padding: "0 !important",
-        },
-        // When option is selected, text should be darker
-        "&.Mui-focused .MuiAutocomplete-input": {
-          color: colors.text.primary.p2.active || "#333",
-        },
-      },
+    // Dropdown/popup container styles
+    paper: {
+      backgroundColor: colors.surface.secondary.active,
+      border: `1px solid ${colors.border.primary.b2.active}`,
+      borderRadius: "4px",
+      marginTop: "2px",
+      boxShadow: "none",
+      overflow: "hidden",
     },
 
-    // Input label styles
-    inputRoot: {
-      "& .MuiInputLabel-root": {
-        fontSize: "14px",
-        fontWeight: 400,
-        fontFamily: "'Geist', sans-serif",
-        color: colors.text.primary.p3.active || "#666",
+    // Listbox (options container)
+    listbox: {
+      padding: 0,
+    },
+
+    // Individual option styles
+    option: {
+      minHeight: "33px !important",
+      height: "33px !important",
+      padding: "6px 12px !important",
+      fontSize: "14px !important",
+      fontWeight: "400 !important",
+      lineHeight: "1.5 !important",
+      letterSpacing: "0 !important",
+      display: "flex !important",
+      alignItems: "center !important",
+      width: "100% !important",
+      color: `${colors.text.primary.p3.active} !important`,
+      backgroundColor: "transparent !important",
+
+      "&:hover": {
+        backgroundColor: `${colors.fill.neutral.light.active} !important`,
+        color: `${colors.text.primary.p3.active} !important`,
+      },
+
+      "&.Mui-focused": {
+        backgroundColor: `${colors.fill.neutral.light.active} !important`,
+        color: `${colors.text.primary.p3.active} !important`,
+      },
+
+      "&[aria-selected='true']": {
+        backgroundColor: `${colors.fill.secondary.light.active} !important`,
+        color: `${colors.text.primary.p2.active} !important`,
+
+        "&:hover": {
+          backgroundColor: `${colors.fill.secondary.light.active} !important`,
+          color: `${colors.text.primary.p2.active} !important`,
+        },
+
         "&.Mui-focused": {
-          color: colors.text.primary.p2.active || "#333",
-        },
-        "&.Mui-error": {
-          color: "#f30",
-        },
-        "&.Mui-disabled": {
-          color: colors.text.primary.p3.active || "#666",
-          opacity: 0.59,
+          backgroundColor: `${colors.fill.secondary.light.active} !important`,
+          color: `${colors.text.primary.p2.active} !important`,
         },
       },
     },
