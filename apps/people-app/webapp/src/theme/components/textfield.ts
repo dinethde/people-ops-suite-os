@@ -20,13 +20,20 @@ export const muiTextField = (colors: any): Components<Theme>["MuiTextField"] => 
     root: {
       "& .MuiOutlinedInput-root": {
         borderRadius: 6,
-        fontSize: "14px",
+        fontSize: "16px",
         fontWeight: 400,
         fontFamily: "'Geist', sans-serif",
         lineHeight: 1.5,
         "& .MuiOutlinedInput-input": {
           color: colors.text.primary.p2.active,
           padding: "8px",
+          "&::placeholder": {
+            color: colors.text.primary.p3.active || "#666",
+            fontSize: "14px",
+            fontFamily: "'Geist', sans-serif",
+            fontWeight: 400,
+            opacity: 1,
+          },
         },
         "& fieldset": {
           borderColor: colors.border.primary.b2.active || "#e5e5e5",
