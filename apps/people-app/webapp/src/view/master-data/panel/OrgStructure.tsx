@@ -20,12 +20,33 @@ import { useEffect, useState } from "react";
 import ErrorHandler from "@component/common/ErrorHandler";
 import PreLoader from "@component/common/PreLoader";
 import { EXPANDED_NODES_KEY } from "@root/src/config/constant";
-import { useGetOrgStructureQuery } from "@services/organization";
+import {
+  BusinessUnit,
+  Company,
+  SubTeam,
+  Team,
+  Unit,
+  useGetOrgStructureQuery,
+} from "@services/organization";
 
+import { EditModal } from "./components/EditModal";
 import OrgStructureTree from "./components/OrgStructureTree";
 
 export default function OrgStructure() {
   const { data: orgStructure, isLoading, isError } = useGetOrgStructureQuery();
+  const [editModal, setEditModal] = useState<
+    {
+      open: boolean;
+      data: Company | BusinessUnit | Team | SubTeam | Unit | null;
+      type: string
+    }
+  >(
+    {
+      open: false,
+      data: null,
+      type: ""
+    }
+  );
 
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(() => {
     const stored = sessionStorage.getItem(EXPANDED_NODES_KEY);
@@ -36,12 +57,53 @@ export default function OrgStructure() {
     sessionStorage.setItem(EXPANDED_NODES_KEY, JSON.stringify(Array.from(expandedNodes)));
   }, [expandedNodes]);
 
-  // Expand company by default when data loads
-  useEffect(() => {
-    if (orgStructure && !expandedNodes.has(orgStructure.id)) {
-      setExpandedNodes(new Set([orgStructure.id]));
+  const findNodeById = (
+    id: string,
+    type: string,
+  ): Company | BusinessUnit | Team | SubTeam | Unit | null => {
+    if (!orgStructure) return null;
+
+    if (type === "COMPANY" && orgStructure.id === id) {
+      return orgStructure;
     }
-  }, [orgStructure]);
+
+    // Search in business units
+    if (type === "BUSINESS_UNIT") {
+      return orgStructure.businessUnits?.find((bu) => bu.id === id) || null;
+    }
+
+    // Search in teams
+    if (type === "TEAM") {
+      for (const bu of orgStructure.businessUnits || []) {
+        const team = bu.teams?.find((t) => t.id === id);
+        if (team) return team;
+      }
+    }
+
+    // Search in sub teams
+    if (type === "SUB_TEAM") {
+      for (const bu of orgStructure.businessUnits || []) {
+        for (const team of bu.teams || []) {
+          const subTeam = team.subTeams?.find((st) => st.id === id);
+          if (subTeam) return subTeam;
+        }
+      }
+    }
+
+    // Search in units
+    if (type === "UNIT") {
+      for (const bu of orgStructure.businessUnits || []) {
+        for (const team of bu.teams || []) {
+          for (const subTeam of team.subTeams || []) {
+            const unit = subTeam.units?.find((u) => u.id === id);
+            if (unit) return unit;
+          }
+        }
+      }
+    }
+
+    return null;
+  };
 
   const toggleNode = (id: string) => {
     setExpandedNodes((prev) => {
@@ -57,8 +119,25 @@ export default function OrgStructure() {
 
   const handleEdit = (id: string, type: string) => {
     console.log(`Edit ${type} with id: ${id}`);
-    // Implement edit functionality here
+    const nodeData = findNodeById(id, type);
+    console.log("data : ", nodeData)
+    if (nodeData) {
+      setEditModal({
+        open: true,
+        data: nodeData,
+        type,
+      });
+    }
   };
+
+
+  const handleClose = () => {
+    setEditModal({
+      open: false,
+      data: null,
+      type: ""
+    })
+  }
 
   const handleAdd = (id: string, type: string) => {
     console.log(`Add to ${type} with id: ${id}`);
@@ -70,7 +149,7 @@ export default function OrgStructure() {
   }
 
   if (isError) {
-    return <ErrorHandler message="Failled to load organization structure" />;
+    return <ErrorHandler message="Failed to load organization structure" />;
   }
 
   if (!orgStructure) {
@@ -106,6 +185,18 @@ export default function OrgStructure() {
           onAdd={handleAdd}
         />
       </Box>
+
+      {
+        editModal.open && editModal.data && (
+          <EditModal
+            open={editModal.open}
+            data={editModal.data as BusinessUnit}
+            type={editModal.type}
+            onClose={handleClose}
+          />
+
+        )
+      }
     </Box>
   );
 }
