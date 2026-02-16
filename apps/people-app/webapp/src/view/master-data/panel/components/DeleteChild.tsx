@@ -16,8 +16,8 @@
 import { Autocomplete, Box, Button, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-import { Team } from "./types";
 import { TeamCard } from "./TeamCard";
+import { Team } from "./types";
 
 interface DeleteChildProps {
   teams: Team[];
