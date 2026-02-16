@@ -106,6 +106,17 @@ const OrgStructureTree = ({
         gap: "16px",
         alignItems: "flex-start",
         position: "relative",
+        // animation: "fadeInSlide 0.3s ease-out",
+        // "@keyframes fadeInSlide": {
+        //   from: {
+        //     opacity: 0,
+        //     transform: "translateX(-20px)",
+        //   },
+        //   to: {
+        //     opacity: 1,
+        //     transform: "translateX(0)",
+        //   },
+        // },
       }}
     >
       <Box
@@ -145,6 +156,17 @@ const OrgStructureTree = ({
           gap: "16px",
           alignItems: "flex-start",
           position: "relative",
+          // animation: "fadeInSlide 0.3s ease-out",
+          // "@keyframes fadeInSlide": {
+          //   from: {
+          //     opacity: 0,
+          //     transform: "translateX(-20px)",
+          //   },
+          //   to: {
+          //     opacity: 1,
+          //     transform: "translateX(0)",
+          //   },
+          // },
         }}
       >
         <Box
@@ -178,6 +200,17 @@ const OrgStructureTree = ({
               alignItems: "flex-start",
               position: "relative",
               mt: "200px",
+              animation: "expandWidth 0.4s ease-out",
+              "@keyframes expandWidth": {
+                from: {
+                  opacity: 0,
+                  maxWidth: 0,
+                },
+                to: {
+                  opacity: 1,
+                  maxWidth: "2000px",
+                },
+              },
             }}
           >
             {subTeam.units.map(renderUnit)}
@@ -200,6 +233,17 @@ const OrgStructureTree = ({
           gap: "16px",
           alignItems: "flex-start",
           position: "relative",
+          // animation: "fadeInSlide 0.3s ease-out",
+          // "@keyframes fadeInSlide": {
+          //   from: {
+          //     opacity: 0,
+          //     transform: "translateX(-20px)",
+          //   },
+          //   to: {
+          //     opacity: 1,
+          //     transform: "translateX(0)",
+          //   },
+          // },
         }}
       >
         <Box
@@ -233,6 +277,17 @@ const OrgStructureTree = ({
               alignItems: "flex-start",
               position: "relative",
               mt: "200px",
+              animation: "expandWidth 0.4s ease-out",
+              "@keyframes expandWidth": {
+                from: {
+                  opacity: 0,
+                  maxWidth: 0,
+                },
+                to: {
+                  opacity: 1,
+                  maxWidth: "2000px",
+                },
+              },
             }}
           >
             {team.subTeams.map(renderSubTeam)}
@@ -255,6 +310,17 @@ const OrgStructureTree = ({
           gap: "16px",
           alignItems: "flex-start",
           position: "relative",
+          // animation: "fadeInSlide 0.3s ease-out",
+          // "@keyframes fadeInSlide": {
+          //   from: {
+          //     opacity: 0,
+          //     transform: "translateX(-20px)",
+          //   },
+          //   to: {
+          //     opacity: 1,
+          //     transform: "translateX(0)",
+          //   },
+          // },
         }}
       >
         <Box
@@ -288,6 +354,17 @@ const OrgStructureTree = ({
               alignItems: "flex-start",
               position: "relative",
               mt: "200px",
+              animation: "expandWidth 0.4s ease-out",
+              "@keyframes expandWidth": {
+                from: {
+                  opacity: 0,
+                  maxWidth: 0,
+                },
+                to: {
+                  opacity: 1,
+                  maxWidth: "2000px",
+                },
+              },
             }}
           >
             {bu.teams.map(renderTeam)}
@@ -353,6 +430,17 @@ const OrgStructureTree = ({
             position: "relative",
             mt: "200px",
             zIndex: 1,
+            animation: "expandWidth 0.4s ease-out",
+            "@keyframes expandWidth": {
+              from: {
+                opacity: 0,
+                maxWidth: 0,
+              },
+              to: {
+                opacity: 1,
+                maxWidth: "2000px",
+              },
+            },
           }}
         >
           {company.businessUnits.map(renderBusinessUnit)}
