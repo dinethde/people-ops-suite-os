@@ -109,5 +109,27 @@ export const muiButton: Components<Theme>["MuiButton"] = {
         },
       }),
     },
+
+    // Outlined variant with error/danger colors
+    {
+      props: { variant: "outlined", color: "error" },
+      style: ({ theme }) => ({
+        backgroundColor: "transparent",
+        border: `1px solid ${theme.palette.customBorder.primary.b3.active}`,
+        color: theme.palette.error.main,
+        padding: "6px 16px",
+        borderRadius: "6px",
+        "&:hover": {
+          border: `1px solid ${theme.palette.error.main}`,
+          backgroundColor: "rgba(242, 59, 13, 0.04)",
+        },
+        "&.Mui-disabled": {
+          backgroundColor: "transparent",
+          borderColor: theme.palette.customBorder.primary.b3.active,
+          color: theme.palette.error.main,
+          opacity: 0.5,
+        },
+      }),
+    },
   ],
 };
