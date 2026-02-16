@@ -13,8 +13,8 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Avatar, Box, Typography } from "@mui/material";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import { Avatar, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 interface TeamCardProps {
