@@ -17,11 +17,11 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-import { Lead } from "./types";
+import { TeamHead } from "@root/src/services/organization";
 
 interface LeadRowProps {
   label: string;
-  lead: Lead;
+  lead: TeamHead;
   onSwap: () => void;
 }
 
@@ -97,7 +97,7 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
                 color: theme.palette.customText.primary.p4.active,
               }}
             >
-              {lead.email}
+              {lead.title}
             </Typography>
           </Box>
         </Box>
@@ -130,8 +130,8 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
 };
 
 interface SwapLeadsProps {
-  businessUnitHead: Lead;
-  functionalLead: Lead;
+  businessUnitHead: TeamHead | undefined;
+  functionalLead: TeamHead | undefined;
   onSwapBusinessUnitHead: () => void;
   onSwapFunctionalLead: () => void;
 }
@@ -151,8 +151,16 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
         width: "100%",
       }}
     >
-      <LeadRow label="Business Unit Head" lead={businessUnitHead} onSwap={onSwapBusinessUnitHead} />
-      <LeadRow label="Functional Lead" lead={functionalLead} onSwap={onSwapFunctionalLead} />
+      {businessUnitHead && (
+        <LeadRow
+          label="Business Unit Head"
+          lead={businessUnitHead}
+          onSwap={onSwapBusinessUnitHead}
+        />
+      )}
+      {functionalLead && (
+        <LeadRow label="Functional Lead" lead={functionalLead} onSwap={onSwapFunctionalLead} />
+      )}{" "}
     </Box>
   );
 };
