@@ -49,8 +49,8 @@ export const TeamCard: React.FC<TeamCardProps> = ({
         padding: "12px",
         display: "flex",
         flexDirection: "column",
-        gap: "8px",
-        width: "280px",
+        gap: "3px",
+        maxWidth: "300px",
       }}
     >
       {/* Header */}
@@ -59,25 +59,20 @@ export const TeamCard: React.FC<TeamCardProps> = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          width: "280px",
         }}
       >
         <Typography
+          variant="body1"
           sx={{
-            fontSize: "18px",
-            fontFamily: "Geist, sans-serif",
-            fontWeight: 500,
-            lineHeight: 1.3,
-            letterSpacing: "-0.54px",
             color: theme.palette.customText.primary.p2.active,
           }}
         >
           {teamName}
         </Typography>
+
         <Box
           sx={{
             display: "flex",
-            gap: "5px",
             alignItems: "center",
           }}
         >
@@ -89,11 +84,8 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             }}
           />
           <Typography
+            variant="body2"
             sx={{
-              fontSize: "14px",
-              fontFamily: "Geist, sans-serif",
-              fontWeight: 400,
-              lineHeight: 1.5,
               color: theme.palette.customText.primary.p4.active,
             }}
           >
@@ -107,8 +99,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
         sx={{
           display: "flex",
           gap: "12px",
-          height: "43px",
-          width: "280px",
+          width: "100%"
         }}
       >
         {/* Team Head */}
@@ -132,6 +123,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
           >
             {teamHead.name.charAt(0)}
           </Avatar>
+
           <Box
             sx={{
               display: "flex",
@@ -140,12 +132,8 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             }}
           >
             <Typography
+              variant="body2"
               sx={{
-                fontSize: "12px",
-                fontFamily: "Geist, sans-serif",
-                fontWeight: 500,
-                lineHeight: 1.6,
-                letterSpacing: "0.12px",
                 color: theme.palette.customText.primary.p2.active,
                 textTransform: "capitalize",
                 whiteSpace: "nowrap",
@@ -156,12 +144,10 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             >
               {teamHead.name}
             </Typography>
+
             <Typography
+              variant="caption"
               sx={{
-                fontSize: "10px",
-                fontFamily: "Geist, sans-serif",
-                fontWeight: 400,
-                lineHeight: 1.6,
                 color: theme.palette.customText.primary.p4.active,
                 whiteSpace: "nowrap",
               }}
@@ -192,6 +178,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
           >
             {functionLead.name.charAt(0)}
           </Avatar>
+
           <Box
             sx={{
               display: "flex",
@@ -200,12 +187,8 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             }}
           >
             <Typography
+              variant="body2"
               sx={{
-                fontSize: "12px",
-                fontFamily: "Geist, sans-serif",
-                fontWeight: 500,
-                lineHeight: 1.6,
-                letterSpacing: "0.12px",
                 color: theme.palette.customText.primary.p2.active,
                 textTransform: "capitalize",
                 whiteSpace: "nowrap",
@@ -213,12 +196,10 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             >
               {functionLead.name}
             </Typography>
+
             <Typography
+              variant="caption"
               sx={{
-                fontSize: "10px",
-                fontFamily: "Geist, sans-serif",
-                fontWeight: 400,
-                lineHeight: 1.6,
                 color: theme.palette.customText.primary.p4.active,
                 whiteSpace: "nowrap",
               }}
