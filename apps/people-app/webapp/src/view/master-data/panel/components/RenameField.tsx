@@ -14,36 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { styled, useTheme } from "@mui/material/styles";
-
-const StyledTextField = styled(TextField)(() => ({
-  flex: 1,
-  "& .MuiOutlinedInput-root": {
-    fontSize: "14px",
-    fontFamily: "Geist, sans-serif",
-    fontWeight: 400,
-    lineHeight: 1.5,
-  },
-}));
-
-const RenameButton = styled(Button)(({ theme }) => ({
-  height: "37px",
-  padding: "6px 16px",
-  borderRadius: "6px",
-  border: `1px solid ${theme.palette.customBorder.primary.b3.active}`,
-  backgroundColor: "transparent",
-  fontSize: "14px",
-  fontFamily: "Geist, sans-serif",
-  fontWeight: 500,
-  lineHeight: 1.5,
-  letterSpacing: "0.14px",
-  color: theme.palette.customText.primary.p2.active,
-  textTransform: "none",
-  "&:hover": {
-    backgroundColor: theme.palette.fill.neutral.light.hover,
-    border: `1px solid ${theme.palette.customBorder.primary.b3.hover}`,
-  },
-}));
+import { useTheme } from "@mui/material/styles";
 
 interface RenameFieldProps {
   value: string;
@@ -64,17 +35,14 @@ export const RenameField: React.FC<RenameFieldProps> = ({ value, onChange, onRen
       }}
     >
       <Typography
+        variant="body1"
         sx={{
-          fontSize: "14px",
-          fontFamily: "Geist, sans-serif",
-          fontWeight: 500,
-          lineHeight: 1.5,
-          letterSpacing: "0.14px",
           color: theme.palette.customText.primary.p2.active,
         }}
       >
         Business Unit Name
       </Typography>
+
       <Box
         sx={{
           display: "flex",
@@ -83,14 +51,14 @@ export const RenameField: React.FC<RenameFieldProps> = ({ value, onChange, onRen
           width: "100%",
         }}
       >
-        <StyledTextField
+        <TextField
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="People App"
           variant="outlined"
           fullWidth
         />
-        <RenameButton onClick={onRename}>Rename</RenameButton>
+        <Button onClick={onRename}>Rename</Button>
       </Box>
     </Box>
   );
