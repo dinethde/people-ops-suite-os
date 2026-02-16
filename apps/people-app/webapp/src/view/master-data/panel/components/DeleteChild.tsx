@@ -17,7 +17,7 @@ import { Autocomplete, Box, Button, TextField, Typography } from "@mui/material"
 import { useTheme } from "@mui/material/styles";
 
 import { TeamCard } from "./TeamCard";
-import { Team } from "./types";
+import { Team } from "@services/organization"
 
 interface DeleteChildProps {
   teams: Team[];
@@ -102,7 +102,7 @@ export const DeleteChild: React.FC<DeleteChildProps> = ({
           {selectedTeam && (
             <TeamCard
               teamName={selectedTeam.name}
-              headCount={selectedTeam.headcount}
+              headCount={selectedTeam.headCount}
               teamHead={{
                 name: "Team Head Name",
                 title: "Head of Team",
