@@ -18,7 +18,7 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-import { Team } from "./types";
+import { Team } from "@services/organization";
 
 interface ManageChildrenProps {
   teams: Team[];
@@ -110,7 +110,7 @@ export const ManageChildren: React.FC<ManageChildrenProps> = ({ teams, onTransfe
                     color: theme.palette.customText.primary.p3.active,
                   }}
                 >
-                  {team.headcount}
+                  {team.headCount}
                 </Typography>
               </Box>
             </Box>
