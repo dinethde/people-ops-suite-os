@@ -38,23 +38,20 @@ export const ManageChildren: React.FC<ManageChildrenProps> = ({ teams, onTransfe
       }}
     >
       <Typography
+        variant="body1"
         sx={{
-          fontSize: "14px",
-          fontFamily: "Geist, sans-serif",
-          fontWeight: 500,
-          lineHeight: 1.5,
-          letterSpacing: "0.14px",
           color: theme.palette.customText.primary.p2.active,
         }}
       >
         Manage Teams
       </Typography>
+
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: "16px",
-          width: "351px",
+          width: "400px",
         }}
       >
         {teams.map((team) => (
@@ -70,7 +67,7 @@ export const ManageChildren: React.FC<ManageChildrenProps> = ({ teams, onTransfe
             <Box
               sx={{
                 backgroundColor: theme.palette.surface.secondary.active,
-                border: "1px solid #d1dee9",
+                border: `1px solid ${theme.palette.customBorder.primary.b2.active}`,
                 borderRadius: "6px",
                 padding: "8px 12px",
                 flex: 1,
