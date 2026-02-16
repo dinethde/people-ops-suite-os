@@ -19,70 +19,58 @@ import { useTheme } from "@mui/material/styles";
 
 import { useState } from "react";
 
+import { BusinessUnit } from "@root/src/services/organization";
+import { Team } from "@services/organization";
+
 import { DeleteChild } from "./DeleteChild";
 import { DeleteCurrent } from "./DeleteCurrent";
 import { ManageChildren } from "./ManageChildren";
 import { RenameField } from "./RenameField";
 import { SectionHeader } from "./SectionHeader";
 import { SwapLeads } from "./SwapLeads";
-import { Lead, Team } from "./types";
 
 interface EditModalProps {
   open: boolean;
   onClose: () => void;
-  businessUnit: {
-    name: string;
-    teams: Team[];
-    businessUnitHead: Lead;
-    functionalLead: Lead;
-  };
-  onBuRename: (newName: string) => void;
-  onTeamTransfer: (team: Team) => void;
-  onSwapBuHead: () => void;
-  onSwapFunctionalLead: () => void;
-  onDeleteBu: () => void;
-  onDeleteTeam: (team: Team) => void;
+  data: BusinessUnit;
+  type: string;
 }
 
-export const EditModal: React.FC<EditModalProps> = ({
-  open,
-  onClose,
-  businessUnit,
-  onBuRename,
-  onTeamTransfer,
-  onSwapBuHead,
-  onSwapFunctionalLead,
-  onDeleteBu,
-  onDeleteTeam,
-}) => {
+export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => {
   const theme = useTheme();
-  const [buName, setBuName] = useState(businessUnit.name);
+  console.log("Edit Modal : ", data);
+  const [buName, setBuName] = useState(data.name);
   const [selectedTeamToDelete, setSelectedTeamToDelete] = useState<Team | null>(null);
 
-  const handleRename = () => {
-    onBuRename(buName);
-  };
+  const handleRename = () => {};
 
-  const handleDeleteTeam = () => {
-    if (selectedTeamToDelete) {
-      onDeleteTeam(selectedTeamToDelete);
-      setSelectedTeamToDelete(null);
-    }
-  };
+  const handleTeamTransfer = () => {};
+
+  const handleLeadSwap = () => {};
+
+  const handleFunctionalLeadSwap = () => {};
+
+  const handleDeleteCurrent = () => {};
+
+  const handleDeleteChildren = () => {};
+
+  console.log("Edit Modal : ", data);
 
   return (
     <Dialog
       open={open}
       onClose={onClose}
       maxWidth={false}
-      PaperProps={{
-        sx: {
-          width: "700px",
-          maxHeight: "600px",
-          borderRadius: "8px",
-          boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.1)",
-          backgroundColor: theme.palette.fill.secondary.light.active,
-          padding: "4px",
+      slotProps={{
+        paper: {
+          sx: {
+            width: "700px",
+            maxHeight: "600px",
+            borderRadius: "8px",
+            boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.1)",
+            backgroundColor: theme.palette.fill.secondary.light.active,
+            padding: "4px",
+          },
         },
       }}
     >
@@ -110,7 +98,7 @@ export const EditModal: React.FC<EditModalProps> = ({
           onClick={onClose}
           sx={{
             color: theme.palette.customText.primary.p2.active,
-            p: 0
+            p: 0,
           }}
         >
           <CloseIcon />
@@ -126,7 +114,7 @@ export const EditModal: React.FC<EditModalProps> = ({
           display: "flex",
           flexDirection: "column",
           gap: 4,
-          color: theme.palette.customText.primary.p2.active
+          color: theme.palette.customText.primary.p2.active,
         }}
       >
         {/* General Section */}
@@ -141,7 +129,7 @@ export const EditModal: React.FC<EditModalProps> = ({
         >
           <SectionHeader title="General" />
           <RenameField value={buName} onChange={setBuName} onRename={handleRename} />
-          <ManageChildren teams={businessUnit.teams} onTransfer={onTeamTransfer} />
+          <ManageChildren teams={data.teams} onTransfer={handleTeamTransfer} />
         </Box>
 
         {/* Leads Section */}
@@ -153,11 +141,12 @@ export const EditModal: React.FC<EditModalProps> = ({
           }}
         >
           <SectionHeader title="Leads" />
+
           <SwapLeads
-            businessUnitHead={businessUnit.businessUnitHead}
-            functionalLead={businessUnit.functionalLead}
-            onSwapBusinessUnitHead={onSwapBuHead}
-            onSwapFunctionalLead={onSwapFunctionalLead}
+            businessUnitHead={data.teamHead}
+            functionalLead={data.functionLead}
+            onSwapBusinessUnitHead={handleLeadSwap}
+            onSwapFunctionalLead={handleFunctionalLeadSwap}
           />
         </Box>
 
@@ -179,7 +168,7 @@ export const EditModal: React.FC<EditModalProps> = ({
               borderRadius: "6px",
             }}
           >
-            <DeleteCurrent onDelete={onDeleteBu} />
+            <DeleteCurrent onDelete={handleDeleteCurrent} />
 
             <Box
               sx={{
@@ -190,10 +179,10 @@ export const EditModal: React.FC<EditModalProps> = ({
             />
 
             <DeleteChild
-              teams={businessUnit.teams}
+              teams={data.teams}
               selectedTeam={selectedTeamToDelete}
               onTeamSelect={setSelectedTeamToDelete}
-              onDelete={handleDeleteTeam}
+              onDelete={handleDeleteChildren}
             />
           </Box>
         </Box>
