@@ -58,7 +58,7 @@ export const RenameField: React.FC<RenameFieldProps> = ({ value, onChange, onRen
           variant="outlined"
           fullWidth
         />
-        <Button onClick={onRename}>Rename</Button>
+        <Button variant="outlined" color="error" onClick={onRename}>Rename</Button>
       </Box>
     </Box>
   );
