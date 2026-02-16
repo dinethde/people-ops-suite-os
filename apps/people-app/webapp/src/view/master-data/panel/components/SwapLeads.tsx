@@ -33,11 +33,12 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: "8px",
+        gap: "4px",
         width: "100%",
       }}
     >
       <Typography
+        variant="body1"
         sx={{
           color: theme.palette.customText.primary.p2.active,
         }}
@@ -82,6 +83,7 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
             }}
           >
             <Typography
+              variant="body2"
               sx={{
                 color: theme.palette.customText.primary.p2.active,
               }}
@@ -99,6 +101,7 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
             </Typography>
           </Box>
         </Box>
+
         <IconButton
           onClick={onSwap}
           sx={{
