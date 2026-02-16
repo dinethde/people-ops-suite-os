@@ -51,12 +51,8 @@ export const DeleteChild: React.FC<DeleteChildProps> = ({
         }}
       >
         <Typography
+          variant="body2"
           sx={{
-            fontSize: "14px",
-            fontFamily: "Geist, sans-serif",
-            fontWeight: 500,
-            lineHeight: 1.5,
-            letterSpacing: "0.14px",
             color: theme.palette.customText.primary.p2.active,
           }}
         >
@@ -64,12 +60,8 @@ export const DeleteChild: React.FC<DeleteChildProps> = ({
         </Typography>
 
         <Typography
+          variant="caption"
           sx={{
-            fontSize: "12px",
-            fontFamily: "Geist, sans-serif",
-            fontWeight: 400,
-            lineHeight: 1.6,
-            letterSpacing: "0.12px",
             color: theme.palette.customText.primary.p3.active,
             whiteSpace: "pre-wrap",
           }}
@@ -87,17 +79,43 @@ export const DeleteChild: React.FC<DeleteChildProps> = ({
           justifyContent: "space-between",
         }}
       >
-        <Autocomplete
-          options={teams}
-          getOptionLabel={(option) => option.name}
-          value={selectedTeam}
-          onChange={(_, newValue) => onTeamSelect(newValue)}
-          renderInput={(params) => <TextField {...params} placeholder="Select team" />}
-          sx={{
-            flex: 0.8,
-            paddingY: 0,
-          }}
-        />
+
+        <Box sx={{
+          display: "flex",
+          flexDirection: "column",
+          flex: .8,
+          gap: 1.5
+        }}>
+          <Autocomplete
+            options={teams}
+            getOptionLabel={(option) => option.name}
+            value={selectedTeam}
+            onChange={(_, newValue) => onTeamSelect(newValue)}
+            renderInput={(params) => <TextField {...params} placeholder="Select team" />}
+            sx={{
+              flex: 0.8,
+              paddingY: 0,
+            }}
+          />
+
+          {/* Team Card - Display when team is selected */}
+          {selectedTeam && (
+            <TeamCard
+              teamName={selectedTeam.name}
+              headCount={selectedTeam.headcount}
+              teamHead={{
+                name: "Team Head Name",
+                title: "Head of Team",
+                avatar: undefined,
+              }}
+              functionLead={{
+                name: "Function Lead",
+                title: "Lead Title",
+                avatar: undefined,
+              }}
+            />
+          )}
+        </Box>
 
         <Button
           variant="outlined"
@@ -109,24 +127,6 @@ export const DeleteChild: React.FC<DeleteChildProps> = ({
           Delete
         </Button>
       </Box>
-
-      {/* Team Card - Display when team is selected */}
-      {selectedTeam && (
-        <TeamCard
-          teamName={selectedTeam.name}
-          headCount={selectedTeam.headcount}
-          teamHead={{
-            name: "Team Head Name",
-            title: "Head of Team",
-            avatar: undefined,
-          }}
-          functionLead={{
-            name: "Function Lead",
-            title: "Lead Title",
-            avatar: undefined,
-          }}
-        />
-      )}
     </Box>
   );
 };
