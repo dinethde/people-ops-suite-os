@@ -1,0 +1,132 @@
+// Copyright (c) 2026 WSO2 LLC. (https://www.wso2.com).
+//
+// WSO2 LLC. licenses this file to you under the Apache License,
+// Version 2.0 (the "License"); you may not use this file except
+// in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+import { Autocomplete, Box, Button, TextField, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+
+import { Team } from "./types";
+import { TeamCard } from "./TeamCard";
+
+interface DeleteChildProps {
+  teams: Team[];
+  selectedTeam: Team | null;
+  onTeamSelect: (team: Team | null) => void;
+  onDelete: () => void;
+}
+
+export const DeleteChild: React.FC<DeleteChildProps> = ({
+  teams,
+  selectedTeam,
+  onTeamSelect,
+  onDelete,
+}) => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "8px",
+        padding: "12px",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "2px",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "14px",
+            fontFamily: "Geist, sans-serif",
+            fontWeight: 500,
+            lineHeight: 1.5,
+            letterSpacing: "0.14px",
+            color: theme.palette.customText.primary.p2.active,
+          }}
+        >
+          Delete teams
+        </Typography>
+
+        <Typography
+          sx={{
+            fontSize: "12px",
+            fontFamily: "Geist, sans-serif",
+            fontWeight: 400,
+            lineHeight: 1.6,
+            letterSpacing: "0.12px",
+            color: theme.palette.customText.primary.p3.active,
+            whiteSpace: "pre-wrap",
+          }}
+        >
+          You can delete teams that no longer exist. All employees previously under the team will be
+          unassigned from that team.
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          width: "100%",
+          justifyContent: "space-between",
+        }}
+      >
+        <Autocomplete
+          options={teams}
+          getOptionLabel={(option) => option.name}
+          value={selectedTeam}
+          onChange={(_, newValue) => onTeamSelect(newValue)}
+          renderInput={(params) => <TextField {...params} placeholder="Select team" />}
+          sx={{
+            flex: 0.8,
+            paddingY: 0,
+          }}
+        />
+
+        <Button
+          variant="outlined"
+          sx={{ height: "fit-content" }}
+          color="error"
+          onClick={onDelete}
+          disabled={!selectedTeam}
+        >
+          Delete
+        </Button>
+      </Box>
+
+      {/* Team Card - Display when team is selected */}
+      {selectedTeam && (
+        <TeamCard
+          teamName={selectedTeam.name}
+          headCount={selectedTeam.headcount}
+          teamHead={{
+            name: "Team Head Name",
+            title: "Head of Team",
+            avatar: undefined,
+          }}
+          functionLead={{
+            name: "Function Lead",
+            title: "Lead Title",
+            avatar: undefined,
+          }}
+        />
+      )}
+    </Box>
+  );
+};
