@@ -18,15 +18,28 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-import { Team } from "@services/organization";
+import { BusinessUnit, SubTeam, Team, Unit } from "@services/organization";
+
+// Union type for all possible child types
+type ChildItem = BusinessUnit | Team | SubTeam | Unit;
 
 interface ManageChildrenProps {
-  teams: Team[];
-  onTransfer: (team: Team) => void;
+  children: ChildItem[];
+  childType: "Business Units" | "Teams" | "Sub-Teams" | "Units";
+  onTransfer: (child: ChildItem) => void;
 }
 
-export const ManageChildren: React.FC<ManageChildrenProps> = ({ teams, onTransfer }) => {
+export const ManageChildren: React.FC<ManageChildrenProps> = ({
+  children,
+  childType,
+  onTransfer,
+}) => {
   const theme = useTheme();
+
+  // Don't render if there are no children
+  if (!children || children.length === 0) {
+    return null;
+  }
 
   return (
     <Box
@@ -43,7 +56,7 @@ export const ManageChildren: React.FC<ManageChildrenProps> = ({ teams, onTransfe
           color: theme.palette.customText.primary.p2.active,
         }}
       >
-        Manage Teams
+        Manage {childType}
       </Typography>
 
       <Box
@@ -54,9 +67,9 @@ export const ManageChildren: React.FC<ManageChildrenProps> = ({ teams, onTransfe
           width: "400px",
         }}
       >
-        {teams.map((team) => (
+        {children.map((child) => (
           <Box
-            key={team.id}
+            key={child.id}
             sx={{
               display: "flex",
               gap: "16px",
@@ -85,7 +98,7 @@ export const ManageChildren: React.FC<ManageChildrenProps> = ({ teams, onTransfe
                   color: theme.palette.customText.primary.p2.active,
                 }}
               >
-                {team.name}
+                {child.name}
               </Typography>
               <Box
                 sx={{
@@ -110,12 +123,12 @@ export const ManageChildren: React.FC<ManageChildrenProps> = ({ teams, onTransfe
                     color: theme.palette.customText.primary.p3.active,
                   }}
                 >
-                  {team.headCount}
+                  {child.headCount}
                 </Typography>
               </Box>
             </Box>
             <IconButton
-              onClick={() => onTransfer(team)}
+              onClick={() => onTransfer(child)}
               sx={{
                 height: "37px",
                 width: "37px",

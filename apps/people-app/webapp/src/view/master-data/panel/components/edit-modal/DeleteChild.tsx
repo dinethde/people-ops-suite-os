@@ -16,23 +16,39 @@
 import { Autocomplete, Box, Button, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
+import { BusinessUnit, SubTeam, Team, Unit } from "@services/organization";
+
 import { TeamCard } from "./TeamCard";
-import { Team } from "@services/organization"
+
+// Union type for all possible child types
+type ChildItem = BusinessUnit | Team | SubTeam | Unit;
 
 interface DeleteChildProps {
-  teams: Team[];
-  selectedTeam: Team | null;
-  onTeamSelect: (team: Team | null) => void;
+  children: ChildItem[];
+  childType: "Business Units" | "Teams" | "Sub-Teams" | "Units";
+  selectedChild: ChildItem | null;
+  onChildSelect: (child: ChildItem | null) => void;
   onDelete: () => void;
 }
 
 export const DeleteChild: React.FC<DeleteChildProps> = ({
-  teams,
-  selectedTeam,
-  onTeamSelect,
+  children,
+  childType,
+  selectedChild,
+  onChildSelect,
   onDelete,
 }) => {
   const theme = useTheme();
+
+  // Don't render if there are no children
+  if (!children || children.length === 0) {
+    return null;
+  }
+
+  // Get singular form of childType for messages
+  const singularChildType = childType.endsWith("s")
+    ? childType.slice(0, -1).toLowerCase()
+    : childType.toLowerCase();
 
   return (
     <Box
@@ -56,7 +72,7 @@ export const DeleteChild: React.FC<DeleteChildProps> = ({
             color: theme.palette.customText.primary.p2.active,
           }}
         >
-          Delete teams
+          Delete {childType.toLowerCase()}
         </Typography>
 
         <Typography
@@ -66,8 +82,8 @@ export const DeleteChild: React.FC<DeleteChildProps> = ({
             whiteSpace: "pre-wrap",
           }}
         >
-          You can delete teams that no longer exist. All employees previously under the team will be
-          unassigned from that team.
+          You can delete {childType.toLowerCase()} that no longer exist. All employees previously
+          under the {singularChildType} will be unassigned from that {singularChildType}.
         </Typography>
       </Box>
 
@@ -79,40 +95,47 @@ export const DeleteChild: React.FC<DeleteChildProps> = ({
           justifyContent: "space-between",
         }}
       >
-
-        <Box sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: .8,
-          gap: 1.5
-        }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            flex: 0.8,
+            gap: 1.5,
+          }}
+        >
           <Autocomplete
-            options={teams}
+            options={children}
             getOptionLabel={(option) => option.name}
-            value={selectedTeam}
-            onChange={(_, newValue) => onTeamSelect(newValue)}
-            renderInput={(params) => <TextField {...params} placeholder="Select team" />}
+            value={selectedChild}
+            onChange={(_, newValue) => onChildSelect(newValue)}
+            renderInput={(params) => (
+              <TextField {...params} placeholder={`Select ${singularChildType}`} />
+            )}
             sx={{
               flex: 0.8,
               paddingY: 0,
             }}
           />
 
-          {/* Team Card - Display when team is selected */}
-          {selectedTeam && (
+          {/* Team Card - Display when child is selected */}
+          {selectedChild && (
             <TeamCard
-              teamName={selectedTeam.name}
-              headCount={selectedTeam.headCount}
-              teamHead={{
-                name: "Team Head Name",
-                title: "Head of Team",
-                avatar: undefined,
-              }}
-              functionLead={{
-                name: "Function Lead",
-                title: "Lead Title",
-                avatar: undefined,
-              }}
+              teamName={selectedChild.name}
+              headCount={selectedChild.headCount}
+              teamHead={
+                selectedChild.teamHead || {
+                  name: "No Team Head",
+                  title: "Unassigned",
+                  avatar: undefined,
+                }
+              }
+              functionLead={
+                selectedChild.functionLead || {
+                  name: "No Function Lead",
+                  title: "Unassigned",
+                  avatar: undefined,
+                }
+              }
             />
           )}
         </Box>
@@ -122,7 +145,7 @@ export const DeleteChild: React.FC<DeleteChildProps> = ({
           sx={{ height: "fit-content" }}
           color="error"
           onClick={onDelete}
-          disabled={!selectedTeam}
+          disabled={!selectedChild}
         >
           Delete
         </Button>
