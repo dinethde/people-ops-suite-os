@@ -19,32 +19,41 @@ import { useTheme } from "@mui/material/styles";
 
 import { useState } from "react";
 
-import { BusinessUnit } from "@root/src/services/organization";
-import { Team } from "@services/organization";
+import { BusinessUnit, SubTeam, Team, Unit } from "@services/organization";
 
-import { DeleteChild } from "./DeleteChild";
-import { DeleteCurrent } from "./DeleteCurrent";
-import { ManageChildren } from "./ManageChildren";
-import { RenameField } from "./RenameField";
-import { SectionHeader } from "./SectionHeader";
-import { SwapLeads } from "./SwapLeads";
+import {
+  type ChildItem,
+  getChildTypeLabel,
+  getChildren,
+  getEntityTypeName,
+} from "../utils";
+import { DeleteChild } from "./edit-modal/DeleteChild";
+import { DeleteCurrent } from "./edit-modal/DeleteCurrent";
+import { ManageChildren } from "./edit-modal/ManageChildren";
+import { RenameField } from "./edit-modal/RenameField";
+import { SectionHeader } from "./edit-modal/SectionHeader";
+import { SwapLeads } from "./edit-modal/SwapLeads";
 
 interface EditModalProps {
   open: boolean;
   onClose: () => void;
-  data: BusinessUnit;
+  data: BusinessUnit | Team | SubTeam | Unit;
   type: string;
 }
 
 export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => {
   const theme = useTheme();
-  console.log("Edit Modal : ", data);
-  const [buName, setBuName] = useState(data.name);
-  const [selectedTeamToDelete, setSelectedTeamToDelete] = useState<Team | null>(null);
+  const [itemName, setItemName] = useState(data.name);
+  const [selectedChildToDelete, setSelectedChildToDelete] = useState<ChildItem | null>(null);
+
+  // Get children and their type dynamically
+  const children = getChildren(data);
+  const childTypeLabel = getChildTypeLabel(data);
+  const entityTypeName = getEntityTypeName(data);
 
   const handleRename = () => {};
 
-  const handleTeamTransfer = () => {};
+  const handleChildTransfer = () => {};
 
   const handleLeadSwap = () => {};
 
@@ -53,8 +62,6 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
   const handleDeleteCurrent = () => {};
 
   const handleDeleteChildren = () => {};
-
-  console.log("Edit Modal : ", data);
 
   return (
     <Dialog
@@ -91,7 +98,7 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
             fontWeight: 500,
           }}
         >
-          Edit Business Unit
+          Edit {entityTypeName}
         </Typography>
 
         <IconButton
@@ -128,8 +135,14 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
           }}
         >
           <SectionHeader title="General" />
-          <RenameField value={buName} onChange={setBuName} onRename={handleRename} />
-          <ManageChildren teams={data.teams} onTransfer={handleTeamTransfer} />
+          <RenameField value={itemName} onChange={setItemName} onRename={handleRename} />
+          {children.length > 0 && (
+            <ManageChildren
+              children={children}
+              childType={childTypeLabel}
+              onTransfer={handleChildTransfer}
+            />
+          )}
         </Box>
 
         {/* Leads Section */}
@@ -178,12 +191,15 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
               }}
             />
 
-            <DeleteChild
-              teams={data.teams}
-              selectedTeam={selectedTeamToDelete}
-              onTeamSelect={setSelectedTeamToDelete}
-              onDelete={handleDeleteChildren}
-            />
+            {children.length > 0 && (
+              <DeleteChild
+                children={children}
+                childType={childTypeLabel}
+                selectedChild={selectedChildToDelete}
+                onChildSelect={setSelectedChildToDelete}
+                onDelete={handleDeleteChildren}
+              />
+            )}
           </Box>
         </Box>
       </DialogContent>
