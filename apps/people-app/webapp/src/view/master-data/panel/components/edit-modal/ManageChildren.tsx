@@ -20,7 +20,6 @@ import { useTheme } from "@mui/material/styles";
 
 import { BusinessUnit, SubTeam, Team, Unit } from "@services/organization";
 
-// Union type for all possible child types
 type ChildItem = BusinessUnit | Team | SubTeam | Unit;
 
 interface ManageChildrenProps {
@@ -100,6 +99,7 @@ export const ManageChildren: React.FC<ManageChildrenProps> = ({
               >
                 {child.name}
               </Typography>
+
               <Box
                 sx={{
                   display: "flex",
@@ -114,6 +114,7 @@ export const ManageChildren: React.FC<ManageChildrenProps> = ({
                     color: theme.palette.customText.primary.p3.active,
                   }}
                 />
+
                 <Typography
                   sx={{
                     fontSize: "14px",
@@ -127,6 +128,7 @@ export const ManageChildren: React.FC<ManageChildrenProps> = ({
                 </Typography>
               </Box>
             </Box>
+
             <IconButton
               onClick={() => onTransfer(child)}
               sx={{
