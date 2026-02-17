@@ -17,20 +17,18 @@ import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import { Avatar, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
+import { TeamHead } from "@services/organization";
+
+import { truncateName } from "../../utils";
+
 interface TeamCardProps {
   teamName: string;
   headCount: number;
-  teamHead: {
-    name: string;
-    title: string;
-    avatar?: string;
-  };
-  functionLead: {
-    name: string;
-    title: string;
-    avatar?: string;
-  };
+  teamHead?: TeamHead;
+  functionLead?: TeamHead;
 }
+
+const MAX_LENGTH = 12;
 
 export const TeamCard: React.FC<TeamCardProps> = ({
   teamName,
@@ -99,115 +97,119 @@ export const TeamCard: React.FC<TeamCardProps> = ({
         sx={{
           display: "flex",
           gap: "12px",
-          width: "100%"
+          width: "100%",
         }}
       >
         {/* Team Head */}
-        <Box
-          sx={{
-            backgroundColor: "white",
-            display: "flex",
-            gap: "8px",
-            alignItems: "center",
-            padding: "4px",
-            borderRadius: "4px",
-          }}
-        >
-          <Avatar
-            src={teamHead.avatar}
+        {teamHead && (
+          <Box
             sx={{
-              width: "30px",
-              height: "30px",
+              backgroundColor: "white",
+              display: "flex",
+              gap: "8px",
+              alignItems: "center",
+              padding: "4px",
               borderRadius: "4px",
             }}
           >
-            {teamHead.name.charAt(0)}
-          </Avatar>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <Typography
-              variant="body2"
+            <Avatar
+              src={teamHead.avatar}
               sx={{
-                color: theme.palette.customText.primary.p2.active,
-                textTransform: "capitalize",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "80px",
+                width: "30px",
+                height: "30px",
+                borderRadius: "4px",
               }}
             >
-              {teamHead.name}
-            </Typography>
+              {teamHead.name.charAt(0)}
+            </Avatar>
 
-            <Typography
-              variant="caption"
+            <Box
               sx={{
-                color: theme.palette.customText.primary.p4.active,
-                whiteSpace: "nowrap",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
               }}
             >
-              {teamHead.title}
-            </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: theme.palette.customText.primary.p2.active,
+                  textTransform: "capitalize",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "80px",
+                }}
+              >
+                {truncateName(teamHead.name, MAX_LENGTH)}
+              </Typography>
+
+              <Typography
+                variant="caption"
+                sx={{
+                  color: theme.palette.customText.primary.p4.active,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {truncateName(teamHead.title, MAX_LENGTH)}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        )}
 
         {/* Function Lead */}
-        <Box
-          sx={{
-            backgroundColor: "white",
-            display: "flex",
-            gap: "8px",
-            alignItems: "center",
-            padding: "4px",
-            borderRadius: "4px",
-          }}
-        >
-          <Avatar
-            src={functionLead.avatar}
+        {functionLead && (
+          <Box
             sx={{
-              width: "30px",
-              height: "30px",
+              backgroundColor: "white",
+              display: "flex",
+              gap: "8px",
+              alignItems: "center",
+              padding: "4px",
               borderRadius: "4px",
             }}
           >
-            {functionLead.name.charAt(0)}
-          </Avatar>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <Typography
-              variant="body2"
+            <Avatar
+              src={functionLead.avatar}
               sx={{
-                color: theme.palette.customText.primary.p2.active,
-                textTransform: "capitalize",
-                whiteSpace: "nowrap",
+                width: "30px",
+                height: "30px",
+                borderRadius: "4px",
               }}
             >
-              {functionLead.name}
-            </Typography>
+              {functionLead.name.charAt(0)}
+            </Avatar>
 
-            <Typography
-              variant="caption"
+            <Box
               sx={{
-                color: theme.palette.customText.primary.p4.active,
-                whiteSpace: "nowrap",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
               }}
             >
-              {functionLead.title}
-            </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: theme.palette.customText.primary.p2.active,
+                  textTransform: "capitalize",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {truncateName(functionLead.name, MAX_LENGTH)}
+              </Typography>
+
+              <Typography
+                variant="caption"
+                sx={{
+                  color: theme.palette.customText.primary.p4.active,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {truncateName(functionLead.title, MAX_LENGTH)}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
     </Box>
   );
