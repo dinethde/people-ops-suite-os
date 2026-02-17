@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 
 import ErrorHandler from "@component/common/ErrorHandler";
 import PreLoader from "@component/common/PreLoader";
-import { EXPANDED_NODES_KEY } from "@root/src/config/constant";
+import { EXPANDED_NODES_KEY } from "@config/constant";
 import {
   BusinessUnit,
   Company,
@@ -34,19 +34,15 @@ import OrgStructureTree from "./components/OrgStructureTree";
 
 export default function OrgStructure() {
   const { data: orgStructure, isLoading, isError } = useGetOrgStructureQuery();
-  const [editModal, setEditModal] = useState<
-    {
-      open: boolean;
-      data: Company | BusinessUnit | Team | SubTeam | Unit | null;
-      type: string
-    }
-  >(
-    {
-      open: false,
-      data: null,
-      type: ""
-    }
-  );
+  const [editModal, setEditModal] = useState<{
+    open: boolean;
+    data: Company | BusinessUnit | Team | SubTeam | Unit | null;
+    type: string;
+  }>({
+    open: false,
+    data: null,
+    type: "",
+  });
 
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(() => {
     const stored = sessionStorage.getItem(EXPANDED_NODES_KEY);
@@ -118,9 +114,7 @@ export default function OrgStructure() {
   };
 
   const handleEdit = (id: string, type: string) => {
-    console.log(`Edit ${type} with id: ${id}`);
     const nodeData = findNodeById(id, type);
-    console.log("data : ", nodeData)
     if (nodeData) {
       setEditModal({
         open: true,
@@ -130,17 +124,17 @@ export default function OrgStructure() {
     }
   };
 
+  console.log("Edit modal org structure : ", editModal);
 
   const handleClose = () => {
     setEditModal({
       open: false,
       data: null,
-      type: ""
-    })
-  }
+      type: "",
+    });
+  };
 
   const handleAdd = (id: string, type: string) => {
-    console.log(`Add to ${type} with id: ${id}`);
     // Implement add functionality here
   };
 
@@ -186,17 +180,14 @@ export default function OrgStructure() {
         />
       </Box>
 
-      {
-        editModal.open && editModal.data && (
-          <EditModal
-            open={editModal.open}
-            data={editModal.data as BusinessUnit}
-            type={editModal.type}
-            onClose={handleClose}
-          />
-
-        )
-      }
+      {editModal.open && editModal.data && (
+        <EditModal
+          open={editModal.open}
+          data={editModal.data}
+          type={editModal.type}
+          onClose={handleClose}
+        />
+      )}
     </Box>
   );
 }
