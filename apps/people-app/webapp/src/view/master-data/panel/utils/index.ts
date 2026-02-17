@@ -42,7 +42,9 @@ export function isSubTeam(item: OrganizationItem): item is SubTeam {
 }
 
 export function isUnit(item: OrganizationItem): item is Unit {
-  return !("businessUnits" in item) && !("teams" in item) && !("subTeams" in item) && !("units" in item);
+  return (
+    !("businessUnits" in item) && !("teams" in item) && !("subTeams" in item) && !("units" in item)
+  );
 }
 
 // Helper to get children from an organization item
@@ -98,3 +100,9 @@ export function getEntityTypeName(item: OrganizationItem): string {
   }
   return "Item";
 }
+
+// Helper function to truncate name if too long
+export const truncateName = (text: string, maxLength: number) => {
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength) + "...";
+};
