@@ -19,11 +19,15 @@ import { useTheme } from "@mui/material/styles";
 
 import { TeamHead } from "@root/src/services/organization";
 
+import { truncateName } from "../../utils";
+
 interface LeadRowProps {
   label: string;
   lead: TeamHead;
   onSwap: () => void;
 }
+
+const MAX_LENGTH = 12;
 
 const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
   const theme = useTheme();
@@ -34,14 +38,14 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
         display: "flex",
         flexDirection: "column",
         gap: "4px",
-        width: "100%",
-        paddingX: "4px"
+        paddingX: "4px",
       }}
     >
       <Typography
         variant="body1"
         sx={{
           color: theme.palette.customText.primary.p2.active,
+          width: "fit-content",
         }}
       >
         {label}
@@ -61,7 +65,7 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
             alignItems: "center",
             padding: "4px",
             borderRadius: "4px",
-            width: "200px",
+            maxWidth: "200px",
           }}
         >
           <Avatar
@@ -89,7 +93,7 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
                 color: theme.palette.customText.primary.p2.active,
               }}
             >
-              {lead.name}
+              {truncateName(lead.name, MAX_LENGTH)}
             </Typography>
 
             <Typography
@@ -98,7 +102,7 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
                 color: theme.palette.customText.primary.p4.active,
               }}
             >
-              {lead.title}
+              {truncateName(lead.title, MAX_LENGTH)}
             </Typography>
           </Box>
         </Box>
@@ -106,6 +110,7 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
         <IconButton
           onClick={onSwap}
           sx={{
+            ml: 2,
             height: "37px",
             width: "37px",
             border: `1px solid ${theme.palette.customBorder.primary.b3.active}`,
@@ -147,8 +152,9 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
     <Box
       sx={{
         display: "flex",
-        gap: "16px",
+        gap: "40px",
         width: "100%",
+        alignItems: "flex-start",
       }}
     >
       {businessUnitHead && (
@@ -161,7 +167,7 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
 
       {functionalLead && (
         <LeadRow label="Functional Lead" lead={functionalLead} onSwap={onSwapFunctionalLead} />
-      )}{" "}
+      )}
     </Box>
   );
 };
