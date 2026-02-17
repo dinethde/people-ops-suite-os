@@ -35,6 +35,7 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
         flexDirection: "column",
         gap: "4px",
         width: "100%",
+        paddingX: "4px"
       }}
     >
       <Typography
@@ -60,7 +61,7 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
             alignItems: "center",
             padding: "4px",
             borderRadius: "4px",
-            width: "240px",
+            width: "200px",
           }}
         >
           <Avatar
@@ -146,7 +147,6 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column",
         gap: "16px",
         width: "100%",
       }}
@@ -158,6 +158,7 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
           onSwap={onSwapBusinessUnitHead}
         />
       )}
+
       {functionalLead && (
         <LeadRow label="Functional Lead" lead={functionalLead} onSwap={onSwapFunctionalLead} />
       )}{" "}
