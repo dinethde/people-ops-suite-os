@@ -22,7 +22,7 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { FunctionLead, TeamHead } from "@root/src/services/organization";
 import { NodeType } from "@utils/types";
 
-import PersonCard from "./PersonCard";
+import PersonCard from "./edit-modal/PersonCard";
 
 interface OrgStructureCardProps {
   name: string;
