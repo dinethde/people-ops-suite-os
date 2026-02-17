@@ -17,6 +17,8 @@ import { Avatar, Box, Tooltip, Typography, useTheme } from "@mui/material";
 
 import { memo } from "react";
 
+import { truncateName } from "../../utils";
+
 interface PersonCardProps {
   name: string;
   title: string;
@@ -30,12 +32,6 @@ interface PersonCardProps {
  */
 const PersonCard = memo<PersonCardProps>(({ name, title, avatar, maxNameLength = 15 }) => {
   const theme = useTheme();
-
-  // Helper function to truncate name if too long
-  const truncateName = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength) + "...";
-  };
 
   return (
     <Box
@@ -78,10 +74,7 @@ const PersonCard = memo<PersonCardProps>(({ name, title, avatar, maxNameLength =
           {truncateName(name, maxNameLength)}
         </Typography>
 
-        <Tooltip
-          title={title}
-          placement="top"
-        >
+        <Tooltip title={title} placement="top">
           <Typography
             sx={{
               fontSize: "12px",
