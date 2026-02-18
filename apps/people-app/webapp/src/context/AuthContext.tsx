@@ -26,7 +26,6 @@ import { useLazyGetUserInfoQuery } from "@root/src/services/user.api";
 import { setTokens } from "@services/BaseQuery";
 import { loadPrivileges, setAuthError, setUserAuthData } from "@slices/authSlice/auth";
 import { useAppDispatch } from "@slices/store";
-import { getUserInfo } from "@slices/userSlice/user";
 import { APIService } from "@utils/apiService";
 
 type AuthContextType = {
@@ -110,8 +109,9 @@ const AppAuthProvider = (props: { children: React.ReactNode }) => {
     if (userInfoResult?.isError) {
       console.error("Failed to fetch user info:", userInfoResult.error);
       dispatch(setAuthError());
+      return;
     }
-    await dispatch(getUserInfo()).unwrap();
+
     await dispatch(loadPrivileges());
   };
 
