@@ -19,14 +19,9 @@ import { useTheme } from "@mui/material/styles";
 
 import { useState } from "react";
 
-import { BusinessUnit, SubTeam, Team, Unit } from "@services/organization";
+import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/organization";
 
-import {
-  type ChildItem,
-  getChildTypeLabel,
-  getChildren,
-  getEntityTypeName,
-} from "../utils";
+import { type ChildItem, getChildTypeLabel, getChildren, getEntityTypeName } from "../utils";
 import { DeleteChild } from "./edit-modal/DeleteChild";
 import { DeleteCurrent } from "./edit-modal/DeleteCurrent";
 import { ManageChildren } from "./edit-modal/ManageChildren";
@@ -37,7 +32,7 @@ import { SwapLeads } from "./edit-modal/SwapLeads";
 interface EditModalProps {
   open: boolean;
   onClose: () => void;
-  data: BusinessUnit | Team | SubTeam | Unit;
+  data: Company | BusinessUnit | Team | SubTeam | Unit;
   type: string;
 }
 
@@ -51,17 +46,17 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
   const childTypeLabel = getChildTypeLabel(data);
   const entityTypeName = getEntityTypeName(data);
 
-  const handleRename = () => {};
+  const handleRename = () => { };
 
-  const handleChildTransfer = () => {};
+  const handleChildTransfer = () => { };
 
-  const handleLeadSwap = () => {};
+  const handleLeadSwap = () => { };
 
-  const handleFunctionalLeadSwap = () => {};
+  const handleFunctionalLeadSwap = () => { };
 
-  const handleDeleteCurrent = () => {};
+  const handleDeleteCurrent = () => { };
 
-  const handleDeleteChildren = () => {};
+  const handleDeleteChildren = () => { };
 
   return (
     <Dialog
