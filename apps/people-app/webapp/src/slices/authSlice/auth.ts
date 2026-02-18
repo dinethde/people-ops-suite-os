@@ -17,7 +17,6 @@ import { BasicUserInfo, DecodedIDTokenPayload } from "@asgardeo/auth-spa";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { PRIVILEGE_ADMIN, PRIVILEGE_EMPLOYEE, SnackMessage } from "@config/constant";
-import { UserInfoInterface, userApi } from "@services/user.api";
 import { enqueueSnackbarMessage } from "@slices/commonSlice/common";
 import type { RootState } from "@slices/store";
 
@@ -70,18 +69,7 @@ export const loadPrivileges = createAsyncThunk(
   (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as RootState;
 
-    const user = userApi.endpoints.getUserInfo.select()(state);
-    if (!user || user.status === "rejected") {
-      dispatch(
-        enqueueSnackbarMessage({
-          message: SnackMessage.error.fetchPrivileges,
-          type: "error",
-        }),
-      );
-      return rejectWithValue("Failed to fetch user info");
-    }
-
-    const userInfo = user.data as UserInfoInterface | undefined;
+    const userInfo = state.user.userInfo;
     if (!userInfo) {
       dispatch(
         enqueueSnackbarMessage({
@@ -92,7 +80,7 @@ export const loadPrivileges = createAsyncThunk(
       return rejectWithValue("User info not available");
     }
 
-    const userPrivileges = userInfo?.privileges || [];
+    const userPrivileges = userInfo.privileges || [];
     const roles: Role[] = [];
 
     if (userPrivileges.includes(PRIVILEGE_ADMIN)) {
