@@ -21,13 +21,12 @@ import Typography from "@mui/material/Typography";
 import Wso2Logo from "@assets/images/wso2-logo.svg";
 import { APP_NAME } from "@config/config";
 import BasicBreadcrumbs from "@layout/BreadCrumbs/BreadCrumbs";
-import { userApi } from "@services/user.api";
 import { useAppSelector } from "@slices/store";
 
 const Header = () => {
   const theme = useTheme();
 
-  const user = useAppSelector((state) => userApi.endpoints.getUserInfo.select()(state)?.data);
+  const user = useAppSelector((state) => state.user.userInfo);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
