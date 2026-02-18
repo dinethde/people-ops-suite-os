@@ -18,6 +18,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { AppConfig } from "@config/config.ts";
 
 import { baseQueryWithRetry } from "./BaseQuery.ts";
+import { RootState } from "../slices/store.ts";
 
 export interface TeamHead {
   name: string;
@@ -75,6 +76,13 @@ export interface Company {
   businessUnits: BusinessUnit[];
 }
 
+enum UnitType {
+  BusinessUnit = "business-unit",
+  Team = "team",
+  SubTeam = "sub-team",
+  Unit = "unit",
+}
+
 export const organizationApi = createApi({
   reducerPath: "organizationApi",
   baseQuery: baseQueryWithRetry,
@@ -82,7 +90,7 @@ export const organizationApi = createApi({
   endpoints: (builder) => ({
     getOrgStructure: builder.query<Company, void>({
       query: () => AppConfig.serviceUrls.organization,
-      transformResponse: (response: Company, meta, args) => {
+      transformResponse: (response: Company) => {
         response.businessUnits.forEach((bu) => {
           bu.teams.forEach((team) => {
             const teamLeadTitle = `${bu.name} ${team.name} Lead`;
@@ -99,9 +107,9 @@ export const organizationApi = createApi({
             });
           });
         });
-
         return response;
       },
+      providesTags: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
     }),
   }),
 });
