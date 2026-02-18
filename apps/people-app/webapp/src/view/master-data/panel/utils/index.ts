@@ -13,16 +13,8 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/organization";
-
-// Union type for all organization items
-export type OrganizationItem = Company | BusinessUnit | Team | SubTeam | Unit;
-
-// Union type for child items
-export type ChildItem = BusinessUnit | Team | SubTeam | Unit;
-
-// Child type labels
-export type ChildTypeLabel = "Business Units" | "Teams" | "Sub-Teams" | "Units";
+import { BusinessUnit, Company, SubTeam, Unit, Team } from "@root/src/services/organization";
+import { ChildItem, ChildTypeLabel, OrganizationItem } from "@root/src/utils/utils";
 
 // Type guards
 export function isCompany(item: OrganizationItem): item is Company {

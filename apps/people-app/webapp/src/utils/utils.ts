@@ -14,6 +14,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/organization";
+
 export function isIncludedRole(roles: string[], allowedRoles: string[]) {
   return roles.some((role) => allowedRoles.includes(role));
 }
@@ -57,3 +59,20 @@ export const formatDate = (dateString?: string | null) => {
     return dateString;
   }
 };
+
+export enum UnitType {
+  BusinessUnit = "business-unit",
+  Team = "team",
+  SubTeam = "sub-team",
+  Unit = "unit",
+}
+
+// Union type for all organization items
+export type OrganizationItem = Company | BusinessUnit | Team | SubTeam | Unit;
+
+// Union type for child items
+export type ChildItem = BusinessUnit | Team | SubTeam | Unit;
+
+// Child type labels
+export type ChildTypeLabel = "Business Units" | "Teams" | "Sub-Teams" | "Units";
+
