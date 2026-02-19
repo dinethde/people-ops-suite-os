@@ -112,13 +112,18 @@ export const RenameField: React.FC<RenameFieldProps> = ({
         <Controller
           name="entityName"
           control={control}
-          rules={{ required: "Name is required", minLength: 1 }}
-          render={({ field }) => (
+          rules={{
+            required: "Name is required",
+            minLength: { value: 1, message: "Name must not be empty" },
+          }}
+          render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
               placeholder={`Enter ${entityType} name`}
               variant="outlined"
               fullWidth
+              error={!!error}
+              helperText={error?.message}
             />
           )}
         />
