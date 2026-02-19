@@ -13,20 +13,78 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { Controller, useForm } from "react-hook-form";
 
-interface RenameFieldProps {
-  value: string;
-  onChange: (value: string) => void;
-  onRename: () => void;
+import {
+  useUpdateBusinessUnitMutation,
+  useUpdateSubTeamMutation,
+  useUpdateTeamMutation,
+  useUpdateUnitMutation,
+} from "@services/organization";
+
+export type RenameEntityType = "Business Unit" | "Team" | "Sub-Team" | "Unit";
+
+interface RenameFormValues {
+  entityName: string;
 }
 
-export const RenameField: React.FC<RenameFieldProps> = ({ value, onChange, onRename }) => {
+interface RenameFieldProps {
+  entityId: string;
+  entityType: RenameEntityType;
+  currentName: string;
+  onRenameSuccess?: () => void;
+}
+
+export const RenameField: React.FC<RenameFieldProps> = ({
+  entityId,
+  entityType,
+  currentName,
+  onRenameSuccess,
+}) => {
   const theme = useTheme();
+
+  const [updateBusinessUnit, { isLoading: isUpdatingBU }] = useUpdateBusinessUnitMutation();
+  const [updateTeam, { isLoading: isUpdatingTeam }] = useUpdateTeamMutation();
+  const [updateSubTeam, { isLoading: isUpdatingSubTeam }] = useUpdateSubTeamMutation();
+  const [updateUnit, { isLoading: isUpdatingUnit }] = useUpdateUnitMutation();
+
+  const isLoading = isUpdatingBU || isUpdatingTeam || isUpdatingSubTeam || isUpdatingUnit;
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isDirty, isValid },
+  } = useForm<RenameFormValues>({
+    defaultValues: { entityName: currentName },
+    mode: "onChange",
+  });
+
+  const onSubmit = async ({ entityName }: RenameFormValues) => {
+    const payload = { name: entityName };
+
+    switch (entityType) {
+      case "Business Unit":
+        await updateBusinessUnit({ id: entityId, payload });
+        break;
+      case "Team":
+        await updateTeam({ id: entityId, payload });
+        break;
+      case "Sub-Team":
+        await updateSubTeam({ id: entityId, payload });
+        break;
+      case "Unit":
+        await updateUnit({ id: entityId, payload });
+        break;
+    }
+    onRenameSuccess?.();
+  };
 
   return (
     <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -40,7 +98,7 @@ export const RenameField: React.FC<RenameFieldProps> = ({ value, onChange, onRen
           color: theme.palette.customText.primary.p2.active,
         }}
       >
-        Business Unit Name
+        {entityType} Name
       </Typography>
 
       <Box
@@ -51,14 +109,29 @@ export const RenameField: React.FC<RenameFieldProps> = ({ value, onChange, onRen
           width: "100%",
         }}
       >
-        <TextField
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="People App"
-          variant="outlined"
-          fullWidth
+        <Controller
+          name="entityName"
+          control={control}
+          rules={{ required: "Name is required", minLength: 1 }}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              placeholder={`Enter ${entityType} name`}
+              variant="outlined"
+              fullWidth
+            />
+          )}
         />
-        <Button variant="outlined" color="error" onClick={onRename}>Rename</Button>
+
+        <Button
+          type="submit"
+          variant="outlined"
+          color="error"
+          disabled={!isDirty || !isValid || isLoading}
+          startIcon={isLoading ? <CircularProgress size={14} color="inherit" /> : undefined}
+        >
+          Rename
+        </Button>
       </Box>
     </Box>
   );
