@@ -19,13 +19,14 @@ import { useTheme } from "@mui/material/styles";
 
 import { useState } from "react";
 
+import { ChildItem } from "@root/src/utils/utils";
 import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/organization";
 
-import { type ChildItem, getChildTypeLabel, getChildren, getEntityTypeName } from "../utils";
+import { getChildTypeLabel, getChildren, getEntityTypeName } from "../utils";
 import { DeleteChild } from "./edit-modal/DeleteChild";
 import { DeleteCurrent } from "./edit-modal/DeleteCurrent";
 import { ManageChildren } from "./edit-modal/ManageChildren";
-import { RenameField } from "./edit-modal/RenameField";
+import { type RenameEntityType, RenameField } from "./edit-modal/RenameField";
 import { SectionHeader } from "./edit-modal/SectionHeader";
 import { SwapLeads } from "./edit-modal/SwapLeads";
 
@@ -38,7 +39,6 @@ interface EditModalProps {
 
 export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => {
   const theme = useTheme();
-  const [itemName, setItemName] = useState(data.name);
   const [selectedChildToDelete, setSelectedChildToDelete] = useState<ChildItem | null>(null);
 
   // Get children and their type dynamically
@@ -46,17 +46,15 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
   const childTypeLabel = getChildTypeLabel(data);
   const entityTypeName = getEntityTypeName(data);
 
-  const handleRename = () => { };
+  const handleChildTransfer = () => {};
 
-  const handleChildTransfer = () => { };
+  const handleLeadSwap = () => {};
 
-  const handleLeadSwap = () => { };
+  const handleFunctionalLeadSwap = () => {};
 
-  const handleFunctionalLeadSwap = () => { };
+  const handleDeleteCurrent = () => {};
 
-  const handleDeleteCurrent = () => { };
-
-  const handleDeleteChildren = () => { };
+  const handleDeleteChildren = () => {};
 
   return (
     <Dialog
@@ -130,7 +128,14 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
           }}
         >
           <SectionHeader title="General" />
-          <RenameField value={itemName} onChange={setItemName} onRename={handleRename} />
+
+          <RenameField
+            entityId={data.id}
+            entityType={entityTypeName as RenameEntityType}
+            currentName={data.name}
+            onRenameSuccess={onClose}
+          />
+
           {children.length > 0 && (
             <ManageChildren
               children={children}
