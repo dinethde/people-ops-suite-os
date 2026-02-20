@@ -16,6 +16,7 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { CircleQuestionMark } from "lucide-react";
+import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 
 import React from "react";
 
@@ -50,12 +51,11 @@ export const routes: RouteObjectWithRole[] = [
  {
     path: "/master-data",
     text: "Master Data",
-    icon: React.createElement(CircleQuestionMark),
+    icon: React.createElement(AccountTreeOutlinedIcon),
     element: React.createElement(View.masterData),
     allowRoles: [Role.ADMIN, Role.EMPLOYEE],
   },
-
-  // Temporarily remove the Help view
+  // Temporarily remove the help route
   // {
   //   path: "/help",
   //   text: "Help & Support",

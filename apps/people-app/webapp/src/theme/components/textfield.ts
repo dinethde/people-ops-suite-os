@@ -26,7 +26,6 @@ export const muiTextField = (colors: any): Components<Theme>["MuiTextField"] => 
         lineHeight: 1.5,
         "& .MuiOutlinedInput-input": {
           color: colors.text.primary.p2.active,
-          padding: "8px",
           "&::placeholder": {
             color: colors.text.primary.p3.active || "#666",
             fontSize: "14px",

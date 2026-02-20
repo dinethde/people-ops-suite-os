@@ -90,12 +90,14 @@ export const RenameField: React.FC<RenameFieldProps> = ({
         flexDirection: "column",
         gap: "8px",
         width: "100%",
+        paddingX: "4px",
       }}
     >
       <Typography
-        variant="body1"
+        variant="body2"
         sx={{
-          color: theme.palette.customText.primary.p2.active,
+          color: theme.palette.customText.primary.p3.active,
+          fontWeight: 500,
         }}
       >
         {entityType} Name

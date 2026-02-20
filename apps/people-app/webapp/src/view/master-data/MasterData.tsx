@@ -18,6 +18,7 @@ import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import TabsPage from "@layout/pages/TabsPage";
 
 import OrgStructure from "./panel/OrgStructure";
+import Test from "./panel/Test.tsx"
 
 export default function MasterData() {
   return (
@@ -34,7 +35,7 @@ export default function MasterData() {
           tabTitle: "Edit Org Structure",
           tabPath: "edit-org-structure",
           icon: <AccountTreeOutlinedIcon />,
-          page: <></>,
+          page: <Test />,
         },
       ]}
     />

@@ -122,8 +122,8 @@ export const DeleteChild: React.FC<DeleteChildProps> = ({
             <TeamCard
               teamName={selectedChild.name}
               headCount={selectedChild.headCount}
-              teamHead={selectedChild.teamHead}
-              functionLead={selectedChild.functionLead}
+              teamHead={selectedChild.head}
+              functionLead={selectedChild.functionalLead}
             />
           )}
         </Box>

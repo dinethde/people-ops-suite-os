@@ -55,6 +55,7 @@ export interface EmployeeBasicInfo {
   lastName: string;
   workEmail: string;
   employeeThumbnail?: string;
+  designation?: string;
 }
 
 export interface CreatePersonalInfoPayload {
@@ -164,7 +165,13 @@ export interface EmployeePersonalInfoUpdate {
 export const employeeApi = createApi({
   reducerPath: "employeeApi",
   baseQuery: baseQueryWithRetry,
-  tagTypes: ["Employee", "EmployeePersonalInfo", "EmployeesBasicInfo", "ContinuousServiceRecord"],
+  tagTypes: [
+    "Employee",
+    "EmployeePersonalInfo",
+    "EmployeesBasicInfo",
+    "ContinuousServiceRecord",
+    "Employees",
+  ],
   endpoints: (builder) => ({
     // Get single employee
     getEmployee: builder.query<Employee, string>({
@@ -188,6 +195,11 @@ export const employeeApi = createApi({
           );
         }
       },
+    }),
+
+    getAllEmployees: builder.query<EmployeeBasicInfo[], void>({
+      query: () => AppConfig.serviceUrls.employees,
+      providesTags: ["Employees"],
     }),
 
     // Get employees basic info
@@ -344,6 +356,7 @@ export const employeeApi = createApi({
 
 export const {
   useGetEmployeeQuery,
+  useGetAllEmployeesQuery,
   useGetEmployeesBasicInfoQuery,
   useCreateEmployeeMutation,
   useGetContinuousServiceRecordQuery,

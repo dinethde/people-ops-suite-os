@@ -20,6 +20,7 @@ import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
 
 import { ChildItem } from "@root/src/utils/utils";
+import { EmployeeBasicInfo } from "@services/employee";
 import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/organization";
 
 import { getChildTypeLabel, getChildren, getEntityTypeName } from "../utils";
@@ -49,12 +50,26 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, paren
 
   const handleChildTransfer = () => {};
 
-  const handleLeadSwap = (entityId: string, parentId: string | null) => {
-    console.log(`Swap functional lead — entityId: ${entityId}, parentId: ${parentId}`);
+  const handleLeadSwap = (
+    entityId: string,
+    parentId: string | null,
+    selectedEmployee: EmployeeBasicInfo,
+  ) => {
+    console.log(
+      `Swap functional lead — entityId: ${entityId}, parentId: ${parentId}, newLead:`,
+      selectedEmployee,
+    );
   };
 
-  const handleHeadSwap = (entityType: string, entityId: string) => {
-    console.log(`Swap head — entityType: ${entityType}, entityId: ${entityId}`);
+  const handleHeadSwap = (
+    entityType: string,
+    entityId: string,
+    selectedEmployee: EmployeeBasicInfo,
+  ) => {
+    console.log(
+      `Swap head — entityType: ${entityType}, entityId: ${entityId}, newHead:`,
+      selectedEmployee,
+    );
   };
 
   const handleDeleteCurrent = () => {};
@@ -118,7 +133,7 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, paren
           backgroundColor: theme.palette.surface.secondary.active,
           display: "flex",
           flexDirection: "column",
-          gap: 5,
+          gap: 4,
           color: theme.palette.customText.primary.p2.active,
         }}
       >
@@ -127,9 +142,9 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, paren
           sx={{
             display: "flex",
             marginTop: 1.5,
-            padding: 0,
+            paddingX: 0,
             flexDirection: "column",
-            gap: 3,
+            gap: 2.5,
           }}
         >
           <SectionHeader title="General" />
@@ -140,6 +155,17 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, paren
             currentName={data.name}
             onRenameSuccess={onClose}
           />
+        </Box>
+
+        {/* Leads Section */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2.5,
+          }}
+        >
+          <SectionHeader title="Manage Leads" />
 
           <SwapLeads
             entityType={entityTypeName}
@@ -150,25 +176,14 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, paren
             onSwapHead={handleHeadSwap}
             onSwapFunctionalLead={handleLeadSwap}
           />
-        </Box>
 
-        {/* Leads Section */}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 3,
-          }}
-        >
-          <SectionHeader title="Children" />
-
-          {children.length > 0 && (
-            <ManageChildren
-              children={children}
-              childType={childTypeLabel}
-              onTransfer={handleChildTransfer}
-            />
-          )}
+          {/* {children.length > 0 && (
+              <ManageChildren
+                children={children}
+                childType={childTypeLabel}
+                onTransfer={handleChildTransfer}
+              />
+            )} */}
         </Box>
 
         {/* Danger Zone Section */}
@@ -176,10 +191,11 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, paren
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            gap: 1,
           }}
         >
           <SectionHeader title="Danger Zone" isBorderVisible={false} />
+
           <Box
             sx={{
               display: "flex",
@@ -191,14 +207,14 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, paren
           >
             <DeleteCurrent onDelete={handleDeleteCurrent} />
 
-            <Box
+            {/* <Box
               sx={{
                 width: "100%",
                 height: "1px",
                 backgroundColor: theme.palette.customBorder.primary.b2.active,
               }}
-            />
-
+            /> */}
+            {/* 
             {children.length > 0 && (
               <DeleteChild
                 children={children}
@@ -207,7 +223,7 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, paren
                 onChildSelect={setSelectedChildToDelete}
                 onDelete={handleDeleteChildren}
               />
-            )}
+            )} */}
           </Box>
         </Box>
       </DialogContent>

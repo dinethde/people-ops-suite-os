@@ -18,7 +18,7 @@ import { useTheme } from "@mui/material/styles";
 
 interface SectionHeaderProps {
   title: string;
-  isBorderVisible?: boolean
+  isBorderVisible?: boolean;
 }
 
 export const SectionHeader: React.FC<SectionHeaderProps> = ({ title, isBorderVisible = true }) => {
@@ -29,14 +29,17 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ title, isBorderVis
       sx={{
         width: "100%",
         paddingBottom: "8px",
-        borderBottom: isBorderVisible ? `1px solid ${theme.palette.customBorder.primary.b2.active}` : "none"
+        paddingLeft: "4px",
+        borderBottom: isBorderVisible
+          ? `1px solid ${theme.palette.customBorder.primary.b2.active}`
+          : "none",
       }}
     >
       <Typography
         variant="h6"
         sx={{
           color: theme.palette.customText.primary.p2.active,
-          fontWeight: 600
+          fontWeight: 500,
         }}
       >
         {title}

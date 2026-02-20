@@ -75,7 +75,7 @@ const extractTypography = () => {
     h6: font.h6.value,
     body1: font["p-r"].value,
     body2: font["p-m"].value,
-    caption: font["p-s"].value,
+    caption: font["p-s-500"].value,
     overline: font["p-xs"].value,
   };
 };
@@ -492,6 +492,7 @@ export const themeSettings = (mode: PaletteMode) => {
       shadow: colors.shadow,
     },
     typography: {
+      fontFamily: '"Inter", "Poppins", system-ui, sans-serif',
       fontSize: 14,
       h1: {
         fontSize: typography.h1.fontSize,

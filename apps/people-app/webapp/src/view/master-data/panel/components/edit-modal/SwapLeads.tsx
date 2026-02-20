@@ -13,106 +13,230 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+import CloseIcon from "@mui/icons-material/Close";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import { Avatar, Box, IconButton, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
+import { useState } from "react";
+
+import ConfirmationDialog from "@root/src/component/common/ConfirmationDialog";
 import { BusinessUnit, Company, Head, SubTeam, Team } from "@root/src/services/organization";
+import { EmployeeBasicInfo, useGetAllEmployeesQuery } from "@services/employee";
 
 import { truncateName } from "../../utils";
 
-interface LeadRowProps {
-  label: string;
-  lead: Head;
-  onSwap: () => void;
+const NAME_TRUNCATE_LENGTH = 12;
+
+type LeadPanelType = "head" | "functionalLead";
+
+interface PendingSwap {
+  panel: LeadPanelType;
+  employee: EmployeeBasicInfo;
 }
 
-const MAX_LENGTH = 12;
+interface EmployeeOptionProps {
+  listItemProps: React.HTMLAttributes<HTMLLIElement>;
+  employee: EmployeeBasicInfo;
+}
 
-const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
+const EmployeeOption: React.FC<EmployeeOptionProps> = ({ listItemProps, employee }) => {
+  const theme = useTheme();
+  const label = employee.designation ?? employee.workEmail;
+
+  return (
+    <Box
+      component="li"
+      {...listItemProps}
+      sx={{
+        display: "flex",
+        gap: 1.5,
+        alignItems: "center",
+        py: "10px !important",
+        px: "12px !important",
+      }}
+    >
+      <Avatar
+        src={employee.employeeThumbnail ?? undefined}
+        sx={{ borderRadius: "8px", fontSize: 12, height: "40px", width: "40px" }}
+      >
+        {employee.firstName.charAt(0)}
+      </Avatar>
+
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Typography variant="body2" sx={{ color: theme.palette.customText.primary.p2.active }}>
+          {employee.firstName} {employee.lastName}
+        </Typography>
+
+        <Typography variant="caption" sx={{ color: theme.palette.customText.primary.p4.active }}>
+          {label}
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
+
+const EmployeePreview: React.FC<{ employee: EmployeeBasicInfo }> = ({ employee }) => {
   const theme = useTheme();
 
   return (
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column",
-        gap: "4px",
-        paddingX: "4px",
+        gap: 1.5,
+        alignItems: "center",
+        p: 1,
+        borderRadius: "6px",
+        backgroundColor: theme.palette.surface.secondary.active,
+        border: `1px solid ${theme.palette.customBorder.primary.b2.active}`,
       }}
     >
+      <Avatar
+        src={employee.employeeThumbnail ?? undefined}
+        sx={{ width: 36, height: 36, borderRadius: "8px" }}
+      >
+        {employee.firstName.charAt(0)}
+      </Avatar>
+
+      <Box>
+        <Typography variant="body2" sx={{ color: theme.palette.customText.primary.p2.active }}>
+          {employee.firstName} {employee.lastName}
+        </Typography>
+
+        <Typography variant="caption" sx={{ color: theme.palette.customText.primary.p4.active }}>
+          {employee.designation ?? employee.workEmail}
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
+
+interface SelectLeadPanelProps {
+  onRequestConfirm: (employee: EmployeeBasicInfo) => void;
+}
+
+const SelectLeadPanel: React.FC<SelectLeadPanelProps> = ({ onRequestConfirm }) => {
+  const [selected, setSelected] = useState<EmployeeBasicInfo | null>(null);
+  const { data: employees = [], isLoading } = useGetAllEmployeesQuery();
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        gap: 1.5,
+        borderRadius: "6px",
+        minWidth: "500px",
+        justifyContent: "space-between",
+      }}
+    >
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, flex: 0.9 }}>
+        <Autocomplete
+          options={employees}
+          loading={isLoading}
+          value={selected}
+          onChange={(_, val) => setSelected(val)}
+          getOptionLabel={(o) => `${o.firstName} ${o.lastName}`}
+          isOptionEqualToValue={(a, b) => a.employeeId === b.employeeId}
+          slotProps={{ paper: { sx: { mt: 0.5 } } }}
+          renderOption={(props, employee) => (
+            <EmployeeOption key={employee.employeeId} listItemProps={props} employee={employee} />
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              placeholder="Search employee..."
+              InputProps={{
+                ...params.InputProps,
+                sx: { padding: "4px !important" },
+                endAdornment: (
+                  <>
+                    {isLoading && <CircularProgress size={14} />}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              }}
+            />
+          )}
+        />
+        {selected && <EmployeePreview employee={selected} />}
+      </Box>
+
+      <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+        <Button
+          size="small"
+          variant="primary"
+          disabled={!selected}
+          onClick={() => selected && onRequestConfirm(selected)}
+        >
+          Confirm
+        </Button>
+      </Box>
+    </Box>
+  );
+};
+
+interface LeadRowProps {
+  label: string;
+  lead: Head;
+  isExpanded: boolean;
+  onToggle: () => void;
+}
+
+const LeadRow: React.FC<LeadRowProps> = ({ label, lead, isExpanded, onToggle }) => {
+  const theme = useTheme();
+
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column", gap: "8px", minWidth: "200px" }}>
       <Typography
-        variant="body1"
-        sx={{
-          color: theme.palette.customText.primary.p2.active,
-          width: "fit-content",
-        }}
+        variant="body2"
+        sx={{ color: theme.palette.customText.primary.p3.active, fontWeight: 500 }}
       >
         {label}
       </Typography>
 
-      <Box
-        sx={{
-          display: "flex",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            gap: "8px",
-            alignItems: "center",
-            padding: "4px",
-            borderRadius: "4px",
-            maxWidth: "200px",
-          }}
-        >
-          <Avatar
-            src={lead.avatar}
-            sx={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "8px",
-            }}
-          >
+      <Box sx={{ display: "flex", gap: "16px", alignItems: "center" }}>
+        {/* Lead identity */}
+        <Box sx={{ display: "flex", gap: "8px", alignItems: "center", flex: 1 }}>
+          <Avatar src={lead.avatar} sx={{ width: 40, height: 40, borderRadius: "8px" }}>
             {lead.name.charAt(0)}
           </Avatar>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              flex: 1,
-              overflow: "hidden",
-            }}
-          >
+          <Box sx={{ display: "flex", flexDirection: "column", overflow: "hidden" }}>
             <Typography
-              variant="body2"
+              variant="body1"
               sx={{
                 color: theme.palette.customText.primary.p2.active,
+                textTransform: "capitalize",
               }}
             >
-              {truncateName(lead.name, MAX_LENGTH)}
+              {truncateName(lead.name, NAME_TRUNCATE_LENGTH)}
             </Typography>
 
             <Typography
               variant="caption"
-              sx={{
-                color: theme.palette.customText.primary.p4.active,
-              }}
+              sx={{ color: theme.palette.customText.primary.p4.active, textTransform: "uppercase" }}
             >
-              {truncateName(lead.title, MAX_LENGTH)}
+              {truncateName(lead.title, NAME_TRUNCATE_LENGTH)}
             </Typography>
           </Box>
         </Box>
 
+        {/* Toggle swap panel */}
         <IconButton
-          onClick={onSwap}
+          onClick={onToggle}
           sx={{
             ml: 2,
-            height: "37px",
-            width: "37px",
+            height: 37,
+            width: 37,
             border: `1px solid ${theme.palette.customBorder.primary.b3.active}`,
             borderRadius: "6px",
             padding: "6px 12px",
@@ -122,27 +246,64 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
             },
           }}
         >
-          <SwapHorizIcon
-            sx={{
-              width: "16px",
-              height: "16px",
-              color: theme.palette.customText.primary.p2.active,
-            }}
-          />
+          {isExpanded ? (
+            <CloseIcon
+              sx={{ width: 16, height: 16, color: theme.palette.customText.primary.p2.active }}
+            />
+          ) : (
+            <SwapHorizIcon
+              sx={{ width: 16, height: 16, color: theme.palette.customText.primary.p2.active }}
+            />
+          )}
         </IconButton>
       </Box>
     </Box>
   );
 };
 
-interface SwapLeadsProps {
+interface SwappableLeadProps {
+  label: string;
+  lead: Head;
+  isExpanded: boolean;
+  onToggle: () => void;
+  onRequestConfirm: (employee: EmployeeBasicInfo) => void;
+}
+
+const SwappableLead: React.FC<SwappableLeadProps> = ({
+  label,
+  lead,
+  isExpanded,
+  onToggle,
+  onRequestConfirm,
+}) => (
+  <Box
+    sx={{
+      width: "fit-content",
+      minWidth: "250px",
+      display: "flex",
+      flexDirection: "column",
+      gap: 1,
+    }}
+  >
+    <LeadRow label={label} lead={lead} isExpanded={isExpanded} onToggle={onToggle} />
+    {isExpanded && <SelectLeadPanel onRequestConfirm={onRequestConfirm} />}
+  </Box>
+);
+
+// ─── SwapLeads ────────────────────────────────────────────────────────────────
+
+export interface SwapLeadsProps {
   entityType: string;
   entityId: string;
   parentNode: Company | BusinessUnit | Team | SubTeam | null;
   head?: Head;
   functionalLead?: Head;
-  onSwapHead: (entityType: string, entityId: string) => void;
-  onSwapFunctionalLead: (entityId: string, parentId: string | null) => void;
+  onSwapHead: (entityType: string, entityId: string, employee: EmployeeBasicInfo) => void;
+  onSwapFunctionalLead: (
+    entityId: string,
+    parentId: string | null,
+    employee: EmployeeBasicInfo,
+  ) => void;
 }
 
 export const SwapLeads: React.FC<SwapLeadsProps> = ({
@@ -156,32 +317,63 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
 }) => {
   const parentId = parentNode?.id ?? null;
 
-  console.log("Business unit head : ", head);
-  console.log("Business unit functional lead : ", functionalLead);
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        gap: "40px",
-        width: "100%",
-        alignItems: "flex-start",
-      }}
-    >
-      {head && (
-        <LeadRow
-          label="Business Unit Head"
-          lead={head}
-          onSwap={() => onSwapHead(entityType, entityId)}
-        />
-      )}
+  const [activePanel, setActivePanel] = useState<LeadPanelType | null>(null);
+  const [pendingSwap, setPendingSwap] = useState<PendingSwap | null>(null);
 
-      {functionalLead && (
-        <LeadRow
-          label="Functional Lead"
-          lead={functionalLead}
-          onSwap={() => onSwapFunctionalLead(entityId, parentId)}
-        />
-      )}
-    </Box>
+  const handleRequestConfirm = (panel: LeadPanelType) => (employee: EmployeeBasicInfo) => {
+    setPendingSwap({ panel, employee });
+  };
+
+  const handleConfirm = (_reason: string) => {
+    if (!pendingSwap) return;
+    const { panel, employee } = pendingSwap;
+
+    if (panel === "head") {
+      onSwapHead(entityType, entityId, employee);
+    } else {
+      onSwapFunctionalLead(entityId, parentId, employee);
+    }
+
+    setPendingSwap(null);
+    setActivePanel(null);
+  };
+
+  const handleCancel = () => setPendingSwap(null);
+
+  const togglePanel = (panel: LeadPanelType) =>
+    setActivePanel((current) => (current === panel ? null : panel));
+
+  return (
+    <>
+      <ConfirmationDialog
+        open={pendingSwap !== null}
+        title="Swap Leads"
+        message="This action will replace the current lead. Are you sure?"
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
+
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5, width: "100%", px: 0.5 }}>
+        {head && (
+          <SwappableLead
+            label="Business Unit Head"
+            lead={head}
+            isExpanded={activePanel === "head"}
+            onToggle={() => togglePanel("head")}
+            onRequestConfirm={handleRequestConfirm("head")}
+          />
+        )}
+
+        {functionalLead && (
+          <SwappableLead
+            label="Functional Lead"
+            lead={functionalLead}
+            isExpanded={activePanel === "functionalLead"}
+            onToggle={() => togglePanel("functionalLead")}
+            onRequestConfirm={handleRequestConfirm("functionalLead")}
+          />
+        )}
+      </Box>
+    </>
   );
 };
