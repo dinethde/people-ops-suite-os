@@ -17,16 +17,16 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { AppConfig } from "@config/config.ts";
 
-import { baseQueryWithRetry } from "./BaseQuery.ts";
 import { RootState } from "../slices/store.ts";
+import { baseQueryWithRetry } from "./BaseQuery.ts";
 
-export interface TeamHead {
+export interface Head {
   name: string;
   title: string;
   avatar?: string;
 }
 
-export interface FunctionLead {
+export interface FunctionalLead {
   name: string;
   title: string;
   avatar?: string;
@@ -36,16 +36,16 @@ export interface Unit {
   id: string;
   name: string;
   headCount: number;
-  teamHead?: TeamHead;
-  functionLead?: FunctionLead;
+  head?: Head;
+  functionalLead?: FunctionalLead;
 }
 
 export interface SubTeam {
   id: string;
   name: string;
   headCount: number;
-  teamHead?: TeamHead;
-  functionLead?: FunctionLead;
+  head?: Head;
+  functionalLead?: FunctionalLead;
   units: Unit[];
 }
 
@@ -53,8 +53,8 @@ export interface Team {
   id: string;
   name: string;
   headCount: number;
-  teamHead?: TeamHead;
-  functionLead?: FunctionLead;
+  head?: Head;
+  functionalLead?: FunctionalLead;
   subTeams: SubTeam[];
 }
 
@@ -62,8 +62,8 @@ export interface BusinessUnit {
   id: string;
   name: string;
   headCount: number;
-  teamHead?: TeamHead;
-  functionLead?: FunctionLead;
+  head?: Head;
+  functionalLead?: FunctionalLead;
   teams: Team[];
 }
 
@@ -71,16 +71,14 @@ export interface Company {
   id: string;
   name: string;
   headCount: number;
-  teamHead?: TeamHead;
-  functionLead?: FunctionLead;
+  head?: Head;
+  functionalLead?: FunctionalLead;
   businessUnits: BusinessUnit[];
 }
 
-enum UnitType {
-  BusinessUnit = "business-unit",
-  Team = "team",
-  SubTeam = "sub-team",
-  Unit = "unit",
+interface payloadType {
+  name: string;
+  headEmail: string;
 }
 
 export const organizationApi = createApi({
@@ -94,15 +92,15 @@ export const organizationApi = createApi({
         response.businessUnits.forEach((bu) => {
           bu.teams.forEach((team) => {
             const teamLeadTitle = `${bu.name} ${team.name} Lead`;
-            if (team.functionLead?.title) team.functionLead.title = teamLeadTitle;
+            if (team.functionalLead?.title) team.functionalLead.title = teamLeadTitle;
 
             team.subTeams.forEach((subTeam) => {
               const subTeamLeadTitle = `${teamLeadTitle} ${subTeam.name} Lead`;
-              if (subTeam.functionLead?.title) subTeam.functionLead.title = subTeamLeadTitle;
+              if (subTeam.functionalLead?.title) subTeam.functionalLead.title = subTeamLeadTitle;
 
               subTeam.units.forEach((unit) => {
                 const unitLeadTitle = `${subTeamLeadTitle} ${unit.name} Lead`;
-                if (unit.functionLead?.title) unit.functionLead.title = unitLeadTitle;
+                if (unit.functionalLead?.title) unit.functionalLead.title = unitLeadTitle;
               });
             });
           });
