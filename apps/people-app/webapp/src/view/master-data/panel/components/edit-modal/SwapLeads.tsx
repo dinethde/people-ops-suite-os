@@ -17,13 +17,13 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-import { TeamHead } from "@root/src/services/organization";
+import { BusinessUnit, Company, Head, SubTeam, Team } from "@root/src/services/organization";
 
 import { truncateName } from "../../utils";
 
 interface LeadRowProps {
   label: string;
-  lead: TeamHead;
+  lead: Head;
   onSwap: () => void;
 }
 
@@ -136,18 +136,28 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, onSwap }) => {
 };
 
 interface SwapLeadsProps {
-  businessUnitHead: TeamHead | undefined;
-  functionalLead: TeamHead | undefined;
-  onSwapBusinessUnitHead: () => void;
-  onSwapFunctionalLead: () => void;
+  entityType: string;
+  entityId: string;
+  parentNode: Company | BusinessUnit | Team | SubTeam | null;
+  head?: Head;
+  functionalLead?: Head;
+  onSwapHead: (entityType: string, entityId: string) => void;
+  onSwapFunctionalLead: (entityId: string, parentId: string | null) => void;
 }
 
 export const SwapLeads: React.FC<SwapLeadsProps> = ({
-  businessUnitHead,
+  entityType,
+  entityId,
+  parentNode,
+  head,
   functionalLead,
-  onSwapBusinessUnitHead,
+  onSwapHead,
   onSwapFunctionalLead,
 }) => {
+  const parentId = parentNode?.id ?? null;
+
+  console.log("Business unit head : ", head);
+  console.log("Business unit functional lead : ", functionalLead);
   return (
     <Box
       sx={{
@@ -157,16 +167,20 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
         alignItems: "flex-start",
       }}
     >
-      {businessUnitHead && (
+      {head && (
         <LeadRow
           label="Business Unit Head"
-          lead={businessUnitHead}
-          onSwap={onSwapBusinessUnitHead}
+          lead={head}
+          onSwap={() => onSwapHead(entityType, entityId)}
         />
       )}
 
       {functionalLead && (
-        <LeadRow label="Functional Lead" lead={functionalLead} onSwap={onSwapFunctionalLead} />
+        <LeadRow
+          label="Functional Lead"
+          lead={functionalLead}
+          onSwap={() => onSwapFunctionalLead(entityId, parentId)}
+        />
       )}
     </Box>
   );
