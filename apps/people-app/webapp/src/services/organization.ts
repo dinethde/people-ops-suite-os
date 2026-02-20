@@ -109,7 +109,151 @@ export const organizationApi = createApi({
       },
       providesTags: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
     }),
+
+    updateBusinessUnit: builder.mutation<void, { id: string; payload: Partial<payloadType> }>({
+      queryFn: async ({ id, payload }, { getState }, _extraoptions, baseQuery) => {
+        const state = getState() as RootState;
+        const userEmail = state.user.userInfo?.workEmail;
+
+        const data = await baseQuery({
+          url: `${AppConfig.serviceUrls.organization}/business-unit/${id}`,
+          method: "PATCH",
+          body: {
+            ...payload,
+            updatedBy: userEmail,
+          },
+        });
+        return data.error ? { error: data.error } : { data: undefined };
+      },
+      invalidatesTags: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
+    }),
+
+    updateTeam: builder.mutation<void, { id: string; payload: Partial<payloadType> }>({
+      queryFn: async ({ id, payload }, { getState }, _extraoptions, baseQuery) => {
+        const state = getState() as RootState;
+        const userEmail = state.user.userInfo?.workEmail;
+
+        const data = await baseQuery({
+          url: `${AppConfig.serviceUrls.organization}/team/${id}`,
+          method: "PATCH",
+          body: {
+            ...payload,
+            updatedBy: userEmail,
+          },
+        });
+        return data.error ? { error: data.error } : { data: undefined };
+      },
+      invalidatesTags: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
+    }),
+
+    updateSubTeam: builder.mutation<void, { id: string; payload: Partial<payloadType> }>({
+      queryFn: async ({ id, payload }, { getState }, _extraoptions, baseQuery) => {
+        const state = getState() as RootState;
+        const userEmail = state.user.userInfo?.workEmail;
+
+        const data = await baseQuery({
+          url: `${AppConfig.serviceUrls.organization}/sub-team/${id}`,
+          method: "PATCH",
+          body: {
+            ...payload,
+            updatedBy: userEmail,
+          },
+        });
+        return data.error ? { error: data.error } : { data: undefined };
+      },
+      invalidatesTags: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
+    }),
+
+    updateUnit: builder.mutation<void, { id: string; payload: Partial<payloadType> }>({
+      queryFn: async ({ id, payload }, { getState }, _extraoptions, baseQuery) => {
+        const state = getState() as RootState;
+        const userEmail = state.user.userInfo?.workEmail;
+
+        const data = await baseQuery({
+          url: `${AppConfig.serviceUrls.organization}/unit/${id}`,
+          method: "PATCH",
+          body: {
+            ...payload,
+            updatedBy: userEmail,
+          },
+        });
+        return data.error ? { error: data.error } : { data: undefined };
+      },
+      invalidatesTags: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
+    }),
+
+    updateBusinessUnitTeam: builder.mutation<
+      void,
+      { buId: string; teamId: string; payload: Partial<payloadType> }
+    >({
+      queryFn: async ({ buId, teamId, payload }, { getState }, _extraoptions, baseQuery) => {
+        const state = getState() as RootState;
+        const userEmail = state.user.userInfo?.workEmail;
+
+        const data = await baseQuery({
+          url: `${AppConfig.serviceUrls.organization}/business-unit/${buId}/team/${teamId}`,
+          method: "PATCH",
+          body: {
+            ...payload,
+            updatedBy: userEmail,
+          },
+        });
+        return data.error ? { error: data.error } : { data: undefined };
+      },
+      invalidatesTags: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
+    }),
+
+    updateTeamSubTeam: builder.mutation<
+      void,
+      { teamId: string; subTeamId: string; payload: Partial<payloadType> }
+    >({
+      queryFn: async ({ teamId, subTeamId, payload }, { getState }, _extraoptions, baseQuery) => {
+        const state = getState() as RootState;
+        const userEmail = state.user.userInfo?.workEmail;
+
+        const data = await baseQuery({
+          url: `${AppConfig.serviceUrls.organization}/team/${teamId}/sub-team/${subTeamId}`,
+          method: "PATCH",
+          body: {
+            ...payload,
+            updatedBy: userEmail,
+          },
+        });
+        return data.error ? { error: data.error } : { data: undefined };
+      },
+      invalidatesTags: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
+    }),
+
+    updateSubTeamUnit: builder.mutation<
+      void,
+      { subTeamId: string; unitId: string; payload: Partial<payloadType> }
+    >({
+      queryFn: async ({ subTeamId, unitId, payload }, { getState }, _extraoptions, baseQuery) => {
+        const state = getState() as RootState;
+        const userEmail = state.user.userInfo?.workEmail;
+
+        const data = await baseQuery({
+          url: `${AppConfig.serviceUrls.organization}/sub-team/${subTeamId}/unit/${unitId}`,
+          method: "PATCH",
+          body: {
+            ...payload,
+            updatedBy: userEmail,
+          },
+        });
+        return data.error ? { error: data.error } : { data: undefined };
+      },
+      invalidatesTags: ["BU", "TEAM", "SUB_TEAM", "UNIT"],
+    }),
   }),
 });
 
-export const { useGetOrgStructureQuery } = organizationApi;
+export const {
+  useGetOrgStructureQuery,
+  useUpdateBusinessUnitMutation,
+  useUpdateTeamMutation,
+  useUpdateSubTeamMutation,
+  useUpdateUnitMutation,
+  useUpdateBusinessUnitTeamMutation,
+  useUpdateTeamSubTeamMutation,
+  useUpdateSubTeamUnitMutation,
+} = organizationApi;
