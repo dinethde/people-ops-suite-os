@@ -38,10 +38,12 @@ export default function OrgStructure() {
     open: boolean;
     data: Company | BusinessUnit | Team | SubTeam | Unit | null;
     type: string;
+    parentNode: Company | BusinessUnit | Team | SubTeam | null;
   }>({
     open: false,
     data: null,
     type: "",
+    parentNode: null,
   });
 
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(() => {
@@ -56,23 +58,27 @@ export default function OrgStructure() {
   const findNodeById = (
     id: string,
     type: string,
-  ): Company | BusinessUnit | Team | SubTeam | Unit | null => {
+  ): {
+    node: Company | BusinessUnit | Team | SubTeam | Unit;
+    parentNode: Company | BusinessUnit | Team | SubTeam | null;
+  } | null => {
     if (!orgStructure) return null;
 
     if (type === "COMPANY" && orgStructure.id === id) {
-      return orgStructure;
+      return { node: orgStructure, parentNode: null };
     }
 
     // Search in business units
     if (type === "BUSINESS_UNIT") {
-      return orgStructure.businessUnits?.find((bu) => bu.id === id) || null;
+      const bu = orgStructure.businessUnits?.find((bu) => bu.id === id);
+      return bu ? { node: bu, parentNode: orgStructure } : null;
     }
 
     // Search in teams
     if (type === "TEAM") {
       for (const bu of orgStructure.businessUnits || []) {
         const team = bu.teams?.find((t) => t.id === id);
-        if (team) return team;
+        if (team) return { node: team, parentNode: bu };
       }
     }
 
@@ -81,7 +87,7 @@ export default function OrgStructure() {
       for (const bu of orgStructure.businessUnits || []) {
         for (const team of bu.teams || []) {
           const subTeam = team.subTeams?.find((st) => st.id === id);
-          if (subTeam) return subTeam;
+          if (subTeam) return { node: subTeam, parentNode: team };
         }
       }
     }
@@ -92,7 +98,7 @@ export default function OrgStructure() {
         for (const team of bu.teams || []) {
           for (const subTeam of team.subTeams || []) {
             const unit = subTeam.units?.find((u) => u.id === id);
-            if (unit) return unit;
+            if (unit) return { node: unit, parentNode: subTeam };
           }
         }
       }
@@ -114,12 +120,13 @@ export default function OrgStructure() {
   };
 
   const handleEdit = (id: string, type: string) => {
-    const nodeData = findNodeById(id, type);
-    if (nodeData) {
+    const result = findNodeById(id, type);
+    if (result) {
       setEditModal({
         open: true,
-        data: nodeData,
+        data: result.node,
         type,
+        parentNode: result.parentNode,
       });
     }
   };
@@ -131,6 +138,7 @@ export default function OrgStructure() {
       open: false,
       data: null,
       type: "",
+      parentNode: null,
     });
   };
 
@@ -185,6 +193,7 @@ export default function OrgStructure() {
           open={editModal.open}
           data={editModal.data}
           type={editModal.type}
+          parentNode={editModal.parentNode}
           onClose={handleClose}
         />
       )}
