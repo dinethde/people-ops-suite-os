@@ -35,7 +35,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ title, isBorderVis
       <Typography
         variant="h6"
         sx={{
-          color: theme.palette.customText.primary.p2.active
+          color: theme.palette.customText.primary.p2.active,
+          fontWeight: 600
         }}
       >
         {title}
