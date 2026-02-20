@@ -14,36 +14,25 @@
 // specific language governing permissions and limitations
 // under the License.
 import CloseIcon from "@mui/icons-material/Close";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Box, Button, Dialog, IconButton, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
 
-import { useEffect } from "react";
-
-// ─── Props ───────────────────────────────────────────────────────────────────
+import InfoIcon from "@assets/icons/InfoIcon";
 
 interface ConfirmationDialogProps {
   open: boolean;
-  /** Dialog header title */
   title: string;
-  /** Inline info/warning message rendered below the reason field */
   message: React.ReactNode;
-  /** Called when the user clicks Yes (reason is trimmed and non-empty) */
   onConfirm: (reason: string) => void;
-  /** Called when the user clicks Cancel or the close icon */
   onCancel: () => void;
-  /** Label for the confirm button. Defaults to "Yes" */
   confirmLabel?: string;
-  /** Label for the cancel button. Defaults to "Cancel" */
   cancelLabel?: string;
 }
 
 interface FormValues {
   reason: string;
 }
-
-// ─── Component ───────────────────────────────────────────────────────────────
 
 function ConfirmationDialog({
   open,
@@ -136,15 +125,10 @@ function ConfirmationDialog({
 
         {/* ── Info / warning message ── */}
         <Box sx={{ display: "flex", gap: "5px", alignItems: "flex-start", mb: "16px" }}>
-          <InfoOutlinedIcon
-            sx={{
-              width: 12,
-              height: 12,
-              mt: "3px",
-              flexShrink: 0,
-              color: theme.palette.customText.primary.p2.active,
-            }}
-          />
+          <Box sx={{ mt: "1px", flexShrink: 0 }}>
+            <InfoIcon width={16} height={16} />
+          </Box>
+
           <Typography
             variant="body2"
             sx={{
@@ -158,7 +142,7 @@ function ConfirmationDialog({
         {/* ── Action buttons ── */}
         <Box sx={{ display: "flex", gap: "12px" }}>
           {/* Cancel — brand outline */}
-          <Button fullWidth variant="outlined" onClick={handleCancel} type="button">
+          <Button fullWidth variant="outlined" color="brand" onClick={handleCancel} type="button">
             {cancelLabel}
           </Button>
 
