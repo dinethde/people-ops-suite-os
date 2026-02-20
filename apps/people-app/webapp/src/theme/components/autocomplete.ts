@@ -34,16 +34,6 @@ export const muiAutocomplete = (colors: any): Components<Theme>["MuiAutocomplete
 
     // Individual option styles
     option: {
-      minHeight: "33px !important",
-      height: "33px !important",
-      padding: "6px 12px !important",
-      fontSize: "14px !important",
-      fontWeight: "400 !important",
-      lineHeight: "1.5 !important",
-      letterSpacing: "0 !important",
-      display: "flex !important",
-      alignItems: "center !important",
-      width: "100% !important",
       color: `${colors.text.primary.p3.active} !important`,
       backgroundColor: "transparent !important",
 
