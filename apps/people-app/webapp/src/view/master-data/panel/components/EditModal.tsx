@@ -35,9 +35,10 @@ interface EditModalProps {
   onClose: () => void;
   data: Company | BusinessUnit | Team | SubTeam | Unit;
   type: string;
+  parentNode: Company | BusinessUnit | Team | SubTeam | null;
 }
 
-export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => {
+export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, parentNode }) => {
   const theme = useTheme();
   const [selectedChildToDelete, setSelectedChildToDelete] = useState<ChildItem | null>(null);
 
@@ -48,9 +49,13 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
 
   const handleChildTransfer = () => {};
 
-  const handleLeadSwap = () => {};
+  const handleLeadSwap = (entityId: string, parentId: string | null) => {
+    console.log(`Swap functional lead — entityId: ${entityId}, parentId: ${parentId}`);
+  };
 
-  const handleFunctionalLeadSwap = () => {};
+  const handleHeadSwap = (entityType: string, entityId: string) => {
+    console.log(`Swap head — entityType: ${entityType}, entityId: ${entityId}`);
+  };
 
   const handleDeleteCurrent = () => {};
 
@@ -88,7 +93,7 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
           variant="body2"
           sx={{
             color: theme.palette.customText.secondary.p1.active,
-            fontWeight: 500,
+            fontWeight: 600,
           }}
         >
           Edit {entityTypeName}
@@ -113,7 +118,7 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
           backgroundColor: theme.palette.surface.secondary.active,
           display: "flex",
           flexDirection: "column",
-          gap: 4,
+          gap: 5,
           color: theme.palette.customText.primary.p2.active,
         }}
       >
@@ -124,7 +129,7 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
             marginTop: 1.5,
             padding: 0,
             flexDirection: "column",
-            gap: 2.5,
+            gap: 3,
           }}
         >
           <SectionHeader title="General" />
@@ -136,13 +141,15 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
             onRenameSuccess={onClose}
           />
 
-          {children.length > 0 && (
-            <ManageChildren
-              children={children}
-              childType={childTypeLabel}
-              onTransfer={handleChildTransfer}
-            />
-          )}
+          <SwapLeads
+            entityType={entityTypeName}
+            entityId={data.id}
+            parentNode={parentNode}
+            head={data.head}
+            functionalLead={data.functionalLead}
+            onSwapHead={handleHeadSwap}
+            onSwapFunctionalLead={handleLeadSwap}
+          />
         </Box>
 
         {/* Leads Section */}
@@ -150,17 +157,18 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data }) => 
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: 2.5,
+            gap: 3,
           }}
         >
-          <SectionHeader title="Leads" />
+          <SectionHeader title="Children" />
 
-          <SwapLeads
-            businessUnitHead={data.teamHead}
-            functionalLead={data.functionLead}
-            onSwapBusinessUnitHead={handleLeadSwap}
-            onSwapFunctionalLead={handleFunctionalLeadSwap}
-          />
+          {children.length > 0 && (
+            <ManageChildren
+              children={children}
+              childType={childTypeLabel}
+              onTransfer={handleChildTransfer}
+            />
+          )}
         </Box>
 
         {/* Danger Zone Section */}
