@@ -290,8 +290,6 @@ const SwappableLead: React.FC<SwappableLeadProps> = ({
   </Box>
 );
 
-// ─── SwapLeads ────────────────────────────────────────────────────────────────
-
 export interface SwapLeadsProps {
   entityType: string;
   entityId: string;
@@ -299,24 +297,17 @@ export interface SwapLeadsProps {
   head?: Head;
   functionalLead?: Head;
   onSwapHead: (entityType: string, entityId: string, employee: EmployeeBasicInfo) => void;
-  onSwapFunctionalLead: (
-    entityId: string,
-    parentId: string | null,
-    employee: EmployeeBasicInfo,
-  ) => void;
+  onSwapFunctionalLead: (entityType: string, entityId: string, employee: EmployeeBasicInfo) => void;
 }
 
 export const SwapLeads: React.FC<SwapLeadsProps> = ({
   entityType,
   entityId,
-  parentNode,
   head,
   functionalLead,
   onSwapHead,
   onSwapFunctionalLead,
 }) => {
-  const parentId = parentNode?.id ?? null;
-
   const [activePanel, setActivePanel] = useState<LeadPanelType | null>(null);
   const [pendingSwap, setPendingSwap] = useState<PendingSwap | null>(null);
 
@@ -331,7 +322,7 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
     if (panel === "head") {
       onSwapHead(entityType, entityId, employee);
     } else {
-      onSwapFunctionalLead(entityId, parentId, employee);
+      onSwapFunctionalLead(entityType, entityId, employee);
     }
 
     setPendingSwap(null);
