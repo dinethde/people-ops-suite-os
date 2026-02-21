@@ -296,8 +296,18 @@ export interface SwapLeadsProps {
   parentNode: Company | BusinessUnit | Team | SubTeam | null;
   head?: Head;
   functionalLead?: Head;
-  onSwapHead: (entityType: string, entityId: string, employee: EmployeeBasicInfo) => void;
-  onSwapFunctionalLead: (entityType: string, entityId: string, employee: EmployeeBasicInfo) => void;
+  onSwapHead: (
+    entityType: string,
+    entityId: string,
+    employee: EmployeeBasicInfo,
+    reason: string,
+  ) => void;
+  onSwapFunctionalLead: (
+    entityType: string,
+    entityId: string,
+    employee: EmployeeBasicInfo,
+    reason: string,
+  ) => void;
 }
 
 export const SwapLeads: React.FC<SwapLeadsProps> = ({
@@ -320,9 +330,9 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
     const { panel, employee } = pendingSwap;
 
     if (panel === "head") {
-      onSwapHead(entityType, entityId, employee);
+      onSwapHead(entityType, entityId, employee, _reason);
     } else {
-      onSwapFunctionalLead(entityType, entityId, employee);
+      onSwapFunctionalLead(entityType, entityId, employee, _reason);
     }
 
     setPendingSwap(null);
