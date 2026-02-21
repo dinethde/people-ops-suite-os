@@ -34,6 +34,7 @@ export const muiAutocomplete = (colors: any): Components<Theme>["MuiAutocomplete
 
     // Individual option styles
     option: {
+      width: "100% !important",
       color: `${colors.text.primary.p3.active} !important`,
       backgroundColor: "transparent !important",
 
