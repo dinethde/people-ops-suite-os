@@ -21,7 +21,17 @@ import { useState } from "react";
 
 import { ChildItem } from "@root/src/utils/utils";
 import { EmployeeBasicInfo } from "@services/employee";
-import { BusinessUnit, Company, SubTeam, Team, Unit } from "@services/organization";
+import {
+  BusinessUnit,
+  Company,
+  SubTeam,
+  Team,
+  Unit,
+  useUpdateBusinessUnitMutation,
+  useUpdateSubTeamMutation,
+  useUpdateTeamMutation,
+  useUpdateUnitMutation,
+} from "@services/organization";
 
 import { getChildTypeLabel, getChildren, getEntityTypeName } from "../utils";
 import { DeleteChild } from "./edit-modal/DeleteChild";
@@ -42,6 +52,11 @@ interface EditModalProps {
 export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, parentNode }) => {
   const theme = useTheme();
   const [selectedChildToDelete, setSelectedChildToDelete] = useState<ChildItem | null>(null);
+
+  const [updateBusinessUnit, { isLoading: isUpdatingBU }] = useUpdateBusinessUnitMutation();
+  const [updateTeam, { isLoading: isUpdatingTeam }] = useUpdateTeamMutation();
+  const [updateSubTeam, { isLoading: isUpdatingSubTeam }] = useUpdateSubTeamMutation();
+  const [updateUnit, { isLoading: isUpdatingUnit }] = useUpdateUnitMutation();
 
   // Get children and their type dynamically
   const children = getChildren(data);
@@ -65,16 +80,36 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, paren
     entityType: string,
     entityId: string,
     selectedEmployee: EmployeeBasicInfo,
+    reason: string,
   ) => {
     console.log(
       `Swap head — entityType: ${entityType}, entityId: ${entityId}, newHead:`,
       selectedEmployee,
     );
+
+    console.log("reason : ", reason);
   };
 
   const handleDeleteCurrent = () => {};
 
-  const handleDeleteChildren = () => {};
+  const handleRenameCurrent = async ({ entityName }: { entityName: string }) => {
+    const payload = { name: entityName };
+
+    switch (entityTypeName) {
+      case "Business Unit":
+        await updateBusinessUnit({ id: data.id, payload });
+        break;
+      case "Team":
+        await updateTeam({ id: data.id, payload });
+        break;
+      case "Sub-Team":
+        await updateSubTeam({ id: data.id, payload });
+        break;
+      case "Unit":
+        await updateUnit({ id: data.id, payload });
+        break;
+    }
+  };
 
   return (
     <Dialog
@@ -150,10 +185,9 @@ export const EditModal: React.FC<EditModalProps> = ({ open, onClose, data, paren
           <SectionHeader title="General" />
 
           <RenameField
-            entityId={data.id}
             entityType={entityTypeName as RenameEntityType}
             currentName={data.name}
-            onRenameSuccess={onClose}
+            onRenameSuccess={handleRenameCurrent}
           />
         </Box>
 
