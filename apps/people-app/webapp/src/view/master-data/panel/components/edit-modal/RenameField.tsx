@@ -77,7 +77,7 @@ export const RenameField: React.FC<RenameFieldProps> = ({
         sx={{
           display: "flex",
           gap: "8px",
-          alignItems: "center",
+          alignItems: "flex-start",
           width: "100%",
         }}
       >
@@ -100,12 +100,7 @@ export const RenameField: React.FC<RenameFieldProps> = ({
           )}
         />
 
-        <Button
-          type="submit"
-          variant="outlined"
-          color="error"
-          disabled={!isDirty || !isValid}
-        >
+        <Button type="submit" variant="outlined" color="error" disabled={!isDirty || !isValid}>
           Rename
         </Button>
       </Box>
