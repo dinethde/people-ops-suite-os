@@ -14,8 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { BaseURLAuthClientConfig } from "@asgardeo/auth-react";
-
 declare global {
   interface Window {
     config: {
@@ -31,7 +29,7 @@ declare global {
   }
 }
 
-export const AsgardeoConfig: BaseURLAuthClientConfig = {
+export const AsgardeoConfig = {
   scope: ["openid", "email", "groups"],
   baseUrl: window.config?.ASGARDEO_BASE_URL ?? "",
   clientID: window.config?.ASGARDEO_CLIENT_ID ?? "",

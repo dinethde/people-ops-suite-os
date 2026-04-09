@@ -93,7 +93,7 @@ export const baseQueryWithRetry = retry(
 
     if (result.error) {
       if (result.error.status !== 400 && result.error.status !== 404) {
-        retry.fail(result.error, result.meta);
+        retry.fail(result.error);
       }
     }
 

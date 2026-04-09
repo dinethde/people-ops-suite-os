@@ -13,10 +13,11 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Box, LinearProgress, Typography, useTheme } from "@mui/material";
+import { Box, LinearProgress, Typography } from "@mui/material";
 
 import { APP_NAME } from "@root/src/config/config";
 import { useWso2LogoColoredPulse } from "@root/src/hooks/useWso2Logo";
+import { useNewTheme as useTheme } from "@src/theme/index";
 
 interface PreLoaderProps {
   message?: string;
