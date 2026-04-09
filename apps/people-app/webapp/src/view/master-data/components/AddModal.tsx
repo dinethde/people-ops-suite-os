@@ -36,7 +36,10 @@ import ErrorHandler from "@root/src/component/common/ErrorHandler";
 import BackdropProgress from "@src/component/ui/BackdropProgress";
 import { SPLIT_VIEW_SKELETON_DELAY_MS } from "@root/src/config/constant";
 import { useMinimumLoadingVisibility } from "@root/src/hooks/useMinimumLoadingVisibility";
-import { EmployeeBasicInfo, useGetEmployeesBasicInfoQuery } from "@root/src/services/employee";
+import {
+  EmployeeBasicInfo,
+  useGetEmployeesBasicInfoQuery,
+} from "@root/src/services/employee";
 import {
   BusinessUnitState,
   CompanyState,
@@ -85,7 +88,12 @@ interface AddPageProps {
   orgInfo: OrgOptionTest[];
   nodeType: NodeType;
   isParentLoading: boolean;
-  selectedNode: CompanyState | BusinessUnitState | TeamState | SubTeamState | UnitState;
+  selectedNode:
+    | CompanyState
+    | BusinessUnitState
+    | TeamState
+    | SubTeamState
+    | UnitState;
   onClose: () => void;
 }
 
@@ -96,19 +104,24 @@ interface AddOrgItemFormValues {
 }
 
 export default function AddPage(props: AddPageProps) {
-  const { open, orgInfo, selectedNode, nodeType, isParentLoading, onClose } = props;
+  const { open, orgInfo, selectedNode, nodeType, isParentLoading, onClose } =
+    props;
 
   const [isNewItem, setIsNewItem] = useState<boolean>(false);
 
   const { data: employees = [], isLoading } = useGetEmployeesBasicInfoQuery();
-  const [addBusinessUnits, { isLoading: isAddingBusinessUnit }] = useAddBusinessUnitsMutation();
+  const [addBusinessUnits, { isLoading: isAddingBusinessUnit }] =
+    useAddBusinessUnitsMutation();
   const [addBusinessUnitTeam, { isLoading: isAddingBusinessUnitTeam }] =
     useAddBusinessUnitTeamMutation();
   const [addTeams, { isLoading: isAddingTeam }] = useAddTeamsMutation();
-  const [addSubTeams, { isLoading: isAddingSubTeam }] = useAddSubTeamsMutation();
-  const [addTeamSubTeam, { isLoading: isAddingTeamSubTeam }] = useAddTeamSubTeamMutation();
+  const [addSubTeams, { isLoading: isAddingSubTeam }] =
+    useAddSubTeamsMutation();
+  const [addTeamSubTeam, { isLoading: isAddingTeamSubTeam }] =
+    useAddTeamSubTeamMutation();
   const [addUnits, { isLoading: isAddingUnit }] = useAddUnitsMutation();
-  const [addSubTeamUnit, { isLoading: isAddingSubTeamUnit }] = useAddSubTeamUnitMutation();
+  const [addSubTeamUnit, { isLoading: isAddingSubTeamUnit }] =
+    useAddSubTeamUnitMutation();
 
   const isAdding =
     isAddingBusinessUnit ||
@@ -119,8 +132,11 @@ export default function AddPage(props: AddPageProps) {
     isAddingUnit ||
     isAddingSubTeamUnit;
 
-  const showSpinner = useMinimumLoadingVisibility(isAdding, SPLIT_VIEW_SKELETON_DELAY_MS);
-  const showBackdrop = isAdding || isLoading || isParentLoading
+  const showSpinner = useMinimumLoadingVisibility(
+    isAdding,
+    SPLIT_VIEW_SKELETON_DELAY_MS,
+  );
+  const showBackdrop = isAdding || isLoading || isParentLoading;
 
   const theme = useTheme();
 
@@ -141,8 +157,14 @@ export default function AddPage(props: AddPageProps) {
   const selectedOrgNode = watch("orgNode");
 
   const isParentNode = (
-    node: CompanyState | BusinessUnitState | TeamState | SubTeamState | UnitState,
-  ): node is ParentNode => node.type === NodeType.Company || node.type === NodeType.BusinessUnit;
+    node:
+      | CompanyState
+      | BusinessUnitState
+      | TeamState
+      | SubTeamState
+      | UnitState,
+  ): node is ParentNode =>
+    node.type === NodeType.Company || node.type === NodeType.BusinessUnit;
 
   const createNewMapping = async (
     data: AddOrgItemFormValues,
@@ -160,7 +182,9 @@ export default function AddPage(props: AddPageProps) {
           payload: {
             businessUnitId: (parent as BusinessUnitState).id,
             teamId: orgNode.id,
-            ...(functionalLead?.workEmail && { functionalLeadEmail: functionalLead.workEmail }),
+            ...(functionalLead?.workEmail && {
+              functionalLeadEmail: functionalLead.workEmail,
+            }),
           },
         }).unwrap();
         break;
@@ -170,7 +194,9 @@ export default function AddPage(props: AddPageProps) {
           payload: {
             businessUnitTeamId: (parent as TeamState).businessUnitTeamId,
             subTeamId: orgNode.id,
-            ...(functionalLead?.workEmail && { functionalLeadEmail: functionalLead.workEmail }),
+            ...(functionalLead?.workEmail && {
+              functionalLeadEmail: functionalLead.workEmail,
+            }),
           },
         }).unwrap();
         break;
@@ -178,9 +204,12 @@ export default function AddPage(props: AddPageProps) {
       case NodeType.Unit: {
         await addSubTeamUnit({
           payload: {
-            businessUnitTeamSubTeamId: (parent as SubTeamState).businessUnitTeamSubTeamId,
+            businessUnitTeamSubTeamId: (parent as SubTeamState)
+              .businessUnitTeamSubTeamId,
             unitId: orgNode.id,
-            ...(functionalLead?.workEmail && { functionalLeadEmail: functionalLead.workEmail }),
+            ...(functionalLead?.workEmail && {
+              functionalLeadEmail: functionalLead.workEmail,
+            }),
           },
         }).unwrap();
         break;
@@ -220,7 +249,9 @@ export default function AddPage(props: AddPageProps) {
             ...(orgNodeHead?.workEmail && { headEmail: orgNodeHead.workEmail }),
             businessUnit: {
               businessUnitId: (parent as BusinessUnitState).id,
-              ...(functionalLead?.workEmail && { functionalLeadEmail: functionalLead.workEmail }),
+              ...(functionalLead?.workEmail && {
+                functionalLeadEmail: functionalLead.workEmail,
+              }),
             },
           },
         }).unwrap();
@@ -235,7 +266,9 @@ export default function AddPage(props: AddPageProps) {
             ...(orgNodeHead?.workEmail && { headEmail: orgNodeHead.workEmail }),
             businessUnitTeam: {
               businessUnitTeamId: (parent as TeamState).businessUnitTeamId,
-              ...(functionalLead?.workEmail && { functionalLeadEmail: functionalLead.workEmail }),
+              ...(functionalLead?.workEmail && {
+                functionalLeadEmail: functionalLead.workEmail,
+              }),
             },
           },
         }).unwrap();
@@ -249,8 +282,11 @@ export default function AddPage(props: AddPageProps) {
             name: orgNode.name,
             ...(orgNodeHead?.workEmail && { headEmail: orgNodeHead.workEmail }),
             businessUnitTeamSubTeamUnit: {
-              businessUnitTeamSubTeamId: (parent as SubTeamState).businessUnitTeamSubTeamId,
-              ...(functionalLead?.workEmail && { functionalLeadEmail: functionalLead.workEmail }),
+              businessUnitTeamSubTeamId: (parent as SubTeamState)
+                .businessUnitTeamSubTeamId,
+              ...(functionalLead?.workEmail && {
+                functionalLeadEmail: functionalLead.workEmail,
+              }),
             },
           },
         }).unwrap();
@@ -308,18 +344,16 @@ export default function AddPage(props: AddPageProps) {
       open={open}
       onClose={onClose}
       maxWidth={false}
-      slotProps={{
-        paper: {
-          sx: {
-            position: "relative",
-            width: "700px",
-            maxHeight: "600px",
-            borderRadius: 1.5,
-            boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.1)",
-            backgroundColor: theme.palette.fill.secondary.light.active,
-            backgroundImage: "none",
-            padding: "4px",
-          },
+      PaperProps={{
+        sx: {
+          position: "relative",
+          width: "700px",
+          maxHeight: "600px",
+          borderRadius: 1.5,
+          boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.1)",
+          backgroundColor: theme.palette.fill.secondary.light.active,
+          backgroundImage: "none",
+          padding: "4px",
         },
       }}
     >
@@ -389,7 +423,10 @@ export default function AddPage(props: AddPageProps) {
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
             <Typography
               variant="body2"
-              sx={{ color: theme.palette.customText.primary.p3.active, fontWeight: 500 }}
+              sx={{
+                color: theme.palette.customText.primary.p3.active,
+                fontWeight: 500,
+              }}
             >
               {convertDataTypeToLabel(nodeType)}
             </Typography>
@@ -397,7 +434,9 @@ export default function AddPage(props: AddPageProps) {
             <Controller
               name="orgNode"
               control={control}
-              rules={{ required: `${convertDataTypeToLabel(nodeType)} is required` }}
+              rules={{
+                required: `${convertDataTypeToLabel(nodeType)} is required`,
+              }}
               render={({ field }) =>
                 nodeType === NodeType.BusinessUnit ? (
                   <TextField
@@ -426,7 +465,9 @@ export default function AddPage(props: AddPageProps) {
                       const { inputValue } = params;
 
                       const isExisting = options.some(
-                        (option) => inputValue.toLowerCase() === (option.name ?? "").toLowerCase(),
+                        (option) =>
+                          inputValue.toLowerCase() ===
+                          (option.name ?? "").toLowerCase(),
                       );
 
                       setIsNewItem(inputValue !== "" && !isExisting);
@@ -460,7 +501,9 @@ export default function AddPage(props: AddPageProps) {
                                 : theme.palette.customText.primary.p2.active,
                             }}
                           >
-                            {isCreate ? `Add "${option.inputValue}"` : option.name}
+                            {isCreate
+                              ? `Add "${option.inputValue}"`
+                              : option.name}
                           </Typography>
                         </li>
                       );
@@ -471,17 +514,19 @@ export default function AddPage(props: AddPageProps) {
                         placeholder={`Select or create a ${convertDataTypeToLabel(nodeType).toLowerCase()}`}
                         error={!!errors.orgNode}
                         helperText={errors.orgNode?.message}
-                        slotProps={{
-                          input: {
-                            ...params.InputProps,
-                            sx: { padding: "4px !important" },
-                            endAdornment: (
-                              <>
-                                {isLoading && <CircularProgress size={14} />}
-                                {params.InputProps.endAdornment}
-                              </>
-                            ),
+                        sx={{
+                          "& .MuiInputBase-root": {
+                            p: "4px !important",
                           },
+                        }}
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <>
+                              {isLoading && <CircularProgress size={14} />}
+                              {params.InputProps.endAdornment}
+                            </>
+                          ),
                         }}
                       />
                     )}
@@ -491,11 +536,15 @@ export default function AddPage(props: AddPageProps) {
             />
           </Box>
 
-          {(nodeType === NodeType.BusinessUnit || (selectedOrgNode && isNewItem)) && (
+          {(nodeType === NodeType.BusinessUnit ||
+            (selectedOrgNode && isNewItem)) && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
               <Typography
                 variant="body2"
-                sx={{ color: theme.palette.customText.primary.p3.active, fontWeight: 500 }}
+                sx={{
+                  color: theme.palette.customText.primary.p3.active,
+                  fontWeight: 500,
+                }}
               >
                 {convertDataTypeToLabel(nodeType)} Head
               </Typography>
@@ -511,7 +560,9 @@ export default function AddPage(props: AddPageProps) {
                     options={employees}
                     loading={isLoading}
                     disabled={showSpinner}
-                    getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+                    getOptionLabel={(option) =>
+                      `${option.firstName} ${option.lastName}`
+                    }
                     renderOption={(props, employee) => (
                       <EmployeeOption
                         key={employee.employeeId}
@@ -525,17 +576,19 @@ export default function AddPage(props: AddPageProps) {
                         placeholder={`Select a ${convertDataTypeToLabel(nodeType).toLowerCase()} head`}
                         error={!!errors.orgNodeHead}
                         helperText={errors.orgNodeHead?.message}
-                        slotProps={{
-                          input: {
-                            ...params.InputProps,
-                            sx: { padding: "4px !important" },
-                            endAdornment: (
-                              <>
-                                {isLoading && <CircularProgress size={14} />}
-                                {params.InputProps.endAdornment}
-                              </>
-                            ),
+                        sx={{
+                          "& .MuiInputBase-root": {
+                            p: "4px !important",
                           },
+                        }}
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <>
+                              {isLoading && <CircularProgress size={14} />}
+                              {params.InputProps.endAdornment}
+                            </>
+                          ),
                         }}
                       />
                     )}
@@ -549,7 +602,10 @@ export default function AddPage(props: AddPageProps) {
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
               <Typography
                 variant="body2"
-                sx={{ color: theme.palette.customText.primary.p3.active, fontWeight: 500 }}
+                sx={{
+                  color: theme.palette.customText.primary.p3.active,
+                  fontWeight: 500,
+                }}
               >
                 {convertDataTypeToLabel(nodeType)} functional lead
               </Typography>
@@ -565,7 +621,9 @@ export default function AddPage(props: AddPageProps) {
                     options={employees}
                     loading={isLoading}
                     disabled={showSpinner}
-                    getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+                    getOptionLabel={(option) =>
+                      `${option.firstName} ${option.lastName}`
+                    }
                     renderOption={(props, employee) => (
                       <EmployeeOption
                         key={employee.employeeId}
@@ -579,17 +637,19 @@ export default function AddPage(props: AddPageProps) {
                         placeholder="Select a functional lead"
                         error={!!errors.functionalLead}
                         helperText={errors.functionalLead?.message}
-                        slotProps={{
-                          input: {
-                            ...params.InputProps,
-                            sx: { padding: "4px !important" },
-                            endAdornment: (
-                              <>
-                                {isLoading && <CircularProgress size={14} />}
-                                {params.InputProps.endAdornment}
-                              </>
-                            ),
+                        sx={{
+                          "& .MuiInputBase-root": {
+                            p: "4px !important",
                           },
+                        }}
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <>
+                              {isLoading && <CircularProgress size={14} />}
+                              {params.InputProps.endAdornment}
+                            </>
+                          ),
                         }}
                       />
                     )}
@@ -600,8 +660,15 @@ export default function AddPage(props: AddPageProps) {
           )}
 
           {/* Action buttons */}
-          <Box sx={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}>
-            <Button type="button" variant="outlined" size="small" onClick={handleCancel}>
+          <Box
+            sx={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}
+          >
+            <Button
+              type="button"
+              variant="outlined"
+              size="small"
+              onClick={handleCancel}
+            >
               Cancel
             </Button>
 

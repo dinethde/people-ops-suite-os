@@ -23,7 +23,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { useNewTheme as useTheme } from "@src/theme/index";
 import { useForm } from "react-hook-form";
 
 import { useEffect } from "react";
@@ -88,16 +88,14 @@ function ConfirmationDialog({
       open={open}
       onClose={handleCancel}
       maxWidth={false}
-      slotProps={{
-        paper: {
-          sx: {
-            width: "400px",
-            borderRadius: "12px",
-            border: `1px solid ${theme.palette.customBorder.primary.b3.active}`,
-            boxShadow: "0px 2px 6px 0px rgba(0,0,0,0.12)",
-            backgroundColor: theme.palette.surface.secondary.active,
-            p: "12px",
-          },
+      PaperProps={{
+        sx: {
+          width: 400,
+          borderRadius: "12px",
+          border: `1px solid ${theme.palette.customBorder.primary.b3.active}`,
+          boxShadow: "0px 2px 6px 0px rgba(0,0,0,0.12)",
+          backgroundColor: theme.palette.surface.secondary.active,
+          p: 1.5,
         },
       }}
     >
@@ -145,9 +143,10 @@ function ConfirmationDialog({
           fullWidth
           placeholder="Reason for this action ?"
           disabled={isSubmitting}
-          slotProps={{
-            input: {
-              sx: { padding: "4px !important", mb: 2 },
+          sx={{
+            mb: 2,
+            "& .MuiInputBase-inputMultiline": {
+              padding: "4px !important",
             },
           }}
         />

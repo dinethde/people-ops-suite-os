@@ -20,7 +20,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { useNewTheme as useTheme } from "@src/theme/index";
 import { Controller, useForm } from "react-hook-form";
 
 import { useEffect, useState } from "react";

@@ -26,7 +26,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { useNewTheme as useTheme } from "@src/theme/index";
 
 import { useEffect, useState } from "react";
 
@@ -36,7 +36,10 @@ import { useMinimumLoadingVisibility } from "@root/src/hooks/useMinimumLoadingVi
 import { Head } from "@root/src/services/organization";
 import { NodeType } from "@root/src/utils/types";
 import { convertDataTypeToLabel, truncateName } from "@root/src/utils/utils";
-import { EmployeeBasicInfo, useGetEmployeesBasicInfoQuery } from "@services/employee";
+import {
+  EmployeeBasicInfo,
+  useGetEmployeesBasicInfoQuery,
+} from "@services/employee";
 
 const NAME_TRUNCATE_LENGTH = 16;
 const DESIGNATION_TRUNCATE_LENGTH = 30;
@@ -53,7 +56,10 @@ interface EmployeeOptionProps {
   employee: EmployeeBasicInfo;
 }
 
-const EmployeeOption: React.FC<EmployeeOptionProps> = ({ listItemProps, employee }) => {
+const EmployeeOption: React.FC<EmployeeOptionProps> = ({
+  listItemProps,
+  employee,
+}) => {
   const theme = useTheme();
   const label = employee.designation ?? employee.workEmail;
 
@@ -71,17 +77,28 @@ const EmployeeOption: React.FC<EmployeeOptionProps> = ({ listItemProps, employee
     >
       <Avatar
         src={employee.employeeThumbnail ?? undefined}
-        sx={{ borderRadius: "8px", fontSize: 12, height: "40px", width: "40px" }}
+        sx={{
+          borderRadius: "8px",
+          fontSize: 12,
+          height: "40px",
+          width: "40px",
+        }}
       >
         {employee.firstName.charAt(0)}
       </Avatar>
 
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Typography variant="body2" sx={{ color: theme.palette.customText.primary.p2.active }}>
+        <Typography
+          variant="body2"
+          sx={{ color: theme.palette.customText.primary.p2.active }}
+        >
           {employee.firstName} {employee.lastName}
         </Typography>
 
-        <Typography variant="caption" sx={{ color: theme.palette.customText.primary.p4.active }}>
+        <Typography
+          variant="caption"
+          sx={{ color: theme.palette.customText.primary.p4.active }}
+        >
           {label}
         </Typography>
       </Box>
@@ -89,7 +106,9 @@ const EmployeeOption: React.FC<EmployeeOptionProps> = ({ listItemProps, employee
   );
 };
 
-const EmployeePreview: React.FC<{ employee: EmployeeBasicInfo }> = ({ employee }) => {
+const EmployeePreview: React.FC<{ employee: EmployeeBasicInfo }> = ({
+  employee,
+}) => {
   const theme = useTheme();
 
   return (
@@ -112,11 +131,17 @@ const EmployeePreview: React.FC<{ employee: EmployeeBasicInfo }> = ({ employee }
       </Avatar>
 
       <Box>
-        <Typography variant="body2" sx={{ color: theme.palette.customText.primary.p2.active }}>
+        <Typography
+          variant="body2"
+          sx={{ color: theme.palette.customText.primary.p2.active }}
+        >
           {employee.firstName} {employee.lastName}
         </Typography>
 
-        <Typography variant="caption" sx={{ color: theme.palette.customText.primary.p4.active }}>
+        <Typography
+          variant="caption"
+          sx={{ color: theme.palette.customText.primary.p4.active }}
+        >
           {employee.designation ?? employee.workEmail}
         </Typography>
       </Box>
@@ -129,7 +154,10 @@ interface SelectLeadPanelProps {
   isAddMode?: boolean;
 }
 
-const SelectLeadPanel: React.FC<SelectLeadPanelProps> = ({ onRequestConfirm, isAddMode }) => {
+const SelectLeadPanel: React.FC<SelectLeadPanelProps> = ({
+  onRequestConfirm,
+  isAddMode,
+}) => {
   const [selected, setSelected] = useState<EmployeeBasicInfo | null>(null);
   const { data: employees = [], isLoading } = useGetEmployeesBasicInfoQuery();
 
@@ -143,7 +171,9 @@ const SelectLeadPanel: React.FC<SelectLeadPanelProps> = ({ onRequestConfirm, isA
         justifyContent: "space-between",
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5, flex: 0.9 }}>
+      <Box
+        sx={{ display: "flex", flexDirection: "column", gap: 1.5, flex: 0.9 }}
+      >
         <Autocomplete
           options={employees}
           loading={isLoading}
@@ -153,23 +183,31 @@ const SelectLeadPanel: React.FC<SelectLeadPanelProps> = ({ onRequestConfirm, isA
           isOptionEqualToValue={(a, b) => a.employeeId === b.employeeId}
           slotProps={{ paper: { sx: { mt: 0.5 } } }}
           renderOption={(props, employee) => (
-            <EmployeeOption key={employee.employeeId} listItemProps={props} employee={employee} />
+            <EmployeeOption
+              key={employee.employeeId}
+              listItemProps={props}
+              employee={employee}
+            />
           )}
           renderInput={(params) => (
             <TextField
               {...params}
-              placeholder={isAddMode ? "Search employee to add..." : "Search employee..."}
-              slotProps={{
-                input: {
-                  ...params.InputProps,
-                  sx: { padding: "4px !important" },
-                  endAdornment: (
-                    <>
-                      {isLoading && <CircularProgress size={14} />}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+              placeholder={
+                isAddMode ? "Search employee to add..." : "Search employee..."
+              }
+              sx={{
+                "& .MuiInputBase-root": {
+                  p: "4px !important",
                 },
+              }}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {isLoading && <CircularProgress size={14} />}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
               }}
             />
           )}
@@ -216,10 +254,20 @@ const AddLeadPanel: React.FC<AddLeadPanelProps> = ({
         gap: 1.5,
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, minWidth: "200px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          minWidth: "200px",
+        }}
+      >
         <Typography
           variant="body2"
-          sx={{ color: theme.palette.customText.primary.p3.active, fontWeight: 500 }}
+          sx={{
+            color: theme.palette.customText.primary.p3.active,
+            fontWeight: 500,
+          }}
         >
           {label}
         </Typography>
@@ -242,12 +290,17 @@ const AddLeadPanel: React.FC<AddLeadPanelProps> = ({
           <Avatar sx={{ width: 40, height: 40, borderRadius: "8px" }}>
             <AddIcon sx={{ width: 20, height: 20 }} />
           </Avatar>
-          <Typography variant="body2" sx={{ color: theme.palette.customText.primary.p3.active }}>
+          <Typography
+            variant="body2"
+            sx={{ color: theme.palette.customText.primary.p3.active }}
+          >
             Click to add
           </Typography>
         </Box>
       </Box>
-      {isExpanded && <SelectLeadPanel onRequestConfirm={onRequestConfirm} isAddMode />}
+      {isExpanded && (
+        <SelectLeadPanel onRequestConfirm={onRequestConfirm} isAddMode />
+      )}
     </Box>
   );
 };
@@ -259,26 +312,52 @@ interface LeadRowProps {
   onToggle: () => void;
 }
 
-const LeadRow: React.FC<LeadRowProps> = ({ label, lead, isExpanded, onToggle }) => {
+const LeadRow: React.FC<LeadRowProps> = ({
+  label,
+  lead,
+  isExpanded,
+  onToggle,
+}) => {
   const theme = useTheme();
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 1, minWidth: "200px" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 1,
+        minWidth: "200px",
+      }}
+    >
       <Typography
         variant="body2"
-        sx={{ color: theme.palette.customText.primary.p3.active, fontWeight: 500 }}
+        sx={{
+          color: theme.palette.customText.primary.p3.active,
+          fontWeight: 500,
+        }}
       >
         {label}
       </Typography>
 
       <Box sx={{ display: "flex", gap: "16px", alignItems: "center" }}>
         {/* Lead identity */}
-        <Box sx={{ display: "flex", gap: "8px", alignItems: "center", flex: 1 }}>
-          <Avatar src={lead.avatar} sx={{ width: 40, height: 40, borderRadius: "8px" }}>
+        <Box
+          sx={{ display: "flex", gap: "8px", alignItems: "center", flex: 1 }}
+        >
+          <Avatar
+            src={lead.avatar}
+            sx={{ width: 40, height: 40, borderRadius: "8px" }}
+          >
             {lead.name.charAt(0)}
           </Avatar>
 
-          <Box sx={{ display: "flex", flexDirection: "column", overflow: "hidden" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
             <Typography
               variant="body1"
               sx={{
@@ -320,11 +399,19 @@ const LeadRow: React.FC<LeadRowProps> = ({ label, lead, isExpanded, onToggle }) 
         >
           {isExpanded ? (
             <CloseIcon
-              sx={{ width: 16, height: 16, color: theme.palette.customText.primary.p2.active }}
+              sx={{
+                width: 16,
+                height: 16,
+                color: theme.palette.customText.primary.p2.active,
+              }}
             />
           ) : (
             <SwapHorizIcon
-              sx={{ width: 16, height: 16, color: theme.palette.customText.primary.p2.active }}
+              sx={{
+                width: 16,
+                height: 16,
+                color: theme.palette.customText.primary.p2.active,
+              }}
             />
           )}
         </IconButton>
@@ -357,7 +444,12 @@ const SwappableLead: React.FC<SwappableLeadProps> = ({
       gap: 1.5,
     }}
   >
-    <LeadRow label={label} lead={lead} isExpanded={isExpanded} onToggle={onToggle} />
+    <LeadRow
+      label={label}
+      lead={lead}
+      isExpanded={isExpanded}
+      onToggle={onToggle}
+    />
     {isExpanded && <SelectLeadPanel onRequestConfirm={onRequestConfirm} />}
   </Box>
 );
@@ -368,7 +460,10 @@ export interface SwapLeadsProps {
   isUpdating: boolean;
   nodeType: NodeType;
   onSwapHead: (employee: EmployeeBasicInfo, reason: string) => Promise<void>;
-  onSwapFunctionalLead: (employee: EmployeeBasicInfo, reason: string) => Promise<void>;
+  onSwapFunctionalLead: (
+    employee: EmployeeBasicInfo,
+    reason: string,
+  ) => Promise<void>;
 }
 
 export const SwapLeads: React.FC<SwapLeadsProps> = ({
@@ -381,15 +476,20 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
 }) => {
   const [activePanel, setActivePanel] = useState<LeadPanelType | null>(null);
   const [pendingSwap, setPendingSwap] = useState<PendingSwap | null>(null);
-  const [pendingCloseAfterSpinner, setPendingCloseAfterSpinner] = useState(false);
+  const [pendingCloseAfterSpinner, setPendingCloseAfterSpinner] =
+    useState(false);
 
-  const showSpinner = useMinimumLoadingVisibility(isUpdating, SPLIT_VIEW_SKELETON_DELAY_MS);
+  const showSpinner = useMinimumLoadingVisibility(
+    isUpdating,
+    SPLIT_VIEW_SKELETON_DELAY_MS,
+  );
 
   const dialogSubmitting = pendingCloseAfterSpinner && showSpinner;
 
-  const handleRequestConfirm = (panel: LeadPanelType) => (employee: EmployeeBasicInfo) => {
-    setPendingSwap({ panel, employee });
-  };
+  const handleRequestConfirm =
+    (panel: LeadPanelType) => (employee: EmployeeBasicInfo) => {
+      setPendingSwap({ panel, employee });
+    };
 
   const handleConfirm = async (_reason: string) => {
     if (!pendingSwap) return;
@@ -423,7 +523,9 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
     <>
       <ConfirmationDialog
         open={pendingSwap !== null}
-        title={pendingSwap?.panel === "head" ? "Add Head" : "Add Functional Lead"}
+        title={
+          pendingSwap?.panel === "head" ? "Add Head" : "Add Functional Lead"
+        }
         message={
           pendingSwap?.panel === "head"
             ? "This action will set the head for this organization unit. Are you sure?"
@@ -434,7 +536,15 @@ export const SwapLeads: React.FC<SwapLeadsProps> = ({
         isSubmitting={dialogSubmitting}
       />
 
-      <Box sx={{ display: "flex", flexDirection: "column", width: "100%", px: 0.5, gap: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          px: 0.5,
+          gap: 2,
+        }}
+      >
         {head ? (
           <SwappableLead
             label={`${convertDataTypeToLabel(nodeType)} Head`}

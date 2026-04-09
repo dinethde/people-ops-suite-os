@@ -13,7 +13,8 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Box, LinearProgress, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { useNewTheme as useTheme } from "@src/theme/index";
 
 import { APP_NAME } from "@root/src/config/config";
 import { useWso2LogoColoredPulse } from "@root/src/hooks/useWso2Logo";
@@ -79,7 +80,8 @@ const PreLoader = (props: PreLoaderProps) => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              animation: "vertical-marquee 3s cubic-bezier(0.76, 0, 0.24, 1) infinite",
+              animation:
+                "vertical-marquee 3s cubic-bezier(0.76, 0, 0.24, 1) infinite",
               "@keyframes vertical-marquee": {
                 "0%, 40%": { transform: "translateY(0%)" },
                 "55%, 90%": { transform: "translateY(-33.33%)" },

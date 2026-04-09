@@ -23,7 +23,11 @@ import SessionWarningDialog from "@component/common/SessionWarningDialog";
 import { redirectUrl } from "@config/constant";
 import { useLazyGetUserInfoQuery } from "@root/src/services/user.api";
 import { setTokens } from "@services/BaseQuery";
-import { loadPrivileges, setAuthError, setUserAuthData } from "@slices/authSlice/auth";
+import {
+  loadPrivileges,
+  setUserAuthData,
+  setAuthError,
+} from "@slices/authSlice/auth";
 import { useAppDispatch } from "@slices/store";
 import { APIService } from "@utils/apiService";
 
@@ -61,7 +65,10 @@ const AppAuthProvider = (props: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!localStorage.getItem(redirectUrl)) {
-      localStorage.setItem(redirectUrl, window.location.href.replace(window.location.origin, ""));
+      localStorage.setItem(
+        redirectUrl,
+        window.location.href.replace(window.location.origin, ""),
+      );
     }
   }, []);
 
@@ -132,7 +139,11 @@ const AppAuthProvider = (props: { children: React.ReactNode }) => {
           const silentSignInSuccess = await signInSilently();
 
           if (mounted)
-            setAppState(silentSignInSuccess ? AppState.Authenticating : AppState.Unauthenticated);
+            setAppState(
+              silentSignInSuccess
+                ? AppState.Authenticating
+                : AppState.Unauthenticated,
+            );
         }
       } catch (err) {
         if (mounted) {
@@ -194,18 +205,41 @@ const AppAuthProvider = (props: { children: React.ReactNode }) => {
   const renderContent = () => {
     switch (appState) {
       case AppState.Loading:
-        return <PreLoader isLoading marqueeOn={true} hideImage={false} message="Authenticating" />;
+        return (
+          <PreLoader
+            isLoading
+            marqueeOn={true}
+            hideImage={false}
+            message="Authenticating"
+          />
+        );
 
       case AppState.Authenticating:
         return (
-          <PreLoader isLoading marqueeOn={true} hideImage={false} message="Loading User Info" />
+          <PreLoader
+            isLoading
+            marqueeOn={true}
+            hideImage={false}
+            message="Loading User Info"
+          />
         );
 
       case AppState.Authenticated:
-        return <AuthContext.Provider value={authContext}>{props.children}</AuthContext.Provider>;
+        return (
+          <AuthContext.Provider value={authContext}>
+            {props.children}
+          </AuthContext.Provider>
+        );
 
       case AppState.Unauthenticated:
-        return <PreLoader isLoading marqueeOn={true} hideImage={false} message="Signing Out" />;
+        return (
+          <PreLoader
+            isLoading
+            marqueeOn={true}
+            hideImage={false}
+            message="Signing Out"
+          />
+        );
 
       default:
         return null;

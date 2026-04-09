@@ -124,18 +124,16 @@ export const EditModal: React.FC<EditModalProps> = ({
       open={open}
       onClose={onClose}
       maxWidth={false}
-      slotProps={{
-        paper: {
-          sx: {
-            position: "relative",
-            width: "700px",
-            maxHeight: "600px",
-            borderRadius: 1.5,
-            boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.1)",
-            backgroundColor: theme.palette.fill.secondary.light.active,
-            backgroundImage: "none",
-            padding: "4px",
-          },
+      PaperProps={{
+        sx: {
+          position: "relative",
+          width: "700px",
+          maxHeight: "600px",
+          borderRadius: 1.5,
+          boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.1)",
+          backgroundColor: theme.palette.fill.secondary.light.active,
+          backgroundImage: "none",
+          padding: "4px",
         },
       }}
     >
