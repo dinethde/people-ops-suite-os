@@ -13,6 +13,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+import type { NonIndexRouteObject } from "react-router-dom";
 
 export enum State {
   failed = "failed",
@@ -134,4 +135,31 @@ export const emptyCreateEmployeeValues: CreateEmployeeFormValues = {
 export interface ServiceLength {
   years: number;
   months: number;
+}
+
+export interface RouteDetail {
+  path: string;
+  allowRoles: string[];
+  excludeRoles?: string[];
+  icon:
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | undefined;
+  text: string;
+  children?: RouteObjectWithRole[];
+  bottomNav?: boolean;
+  element?: React.ReactNode;
+  hideFromSidebar?: boolean;
+}
+
+export interface RouteObjectWithRole extends NonIndexRouteObject {
+  allowRoles: string[];
+  excludeRoles?: string[];
+  icon:
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | undefined;
+  text: string;
+  children?: RouteObjectWithRole[];
+  bottomNav?: boolean;
+  element?: React.ReactNode;
+  hideFromSidebar?: boolean;
 }

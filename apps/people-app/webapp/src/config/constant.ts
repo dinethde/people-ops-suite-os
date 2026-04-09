@@ -46,6 +46,20 @@ export const EmployeeTitle = ["Mr", "Mrs", "Miss", "Ms", "Dr", "Prof"];
 
 export const EmployeeGenders = ["Male", "Female", "Not Specified"];
 
+export const APP_DESC = "People app";
+
+export const APP_THEME = "people-app-theme";
+
+export const redirectUrl = "people-app-redirect-url";
+
+export const EmployeeTypes = [
+  { id: 1, label: "Full-time" },
+  { id: 2, label: "Intern" },
+  { id: 3, label: "Consultancy" },
+];
+
+export const SPLIT_VIEW_SKELETON_DELAY_MS = 2000;
+
 export const Countries = [
   "Afghanistan",
   "Aland Islands",

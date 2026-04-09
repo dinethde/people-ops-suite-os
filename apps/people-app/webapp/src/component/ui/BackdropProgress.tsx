@@ -13,32 +13,20 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+import { Backdrop, BackdropProps, CircularProgress, useTheme } from "@mui/material";
 
-export type stateType = "failed" | "success" | "loading" | "idle";
+type BackdropProgressProps = BackdropProps;
 
-export interface Header {
-  title: string;
-  size: number;
-  align: "left" | "right" | "center";
-}
+const BackdropProgress = ({ sx, ...rest }: BackdropProgressProps) => {
+  const theme = useTheme();
+  return (
+    <Backdrop
+      sx={{ zIndex: 500 + 1, color: theme.palette.secondary.contrastText, ...sx }}
+      {...rest}
+    >
+      <CircularProgress />
+    </Backdrop>
+  );
+};
 
-export enum ThemeMode {
-  Light = "light",
-  Dark = "dark",
-}
-
-export enum NodeType {
-  Company = "COMPANY",
-  BusinessUnit = "BUSINESS_UNIT",
-  Team = "TEAM",
-  SubTeam = "SUB_TEAM",
-  Unit = "UNIT",
-}
-
-export enum UnitType {
-  Company = "COMPANY",
-  BusinessUnit = "BUSINESS_UNIT",
-  Team = "TEAM",
-  SubTeam = "SUB_TEAM",
-  Unit = "UNIT",
-}
+export default BackdropProgress;

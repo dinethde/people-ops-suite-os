@@ -2,42 +2,19 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@root/*": [
-        "./*"
-      ],
-      "@src/*": [
-        "./src/*"
-      ],
-      "@app/*": [
-        "./src/app/*"
-      ],
-      "@assets/*": [
-        "./src/assets/*"
-      ],
-      "@component/*": [
-        "./src/component/*"
-      ],
-      "@config/*": [
-        "./src/config/*"
-      ],
-      "@context/*": [
-        "./src/context/*"
-      ],
-      "@layout/*": [
-        "./src/layout/*"
-      ],
-      "@slices/*": [
-        "./src/slices/*"
-      ],
-      "@view/*": [
-        "./src/view/*"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ],
-      "@/types/*": [
-        "./src/types/*"
-      ]
+      "@root/*": ["./*"],
+      "@src/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@component/*": ["./src/component/*"],
+      "@config/*": ["./src/config/*"],
+      "@context/*": ["./src/context/*"],
+      "@layout/*": ["./src/layout/*"],
+      "@slices/*": ["./src/slices/*"],
+      "@view/*": ["./src/view/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@services/*": ["./src/services/*"],
+      "@/types/*": ["./src/types/*"]
     }
   }
 }

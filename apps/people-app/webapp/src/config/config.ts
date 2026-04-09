@@ -60,15 +60,19 @@ export const AppConfig = {
       SERVICE_BASE_URL + `/employees/${employeeId}/personal-info`,
     jobInfo: (employeeId: string) =>
       SERVICE_BASE_URL + `/employees/${employeeId}/job-info`,
-    employeeQrCode: (employeeId: string) => `${SERVICE_BASE_URL}/employees/${employeeId}/qr-code`,
+    employeeQrCode: (employeeId: string) =>
+      `${SERVICE_BASE_URL}/employees/${employeeId}/qr-code`,
     qrCodesSearch: SERVICE_BASE_URL + "/reports/qr-codes/search",
 
     reportsEmployees: (status?: string, excludeFutureStartDate?: boolean) => {
       const params = new URLSearchParams();
       if (status) params.set("status", status);
-      if (excludeFutureStartDate !== undefined) params.set("excludeFutureStartDate", String(excludeFutureStartDate));
+      if (excludeFutureStartDate !== undefined)
+        params.set("excludeFutureStartDate", String(excludeFutureStartDate));
       const qs = params.toString();
-      return SERVICE_BASE_URL + `/reports/employees/generate` + (qs ? `?${qs}` : "");
+      return (
+        SERVICE_BASE_URL + `/reports/employees/generate` + (qs ? `?${qs}` : "")
+      );
     },
 
     businessUnits: SERVICE_BASE_URL + "/business-units",
@@ -81,5 +85,6 @@ export const AppConfig = {
     units: SERVICE_BASE_URL + "/units",
     offices: SERVICE_BASE_URL + "/offices",
     houses: SERVICE_BASE_URL + "/houses",
+    organization: SERVICE_BASE_URL + "/organization",
   },
 };
