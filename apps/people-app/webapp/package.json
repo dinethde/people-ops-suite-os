@@ -86,29 +86,12 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false react-app-rewired start",
-    "build": "GENERATE_SOURCEMAP=false react-app-rewired build",
-    "test": "GENERATE_SOURCEMAP=false react-app-rewired test",
-    "eject": "react-app-rewired eject",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "dev": "vite",
+    "build": "vite build",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "format": "prettier . --write"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
