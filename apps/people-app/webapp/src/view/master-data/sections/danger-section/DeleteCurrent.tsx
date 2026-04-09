@@ -14,13 +14,14 @@
 // specific language governing permissions and limitations
 // under the License.
 import { Box, Button, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 
 import { useEffect, useState } from "react";
 
 import ConfirmationDialog from "@component/common/ConfirmationDialog";
 import { SPLIT_VIEW_SKELETON_DELAY_MS } from "@root/src/config/constant";
 import { useMinimumLoadingVisibility } from "@root/src/hooks/useMinimumLoadingVisibility";
+
+import { useNewTheme as useTheme } from "@src/theme/index";
 
 interface DeleteCurrentProps {
   onDelete: (reason: string) => Promise<void>;

@@ -47,6 +47,7 @@ import {
 import { RootState, useAppDispatch, useAppSelector } from "@slices/store";
 import { NodeType } from "@utils/types";
 import { EditModal } from "@view/master-data/components/EditModal";
+import { useNewTheme as useTheme } from "@src/theme/index";
 
 import AddModal from "../../components/AddModal";
 import SplitViewColumn from "./components/SplitViewColumn.tsx";
@@ -104,6 +105,8 @@ function SplitViewReady({
   onEdit,
   onAdd,
 }: SplitViewReadyProps) {
+  const theme = useTheme();
+
   const {
     selectedBusinessUnitId,
     setSelectedBusinessUnitId,

@@ -579,3 +579,16 @@ export const themeSettings = (mode: PaletteMode) => {
 };
 
 export default themeSettings;
+
+import { createTheme, useTheme } from "@mui/material";
+import { useMemo } from "react";
+
+export const getTheme = (mode: PaletteMode) => createTheme(themeSettings(mode));
+export const theme = getTheme("light");
+export const newLightTheme = getTheme("light");
+export const newDarkTheme = getTheme("dark");
+
+export const useNewTheme = () => {
+  const currentTheme = useTheme();
+  return useMemo(() => getTheme(currentTheme.palette.mode), [currentTheme.palette.mode]);
+};
