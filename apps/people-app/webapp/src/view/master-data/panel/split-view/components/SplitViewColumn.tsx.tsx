@@ -1,6 +1,13 @@
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Box, IconButton, InputAdornment, TextField, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { SearchIcon } from "lucide-react";
 
 import { OrgStructureState } from "@root/src/slices/organizationSlice/organizationStructure";
@@ -99,31 +106,29 @@ export default function SplitViewColumn<T extends OrgStructureState>(
             onChange={(e) => onSearch(e.target.value)}
             placeholder={placeholder}
             disabled={isSearchDisabled}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start" sx={{ margin: 0 }}>
-                    <SearchIcon size={18} />
-                  </InputAdornment>
-                ),
-                endAdornment: searchTerm ? (
-                  <InputAdornment position="end">
-                    <IconButton
-                      size="small"
-                      onClick={() => onSearch("")}
-                      sx={{
-                        padding: 0,
-                        color: theme.palette.customText.primary.p3.active,
-                        "&:hover": {
-                          color: theme.palette.customText.primary.p2.active,
-                        },
-                      }}
-                    >
-                      <ClearIcon sx={{ fontSize: "16px" }} />
-                    </IconButton>
-                  </InputAdornment>
-                ) : null,
-              },
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start" sx={{ margin: 0 }}>
+                  <SearchIcon size={18} />
+                </InputAdornment>
+              ),
+              endAdornment: searchTerm ? (
+                <InputAdornment position="end">
+                  <IconButton
+                    size="small"
+                    onClick={() => onSearch("")}
+                    sx={{
+                      padding: 0,
+                      color: theme.palette.customText.primary.p3.active,
+                      "&:hover": {
+                        color: theme.palette.customText.primary.p2.active,
+                      },
+                    }}
+                  >
+                    <ClearIcon sx={{ fontSize: "16px" }} />
+                  </IconButton>
+                </InputAdornment>
+              ) : null,
             }}
             sx={{
               width: "100%",
@@ -144,7 +149,9 @@ export default function SplitViewColumn<T extends OrgStructureState>(
             }}
             onClick={onAdd}
           >
-            <AddIcon sx={{ color: theme.palette.customText.primary.p3.active }} />
+            <AddIcon
+              sx={{ color: theme.palette.customText.primary.p3.active }}
+            />
           </Box>
         </Box>
 
@@ -168,10 +175,14 @@ export default function SplitViewColumn<T extends OrgStructureState>(
               key={item.id}
               name={item.name}
               headCount={item.headCount}
-              hasChildren={Boolean(item.head || ("functionalLead" in item && item.functionalLead))}
+              hasChildren={Boolean(
+                item.head || ("functionalLead" in item && item.functionalLead),
+              )}
               togglePeopleSectionVisibility={true}
               teamHead={item.head}
-              functionLead={"functionalLead" in item ? item.functionalLead : undefined}
+              functionLead={
+                "functionalLead" in item ? item.functionalLead : undefined
+              }
               onEdit={() => onEdit(item, nodeType)}
               onClick={() => onClick(item)}
               isPeopleSectionVertical={true}

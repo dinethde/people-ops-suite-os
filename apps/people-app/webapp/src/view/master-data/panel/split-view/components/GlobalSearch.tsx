@@ -27,9 +27,9 @@ import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from "lucide-react";
 
 import { useState } from "react";
 
-import { OrganizationInfo } from "@slices/organizationSlice/organizationStructure.ts";
+import { OrganizationInfo } from "@slices/organizationSlice/organizationStructure";
 
-import { type MatchSearch, itemToMatchSearch } from "./../utils/globalSearch.ts";
+import { type MatchSearch, itemToMatchSearch } from "./../utils/globalSearch";
 
 interface GlobalSearchProps {
   isDisabled: boolean;
@@ -53,12 +53,16 @@ export default function GlobalSearch({
 
   const goToPreviousMatch = () => {
     setActiveMatchIndex((i) =>
-      searchMatches.length ? (i - 1 + searchMatches.length) % searchMatches.length : -1,
+      searchMatches.length
+        ? (i - 1 + searchMatches.length) % searchMatches.length
+        : -1,
     );
   };
 
   const goToNextMatch = () => {
-    setActiveMatchIndex((i) => (searchMatches.length ? (i + 1) % searchMatches.length : -1));
+    setActiveMatchIndex((i) =>
+      searchMatches.length ? (i + 1) % searchMatches.length : -1,
+    );
   };
 
   // Global search handlers
@@ -77,8 +81,12 @@ export default function GlobalSearch({
       ...orgItems.units,
     ];
 
-    const matches = allOrgItems.filter((item) => item.name.toLowerCase().includes(term));
-    const searchResults: MatchSearch[] = matches.map((match) => itemToMatchSearch(orgItems, match));
+    const matches = allOrgItems.filter((item) =>
+      item.name.toLowerCase().includes(term),
+    );
+    const searchResults: MatchSearch[] = matches.map((match) =>
+      itemToMatchSearch(orgItems, match),
+    );
 
     setSearchMatches(searchResults);
     setActiveMatchIndex(searchResults.length ? 0 : -1);
@@ -91,7 +99,14 @@ export default function GlobalSearch({
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        gap: "4px",
+      }}
+    >
       <Tooltip
         placement="top"
         title={isDisabled ? "Clear other filters to enable global search" : ""}
@@ -114,37 +129,40 @@ export default function GlobalSearch({
           sx={{
             backgroundColor: theme.palette.surface.secondary.active,
           }}
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon size={16} color={theme.palette.customText.primary.p3.active} />
-                </InputAdornment>
-              ),
-              endAdornment: globalSearchTerm ? (
-                <InputAdornment position="end">
-                  <IconButton
-                    size="small"
-                    onClick={handleClearGlobalSearch}
-                    sx={{
-                      padding: 0,
-                      color: theme.palette.customText.primary.p3.active,
-                      "&:hover": {
-                        color: theme.palette.customText.primary.p2.active,
-                      },
-                    }}
-                  >
-                    <ClearIcon sx={{ fontSize: "16px" }} />
-                  </IconButton>
-                </InputAdornment>
-              ) : null,
-            },
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon
+                  size={16}
+                  color={theme.palette.customText.primary.p3.active}
+                />
+              </InputAdornment>
+            ),
+            endAdornment: globalSearchTerm ? (
+              <InputAdornment position="end">
+                <IconButton
+                  size="small"
+                  onClick={handleClearGlobalSearch}
+                  sx={{
+                    p: 0,
+                    color: theme.palette.customText.primary.p3.active,
+                    "&:hover": {
+                      color: theme.palette.customText.primary.p2.active,
+                    },
+                  }}
+                >
+                  <ClearIcon sx={{ fontSize: "16px" }} />
+                </IconButton>
+              </InputAdornment>
+            ) : null,
           }}
         />
       </Tooltip>
       {/* Right: prev / next chevrons */}
       {searchMatches.length > 0 ? (
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexShrink: 0 }}>
+        <Box
+          sx={{ display: "flex", alignItems: "center", gap: 1, flexShrink: 0 }}
+        >
           <ChevronLeftIcon
             size={14}
             color={theme.palette.customText.primary.p3.active}
@@ -158,7 +176,11 @@ export default function GlobalSearch({
               gap: "4px",
             }}
           >
-            {[String(activeMatchIndex + 1), "/", String(searchMatches.length)].map((token, i) => (
+            {[
+              String(activeMatchIndex + 1),
+              "/",
+              String(searchMatches.length),
+            ].map((token, i) => (
               <Typography
                 variant="caption"
                 key={i}
