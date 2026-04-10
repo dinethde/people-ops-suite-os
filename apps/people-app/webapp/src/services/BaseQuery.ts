@@ -14,11 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 import { fetchBaseQuery, retry } from "@reduxjs/toolkit/query";
-import type {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-} from "@reduxjs/toolkit/query";
+import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { Mutex } from "async-mutex";
 
 import { SERVICE_BASE_URL } from "@config/config";

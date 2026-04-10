@@ -13,10 +13,12 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 
 import React, { useEffect, useMemo, useState } from "react";
+
+import { useNewTheme as useTheme } from "@src/theme/index";
 
 interface TabsPageProps {
   title: string;

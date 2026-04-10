@@ -13,11 +13,12 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Box, Typography, useTheme } from "@mui/material";
-import Tooltip from "@mui/material/Tooltip";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { Link, matchPath, useLocation } from "react-router-dom";
 
 import React from "react";
+
+import { useNewTheme as useTheme } from "@src/theme/index";
 
 interface SubLinkProps {
   icon?: React.ReactElement;

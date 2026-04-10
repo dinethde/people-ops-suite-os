@@ -14,6 +14,9 @@
 // specific language governing permissions and limitations
 // under the License.
 import { type PaletteMode, alpha } from "@mui/material";
+import { createTheme, useTheme } from "@mui/material";
+
+import { useMemo } from "react";
 
 import designTokens from "../styles/design-tokens.json";
 import { muiAutocomplete } from "./components/autocomplete";
@@ -559,7 +562,7 @@ export const themeSettings = (mode: PaletteMode) => {
       MuiButton: muiButton,
       MuiTextField: muiTextField(colors),
       MuiSwitch: muiSwitch(colors),
-      MuiTooltip: muiTooltip(colors),
+      // MuiTooltip: muiTooltip(colors),
       MuiAutocomplete: muiAutocomplete(colors),
     },
     breakpoints: {
@@ -579,9 +582,6 @@ export const themeSettings = (mode: PaletteMode) => {
 };
 
 export default themeSettings;
-
-import { createTheme, useTheme } from "@mui/material";
-import { useMemo } from "react";
 
 export const getTheme = (mode: PaletteMode) => createTheme(themeSettings(mode));
 export const theme = getTheme("light");

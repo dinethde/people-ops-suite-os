@@ -53,16 +53,12 @@ export default function GlobalSearch({
 
   const goToPreviousMatch = () => {
     setActiveMatchIndex((i) =>
-      searchMatches.length
-        ? (i - 1 + searchMatches.length) % searchMatches.length
-        : -1,
+      searchMatches.length ? (i - 1 + searchMatches.length) % searchMatches.length : -1,
     );
   };
 
   const goToNextMatch = () => {
-    setActiveMatchIndex((i) =>
-      searchMatches.length ? (i + 1) % searchMatches.length : -1,
-    );
+    setActiveMatchIndex((i) => (searchMatches.length ? (i + 1) % searchMatches.length : -1));
   };
 
   // Global search handlers
@@ -81,12 +77,8 @@ export default function GlobalSearch({
       ...orgItems.units,
     ];
 
-    const matches = allOrgItems.filter((item) =>
-      item.name.toLowerCase().includes(term),
-    );
-    const searchResults: MatchSearch[] = matches.map((match) =>
-      itemToMatchSearch(orgItems, match),
-    );
+    const matches = allOrgItems.filter((item) => item.name.toLowerCase().includes(term));
+    const searchResults: MatchSearch[] = matches.map((match) => itemToMatchSearch(orgItems, match));
 
     setSearchMatches(searchResults);
     setActiveMatchIndex(searchResults.length ? 0 : -1);
@@ -132,10 +124,7 @@ export default function GlobalSearch({
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon
-                  size={16}
-                  color={theme.palette.customText.primary.p3.active}
-                />
+                <SearchIcon size={16} color={theme.palette.customText.primary.p3.active} />
               </InputAdornment>
             ),
             endAdornment: globalSearchTerm ? (
@@ -160,9 +149,7 @@ export default function GlobalSearch({
       </Tooltip>
       {/* Right: prev / next chevrons */}
       {searchMatches.length > 0 ? (
-        <Box
-          sx={{ display: "flex", alignItems: "center", gap: 1, flexShrink: 0 }}
-        >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexShrink: 0 }}>
           <ChevronLeftIcon
             size={14}
             color={theme.palette.customText.primary.p3.active}
@@ -176,11 +163,7 @@ export default function GlobalSearch({
               gap: "4px",
             }}
           >
-            {[
-              String(activeMatchIndex + 1),
-              "/",
-              String(searchMatches.length),
-            ].map((token, i) => (
+            {[String(activeMatchIndex + 1), "/", String(searchMatches.length)].map((token, i) => (
               <Typography
                 variant="caption"
                 key={i}

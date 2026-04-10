@@ -23,7 +23,7 @@ import { createContext, useMemo, useState } from "react";
 
 import { APP_NAME, AsgardeoConfig } from "@config/config";
 import AppAuthProvider from "@context/AuthContext";
-import { themeSettings } from "@root/src/theme/index";
+import { themeSettings } from "@root/src/theme";
 import { store } from "@slices/store";
 import { ThemeMode } from "@utils/types";
 
@@ -42,9 +42,7 @@ const processLocalThemeMode = (): ThemeMode => {
       return savedTheme;
     }
 
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const systemTheme = prefersDark ? ThemeMode.Dark : ThemeMode.Light;
 
     localStorage.setItem(APP_THEME, systemTheme);
@@ -63,8 +61,7 @@ function App() {
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        const newMode =
-          mode === ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light;
+        const newMode = mode === ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light;
         // Update localStorage
         localStorage.setItem(APP_THEME, newMode);
         // Update state
@@ -77,9 +74,7 @@ function App() {
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 
   return (
-    <ColorModeContext.Provider
-      value={{ mode, toggleColorMode: colorMode.toggleColorMode }}
-    >
+    <ColorModeContext.Provider value={{ mode, toggleColorMode: colorMode.toggleColorMode }}>
       <SnackbarProvider maxSnack={3} preventDuplicate>
         <ThemeProvider theme={theme}>
           <Provider store={store}>

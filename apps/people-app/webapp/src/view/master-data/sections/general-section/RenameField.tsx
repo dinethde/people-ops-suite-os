@@ -13,14 +13,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import {
-  Box,
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useNewTheme as useTheme } from "@src/theme/index";
+import { Box, Button, CircularProgress, TextField, Typography, useTheme } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 
 import { useEffect, useState } from "react";
@@ -33,7 +26,6 @@ import { UnitTypeLabel } from "@utils/utils";
 interface RenameFormValues {
   entityName: string;
 }
-
 interface RenameFieldProps {
   entityType: NodeType;
   currentName: string;
@@ -70,10 +62,7 @@ export const RenameField: React.FC<RenameFieldProps> = ({
     setIsFocused(false);
   };
 
-  const showSpinner = useMinimumLoadingVisibility(
-    isSubmitting,
-    SPLIT_VIEW_SKELETON_DELAY_MS,
-  );
+  const showSpinner = useMinimumLoadingVisibility(isSubmitting, SPLIT_VIEW_SKELETON_DELAY_MS);
 
   const handleCancel = () => {
     reset({ entityName: currentName });
@@ -132,7 +121,6 @@ export const RenameField: React.FC<RenameFieldProps> = ({
               {isFocused && (
                 <Button
                   variant="outlined"
-                  color="brand"
                   onClick={handleCancel}
                   sx={{ ml: 1, whiteSpace: "nowrap" }}
                 >
@@ -148,9 +136,7 @@ export const RenameField: React.FC<RenameFieldProps> = ({
           variant="outlined"
           disabled={isSubmitting || !isDirty || !isValid}
           startIcon={
-            showSpinner ? (
-              <CircularProgress size={14} thickness={5} color="inherit" />
-            ) : undefined
+            showSpinner ? <CircularProgress size={14} thickness={5} color="inherit" /> : undefined
           }
         >
           Rename

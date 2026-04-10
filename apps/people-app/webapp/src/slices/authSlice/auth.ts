@@ -13,16 +13,16 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+import { BasicUserInfo, DecodedIDTokenPayload } from "@asgardeo/auth-spa";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { State as LegacyState } from "@/types/types";
-import { BasicUserInfo, DecodedIDTokenPayload } from "@asgardeo/auth-spa";
 import {
   ADMIN_PRIVILEGE,
   LEAD_PRIVILEGE,
   SERVICE_DESK_PRIVILEGE,
   SnackMessage,
 } from "@config/constant";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { enqueueSnackbarMessage } from "@slices/commonSlice/common";
 import { RootState } from "@slices/store";
 
@@ -93,9 +93,7 @@ const initialState: AuthState = {
 export const loadPrivileges = createAsyncThunk(
   "auth/loadPrivileges",
   (_, { getState, dispatch, rejectWithValue }) => {
-    const { userInfo, state, errorMessage } = (
-      getState() as { user: UserState }
-    ).user;
+    const { userInfo, state, errorMessage } = (getState() as { user: UserState }).user;
 
     if (state === LegacyState.failed) {
       dispatch(

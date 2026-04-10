@@ -13,11 +13,11 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Box, useTheme } from "@mui/material";
-import Tooltip from "@mui/material/Tooltip";
+import { Box, Tooltip } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
 import { RouteDetail } from "@/types/types";
+import { useNewTheme as useTheme } from "@src/theme/index";
 
 import LinkItem from "./LinkItem";
 import SidebarSubMenu from "./SidebarSubMenu";

@@ -13,8 +13,10 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Box, Breadcrumbs, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, Breadcrumbs, Tooltip, Typography } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
+
+import { useNewTheme as useTheme } from "@src/theme/index";
 
 const MAX_LENGTH = 10;
 const TRUNCATE_LENGTH = 4;

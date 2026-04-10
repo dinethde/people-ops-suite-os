@@ -21,12 +21,11 @@ import {
   DialogTitle,
   IconButton,
   Typography,
+  useTheme,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 
 import { useRef } from "react";
 
-import BackdropProgress from "@src/component/ui/BackdropProgress";
 import { SPLIT_VIEW_SKELETON_DELAY_MS } from "@root/src/config/constant";
 import { useMinimumLoadingVisibility } from "@root/src/hooks/useMinimumLoadingVisibility";
 import {
@@ -38,6 +37,7 @@ import {
 import { RootState, useAppSelector } from "@root/src/slices/store";
 import { NodeType } from "@root/src/utils/types";
 import { convertDataTypeToLabel } from "@root/src/utils/utils";
+import BackdropProgress from "@src/component/ui/BackdropProgress";
 
 import { useOrgEntityActions } from "../hooks/useOrgEntityActions";
 import { DeleteCurrent } from "../sections/danger-section/DeleteCurrent";
@@ -61,41 +61,29 @@ export const EditModal: React.FC<EditModalProps> = ({
   parentLoading,
 }) => {
   const theme = useTheme();
-  const orgInfo = useAppSelector(
-    (state: RootState) => state.organizationStructure,
-  );
+  const orgInfo = useAppSelector((state: RootState) => state.organizationStructure);
   const orgData = orgInfo.organizationInfo;
 
-  const data: BusinessUnitState | TeamState | SubTeamState | UnitState | null =
-    (() => {
-      if (!orgData) return null;
+  const data: BusinessUnitState | TeamState | SubTeamState | UnitState | null = (() => {
+    if (!orgData) return null;
 
-      switch (nodeType) {
-        case NodeType.BusinessUnit:
-          return (
-            orgData.businessUnits.find((item) => item.uniqueId === uniqueId) ??
-            null
-          );
-        case NodeType.Team:
-          return (
-            orgData.teams.find((item) => item.uniqueId === uniqueId) ?? null
-          );
-        case NodeType.SubTeam:
-          return (
-            orgData.subTeams.find((item) => item.uniqueId === uniqueId) ?? null
-          );
-        case NodeType.Unit:
-          return (
-            orgData.units.find((item) => item.uniqueId === uniqueId) ?? null
-          );
-        default:
-          return null;
-      }
-    })();
+    switch (nodeType) {
+      case NodeType.BusinessUnit:
+        return orgData.businessUnits.find((item) => item.uniqueId === uniqueId) ?? null;
+      case NodeType.Team:
+        return orgData.teams.find((item) => item.uniqueId === uniqueId) ?? null;
+      case NodeType.SubTeam:
+        return orgData.subTeams.find((item) => item.uniqueId === uniqueId) ?? null;
+      case NodeType.Unit:
+        return orgData.units.find((item) => item.uniqueId === uniqueId) ?? null;
+      default:
+        return null;
+    }
+  })();
 
-  const lastResolvedData = useRef<
-    BusinessUnitState | TeamState | SubTeamState | UnitState | null
-  >(null);
+  const lastResolvedData = useRef<BusinessUnitState | TeamState | SubTeamState | UnitState | null>(
+    null,
+  );
 
   if (data) {
     lastResolvedData.current = data;
@@ -222,9 +210,7 @@ export const EditModal: React.FC<EditModalProps> = ({
           <SwapLeads
             head={displayData.head ?? null}
             functionalLead={
-              "functionalLead" in displayData
-                ? (displayData.functionalLead ?? null)
-                : null
+              "functionalLead" in displayData ? (displayData.functionalLead ?? null) : null
             }
             onSwapHead={handleHeadSwap}
             onSwapFunctionalLead={handleLeadSwap}

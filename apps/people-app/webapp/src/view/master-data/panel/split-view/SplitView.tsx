@@ -47,7 +47,6 @@ import {
 import { RootState, useAppDispatch, useAppSelector } from "@slices/store";
 import { NodeType } from "@utils/types";
 import { EditModal } from "@view/master-data/components/EditModal";
-import { useNewTheme as useTheme } from "@src/theme/index";
 
 import AddModal from "../../components/AddModal";
 import SplitViewColumn from "./components/SplitViewColumn.tsx";
@@ -69,13 +68,7 @@ type OnAdd = {
   open: boolean;
   data: AddOption[] | null;
   type: NodeType | null;
-  selectedNode:
-    | CompanyState
-    | BusinessUnitState
-    | TeamState
-    | SubTeamState
-    | UnitState
-    | null;
+  selectedNode: CompanyState | BusinessUnitState | TeamState | SubTeamState | UnitState | null;
 };
 
 type SplitViewReadyProps = {
@@ -87,26 +80,11 @@ type SplitViewReadyProps = {
   onAdd: (
     data: AddOption[] | null,
     nodeType: NodeType,
-    selectedNode:
-      | CompanyState
-      | BusinessUnitState
-      | TeamState
-      | SubTeamState
-      | UnitState
-      | null,
+    selectedNode: CompanyState | BusinessUnitState | TeamState | SubTeamState | UnitState | null,
   ) => void;
 };
 
-function SplitViewReady({
-  orgItems,
-  teams,
-  subTeams,
-  units,
-  onEdit,
-  onAdd,
-}: SplitViewReadyProps) {
-  const theme = useTheme();
-
+function SplitViewReady({ orgItems, teams, subTeams, units, onEdit, onAdd }: SplitViewReadyProps) {
   const {
     selectedBusinessUnitId,
     setSelectedBusinessUnitId,
@@ -172,9 +150,7 @@ function SplitViewReady({
     selectedSubTeams?.filter((subTeam) => {
       if (!subTeamSearchTerm || subTeamSearchTerm.trim() === "") return true;
 
-      return subTeam.name
-        .toLowerCase()
-        .includes(subTeamSearchTerm.toLowerCase());
+      return subTeam.name.toLowerCase().includes(subTeamSearchTerm.toLowerCase());
     }) || [];
 
   const filteredUnits =
@@ -190,11 +166,7 @@ function SplitViewReady({
 
   const handleTeamAdd = () => {
     if (!selectedBusinessUnit) return;
-    const data = buildAddModalOptions(
-      NodeType.Team,
-      selectedBusinessUnit,
-      teams,
-    );
+    const data = buildAddModalOptions(NodeType.Team, selectedBusinessUnit, teams);
     if (!data) return;
     onAdd(data, NodeType.Team, selectedBusinessUnit);
   };
@@ -310,14 +282,10 @@ function SplitViewReady({
 export default function SplitView() {
   useGetOrgStructureQuery();
 
-  const orgItemState = useAppSelector(
-    (state: RootState) => state.organizationStructure,
-  );
+  const orgItemState = useAppSelector((state: RootState) => state.organizationStructure);
   const orgItems = orgItemState.organizationInfo;
 
-  const { teams, subTeams, units } = useAppSelector(
-    (state) => state.organization,
-  );
+  const { teams, subTeams, units } = useAppSelector((state) => state.organization);
   const dispatch = useAppDispatch();
 
   const [editModal, setEditModal] = useState<OnEdit>({
@@ -361,13 +329,7 @@ export default function SplitView() {
   const onAdd = (
     data: AddOption[] | null,
     nodeType: NodeType,
-    selectedNode:
-      | CompanyState
-      | BusinessUnitState
-      | TeamState
-      | SubTeamState
-      | UnitState
-      | null,
+    selectedNode: CompanyState | BusinessUnitState | TeamState | SubTeamState | UnitState | null,
   ) => {
     if (!data) return;
 
@@ -402,17 +364,11 @@ export default function SplitView() {
   }
 
   if (orgItemState.state === State.Failed) {
-    return (
-      <ErrorHandler
-        message={"An unknown error occurred when fetching org items"}
-      />
-    );
+    return <ErrorHandler message={"An unknown error occurred when fetching org items"} />;
   }
 
   if (!orgItems) {
-    return (
-      <ErrorHandler message={"Organization data is missing after loading."} />
-    );
+    return <ErrorHandler message={"Organization data is missing after loading."} />;
   }
 
   return (
@@ -436,19 +392,16 @@ export default function SplitView() {
         />
       )}
 
-      {addModal.open &&
-        addModal.data &&
-        addModal.type &&
-        addModal.selectedNode && (
-          <AddModal
-            open={addModal.open}
-            orgInfo={addModal.data}
-            onClose={handleAddModalClose}
-            nodeType={addModal.type}
-            selectedNode={addModal.selectedNode}
-            isParentLoading={orgItemState.state === State.Loading}
-          />
-        )}
+      {addModal.open && addModal.data && addModal.type && addModal.selectedNode && (
+        <AddModal
+          open={addModal.open}
+          orgInfo={addModal.data}
+          onClose={handleAddModalClose}
+          nodeType={addModal.type}
+          selectedNode={addModal.selectedNode}
+          isParentLoading={orgItemState.state === State.Loading}
+        />
+      )}
     </>
   );
 }

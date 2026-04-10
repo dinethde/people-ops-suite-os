@@ -23,12 +23,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useNewTheme as useTheme } from "@src/theme/index";
 import { useForm } from "react-hook-form";
 
 import { useEffect } from "react";
 
 import InfoIcon from "@assets/icons/InfoIcon";
+import { useNewTheme as useTheme } from "@src/theme/index";
 
 interface ConfirmationDialogProps {
   open: boolean;
@@ -180,7 +180,6 @@ function ConfirmationDialog({
           <Button
             fullWidth
             variant="outlined"
-            color="brand"
             onClick={handleCancel}
             disabled={isSubmitting}
             type="button"

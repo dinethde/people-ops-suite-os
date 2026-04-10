@@ -13,15 +13,13 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 
 import { useEffect, useState } from "react";
 
 import ConfirmationDialog from "@component/common/ConfirmationDialog";
 import { SPLIT_VIEW_SKELETON_DELAY_MS } from "@root/src/config/constant";
 import { useMinimumLoadingVisibility } from "@root/src/hooks/useMinimumLoadingVisibility";
-
-import { useNewTheme as useTheme } from "@src/theme/index";
 
 interface DeleteCurrentProps {
   onDelete: (reason: string) => Promise<void>;
@@ -36,17 +34,12 @@ export const DeleteCurrent: React.FC<DeleteCurrentProps> = ({
 }) => {
   const theme = useTheme();
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [pendingCloseAfterSpinner, setPendingCloseAfterSpinner] =
-    useState(false);
+  const [pendingCloseAfterSpinner, setPendingCloseAfterSpinner] = useState(false);
   const [confirming, setConfirming] = useState(false);
 
   const isDeleteInProgress = isDeleting || confirming;
-  const showSpinner = useMinimumLoadingVisibility(
-    isDeleteInProgress,
-    SPLIT_VIEW_SKELETON_DELAY_MS,
-  );
-  const dialogSubmitting =
-    isDeleteInProgress || (pendingCloseAfterSpinner && showSpinner);
+  const showSpinner = useMinimumLoadingVisibility(isDeleteInProgress, SPLIT_VIEW_SKELETON_DELAY_MS);
+  const dialogSubmitting = isDeleteInProgress || (pendingCloseAfterSpinner && showSpinner);
 
   useEffect(() => {
     if (!pendingCloseAfterSpinner || showSpinner) return;
@@ -115,16 +108,11 @@ export const DeleteCurrent: React.FC<DeleteCurrentProps> = ({
               whiteSpace: "pre-wrap",
             }}
           >
-            Once you delete a business unit, there is no going back. Please be
-            certain.
+            Once you delete a business unit, there is no going back. Please be certain.
           </Typography>
         </Box>
 
-        <Button
-          variant="outlined"
-          color="error"
-          onClick={() => setConfirmOpen(true)}
-        >
+        <Button variant="outlined" color="error" onClick={() => setConfirmOpen(true)}>
           Delete
         </Button>
       </Box>

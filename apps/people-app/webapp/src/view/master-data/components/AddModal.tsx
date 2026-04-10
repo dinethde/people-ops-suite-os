@@ -33,13 +33,9 @@ import { Controller, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 
 import ErrorHandler from "@root/src/component/common/ErrorHandler";
-import BackdropProgress from "@src/component/ui/BackdropProgress";
 import { SPLIT_VIEW_SKELETON_DELAY_MS } from "@root/src/config/constant";
 import { useMinimumLoadingVisibility } from "@root/src/hooks/useMinimumLoadingVisibility";
-import {
-  EmployeeBasicInfo,
-  useGetEmployeesBasicInfoQuery,
-} from "@root/src/services/employee";
+import { EmployeeBasicInfo, useGetEmployeesBasicInfoQuery } from "@root/src/services/employee";
 import {
   BusinessUnitState,
   CompanyState,
@@ -64,6 +60,7 @@ import {
   Team as RawTeam,
   Unit as RawUnit,
 } from "@slices/organizationSlice/organization";
+import BackdropProgress from "@src/component/ui/BackdropProgress";
 
 import EmployeeOption from "./EmployeeOption";
 import { SectionHeader } from "./edit-modal/SectionHeader";
@@ -88,12 +85,7 @@ interface AddPageProps {
   orgInfo: OrgOptionTest[];
   nodeType: NodeType;
   isParentLoading: boolean;
-  selectedNode:
-    | CompanyState
-    | BusinessUnitState
-    | TeamState
-    | SubTeamState
-    | UnitState;
+  selectedNode: CompanyState | BusinessUnitState | TeamState | SubTeamState | UnitState;
   onClose: () => void;
 }
 
@@ -104,24 +96,19 @@ interface AddOrgItemFormValues {
 }
 
 export default function AddPage(props: AddPageProps) {
-  const { open, orgInfo, selectedNode, nodeType, isParentLoading, onClose } =
-    props;
+  const { open, orgInfo, selectedNode, nodeType, isParentLoading, onClose } = props;
 
   const [isNewItem, setIsNewItem] = useState<boolean>(false);
 
   const { data: employees = [], isLoading } = useGetEmployeesBasicInfoQuery();
-  const [addBusinessUnits, { isLoading: isAddingBusinessUnit }] =
-    useAddBusinessUnitsMutation();
+  const [addBusinessUnits, { isLoading: isAddingBusinessUnit }] = useAddBusinessUnitsMutation();
   const [addBusinessUnitTeam, { isLoading: isAddingBusinessUnitTeam }] =
     useAddBusinessUnitTeamMutation();
   const [addTeams, { isLoading: isAddingTeam }] = useAddTeamsMutation();
-  const [addSubTeams, { isLoading: isAddingSubTeam }] =
-    useAddSubTeamsMutation();
-  const [addTeamSubTeam, { isLoading: isAddingTeamSubTeam }] =
-    useAddTeamSubTeamMutation();
+  const [addSubTeams, { isLoading: isAddingSubTeam }] = useAddSubTeamsMutation();
+  const [addTeamSubTeam, { isLoading: isAddingTeamSubTeam }] = useAddTeamSubTeamMutation();
   const [addUnits, { isLoading: isAddingUnit }] = useAddUnitsMutation();
-  const [addSubTeamUnit, { isLoading: isAddingSubTeamUnit }] =
-    useAddSubTeamUnitMutation();
+  const [addSubTeamUnit, { isLoading: isAddingSubTeamUnit }] = useAddSubTeamUnitMutation();
 
   const isAdding =
     isAddingBusinessUnit ||
@@ -132,10 +119,7 @@ export default function AddPage(props: AddPageProps) {
     isAddingUnit ||
     isAddingSubTeamUnit;
 
-  const showSpinner = useMinimumLoadingVisibility(
-    isAdding,
-    SPLIT_VIEW_SKELETON_DELAY_MS,
-  );
+  const showSpinner = useMinimumLoadingVisibility(isAdding, SPLIT_VIEW_SKELETON_DELAY_MS);
   const showBackdrop = isAdding || isLoading || isParentLoading;
 
   const theme = useTheme();
@@ -157,14 +141,8 @@ export default function AddPage(props: AddPageProps) {
   const selectedOrgNode = watch("orgNode");
 
   const isParentNode = (
-    node:
-      | CompanyState
-      | BusinessUnitState
-      | TeamState
-      | SubTeamState
-      | UnitState,
-  ): node is ParentNode =>
-    node.type === NodeType.Company || node.type === NodeType.BusinessUnit;
+    node: CompanyState | BusinessUnitState | TeamState | SubTeamState | UnitState,
+  ): node is ParentNode => node.type === NodeType.Company || node.type === NodeType.BusinessUnit;
 
   const createNewMapping = async (
     data: AddOrgItemFormValues,
@@ -204,8 +182,7 @@ export default function AddPage(props: AddPageProps) {
       case NodeType.Unit: {
         await addSubTeamUnit({
           payload: {
-            businessUnitTeamSubTeamId: (parent as SubTeamState)
-              .businessUnitTeamSubTeamId,
+            businessUnitTeamSubTeamId: (parent as SubTeamState).businessUnitTeamSubTeamId,
             unitId: orgNode.id,
             ...(functionalLead?.workEmail && {
               functionalLeadEmail: functionalLead.workEmail,
@@ -282,8 +259,7 @@ export default function AddPage(props: AddPageProps) {
             name: orgNode.name,
             ...(orgNodeHead?.workEmail && { headEmail: orgNodeHead.workEmail }),
             businessUnitTeamSubTeamUnit: {
-              businessUnitTeamSubTeamId: (parent as SubTeamState)
-                .businessUnitTeamSubTeamId,
+              businessUnitTeamSubTeamId: (parent as SubTeamState).businessUnitTeamSubTeamId,
               ...(functionalLead?.workEmail && {
                 functionalLeadEmail: functionalLead.workEmail,
               }),
@@ -465,9 +441,7 @@ export default function AddPage(props: AddPageProps) {
                       const { inputValue } = params;
 
                       const isExisting = options.some(
-                        (option) =>
-                          inputValue.toLowerCase() ===
-                          (option.name ?? "").toLowerCase(),
+                        (option) => inputValue.toLowerCase() === (option.name ?? "").toLowerCase(),
                       );
 
                       setIsNewItem(inputValue !== "" && !isExisting);
@@ -501,9 +475,7 @@ export default function AddPage(props: AddPageProps) {
                                 : theme.palette.customText.primary.p2.active,
                             }}
                           >
-                            {isCreate
-                              ? `Add "${option.inputValue}"`
-                              : option.name}
+                            {isCreate ? `Add "${option.inputValue}"` : option.name}
                           </Typography>
                         </li>
                       );
@@ -536,8 +508,7 @@ export default function AddPage(props: AddPageProps) {
             />
           </Box>
 
-          {(nodeType === NodeType.BusinessUnit ||
-            (selectedOrgNode && isNewItem)) && (
+          {(nodeType === NodeType.BusinessUnit || (selectedOrgNode && isNewItem)) && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
               <Typography
                 variant="body2"
@@ -560,9 +531,7 @@ export default function AddPage(props: AddPageProps) {
                     options={employees}
                     loading={isLoading}
                     disabled={showSpinner}
-                    getOptionLabel={(option) =>
-                      `${option.firstName} ${option.lastName}`
-                    }
+                    getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
                     renderOption={(props, employee) => (
                       <EmployeeOption
                         key={employee.employeeId}
@@ -621,9 +590,7 @@ export default function AddPage(props: AddPageProps) {
                     options={employees}
                     loading={isLoading}
                     disabled={showSpinner}
-                    getOptionLabel={(option) =>
-                      `${option.firstName} ${option.lastName}`
-                    }
+                    getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
                     renderOption={(props, employee) => (
                       <EmployeeOption
                         key={employee.employeeId}
@@ -660,15 +627,8 @@ export default function AddPage(props: AddPageProps) {
           )}
 
           {/* Action buttons */}
-          <Box
-            sx={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}
-          >
-            <Button
-              type="button"
-              variant="outlined"
-              size="small"
-              onClick={handleCancel}
-            >
+          <Box sx={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}>
+            <Button type="button" variant="outlined" size="small" onClick={handleCancel}>
               Cancel
             </Button>
 
