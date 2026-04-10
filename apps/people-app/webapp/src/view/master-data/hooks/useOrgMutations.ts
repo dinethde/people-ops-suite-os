@@ -18,6 +18,7 @@ import {
   useDeleteBusinessUnitTeamMutation,
   useDeleteSubTeamUnitMutation,
   useDeleteTeamSubTeamMutation,
+  useRenameBusinessUnitMutation,
   useUpdateBusinessUnitMutation,
   useUpdateBusinessUnitTeamMutation,
   useUpdateSubTeamMutation,
@@ -28,27 +29,17 @@ import {
 } from "@services/organization";
 
 export function useOrgMutation() {
-  const [
-    updateBusinessUnit,
-    { isLoading: isUpdatingBU, isError: isErrorUpdatingBU },
-  ] = useUpdateBusinessUnitMutation();
-  const [
-    updateTeam,
-    { isLoading: isUpdatingTeam, isError: isErrorUpdatingTeam },
-  ] = useUpdateTeamMutation();
-  const [
-    updateSubTeam,
-    { isLoading: isUpdatingSubTeam, isError: isErrorUpdatingSubTeam },
-  ] = useUpdateSubTeamMutation();
-  const [
-    updateUnit,
-    { isLoading: isUpdatingUnit, isError: isErrorUpdatingUnit },
-  ] = useUpdateUnitMutation();
+  const [updateBusinessUnit, { isLoading: isUpdatingBU, isError: isErrorUpdatingBU }] =
+    useUpdateBusinessUnitMutation();
+  const [updateTeam, { isLoading: isUpdatingTeam, isError: isErrorUpdatingTeam }] =
+    useUpdateTeamMutation();
+  const [updateSubTeam, { isLoading: isUpdatingSubTeam, isError: isErrorUpdatingSubTeam }] =
+    useUpdateSubTeamMutation();
+  const [updateUnit, { isLoading: isUpdatingUnit, isError: isErrorUpdatingUnit }] =
+    useUpdateUnitMutation();
 
-  const [
-    updateBusinessUnitTeam,
-    { isLoading: isUpdatingBUTeam, isError: isErrorUpdatingBUTeam },
-  ] = useUpdateBusinessUnitTeamMutation();
+  const [updateBusinessUnitTeam, { isLoading: isUpdatingBUTeam, isError: isErrorUpdatingBUTeam }] =
+    useUpdateBusinessUnitTeamMutation();
   const [
     updateTeamSubTeam,
     { isLoading: isUpdatingTeamSubTeam, isError: isErrorUpdatingTeamSubTeam },
@@ -58,14 +49,10 @@ export function useOrgMutation() {
     { isLoading: isUpdatingSubTeamUnit, isError: isErrorUpdatingSubTeamUnit },
   ] = useUpdateSubTeamUnitMutation();
 
-  const [
-    deleteBusinessUnit,
-    { isLoading: isDeletingBU, isError: isErrorDeletingBU },
-  ] = useDeleteBusinessUnitMutation();
-  const [
-    deleteBusinessUnitTeam,
-    { isLoading: isDeletingBUTeam, isError: isErrorDeletingBUTeam },
-  ] = useDeleteBusinessUnitTeamMutation();
+  const [deleteBusinessUnit, { isLoading: isDeletingBU, isError: isErrorDeletingBU }] =
+    useDeleteBusinessUnitMutation();
+  const [deleteBusinessUnitTeam, { isLoading: isDeletingBUTeam, isError: isErrorDeletingBUTeam }] =
+    useDeleteBusinessUnitTeamMutation();
   const [
     deleteTeamSubTeam,
     { isLoading: isDeletingTeamSubTeam, isError: isErrorDeletingTeamSubTeam },
@@ -74,6 +61,10 @@ export function useOrgMutation() {
     deleteSubTeamUnit,
     { isLoading: isDeletingSubTeamUnit, isError: isErrorDeletingSubTeamUnit },
   ] = useDeleteSubTeamUnitMutation();
+  const [
+    renameBusinessUnit,
+    { isLoading: isRenamingBusinessUnit, isError: isErrorRenamingBusinessUnit },
+  ] = useRenameBusinessUnitMutation();
 
   const isLoading =
     isUpdatingBU ||
@@ -86,7 +77,8 @@ export function useOrgMutation() {
     isDeletingBU ||
     isDeletingBUTeam ||
     isDeletingTeamSubTeam ||
-    isDeletingSubTeamUnit;
+    isDeletingSubTeamUnit ||
+    isRenamingBusinessUnit;
 
   const isError =
     isErrorUpdatingBU ||
@@ -99,7 +91,8 @@ export function useOrgMutation() {
     isErrorDeletingBU ||
     isErrorDeletingBUTeam ||
     isErrorDeletingTeamSubTeam ||
-    isErrorDeletingSubTeamUnit;
+    isErrorDeletingSubTeamUnit ||
+    isErrorRenamingBusinessUnit;
 
   return {
     // mutation triggers
@@ -116,6 +109,8 @@ export function useOrgMutation() {
     deleteBusinessUnitTeam,
     deleteTeamSubTeam,
     deleteSubTeamUnit,
+
+    renameBusinessUnit,
 
     // aggregated status
     isLoading,
@@ -134,6 +129,7 @@ export function useOrgMutation() {
       isDeletingBUTeam,
       isDeletingTeamSubTeam,
       isDeletingSubTeamUnit,
+      isRenamingBusinessUnit,
     },
 
     // individual error flags
@@ -149,6 +145,7 @@ export function useOrgMutation() {
       isErrorDeletingBUTeam,
       isErrorDeletingTeamSubTeam,
       isErrorDeletingSubTeamUnit,
+      isErrorRenamingBusinessUnit,
     },
   };
 }

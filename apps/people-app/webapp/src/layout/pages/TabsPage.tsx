@@ -14,11 +14,12 @@
 // specific language governing permissions and limitations
 // under the License.
 import { Box, Button, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useSearchParams } from "react-router-dom";
 
 import React, { useEffect, useMemo, useState } from "react";
 
-import { useNewTheme as useTheme } from "@src/theme/index";
+import UpdatedThemeScope from "@src/theme/UpdatedThemeScope";
 
 interface TabsPageProps {
   title: string;
@@ -56,30 +57,32 @@ export default function TabsPage({ tabsPage }: TabsPageProps) {
   };
 
   return (
-    <Box
-      sx={{
-        height: "100%",
-        transition: "color 200ms",
-        display: "flex",
-        flexDirection: "column",
-        gap: 3,
-      }}
-    >
-      {/* Tab Navigation */}
-      <Tabs tabs={tabsPage} activeIndex={value} handleTabClick={handleTabClick} />
+    <UpdatedThemeScope>
+      <Box
+        sx={{
+          height: "100%",
+          transition: "color 200ms",
+          display: "flex",
+          flexDirection: "column",
+          gap: 3,
+        }}
+      >
+        {/* Tab Navigation */}
+        <Tabs tabs={tabsPage} activeIndex={value} handleTabClick={handleTabClick} />
 
-      {/* Tab Content with animations */}
-      {tabsPage.map(
-        (tab, index) =>
-          value === index && (
-            <Box key={index} sx={{ width: "100%", height: "100%", minHeight: 0 }}>
-              <TabPanel value={value} index={index}>
-                {tab.page}
-              </TabPanel>
-            </Box>
-          ),
-      )}
-    </Box>
+        {/* Tab Content with animations */}
+        {tabsPage.map(
+          (tab, index) =>
+            value === index && (
+              <Box key={index} sx={{ width: "100%", height: "100%", minHeight: 0 }}>
+                <TabPanel value={value} index={index}>
+                  {tab.page}
+                </TabPanel>
+              </Box>
+            ),
+        )}
+      </Box>
+    </UpdatedThemeScope>
   );
 }
 

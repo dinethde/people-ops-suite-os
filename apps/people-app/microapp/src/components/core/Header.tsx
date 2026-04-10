@@ -60,6 +60,7 @@ function Header() {
         <Stack spacing={2.5}>
           <Box>
             <DialogTitle sx={{ p: 0, fontSize: "1rem", fontWeight: 700, lineHeight: 1.5, color: "#1F2A44" }}>
+
               Return to Apps
             </DialogTitle>
             <DialogContent

@@ -14,15 +14,16 @@
 // specific language governing permissions and limitations
 // under the License.
 import { Box, Tooltip } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 
 import { RouteDetail } from "@/types/types";
-import { useNewTheme as useTheme } from "@src/theme/index";
+import UpdatedThemeScope from "@src/theme/UpdatedThemeScope";
 
 import LinkItem from "./LinkItem";
 import SidebarSubMenu from "./SidebarSubMenu";
 
-function SidebarNavItem({
+function SidebarNavItemContent({
   route,
   isActive,
   open,
@@ -107,6 +108,14 @@ function SidebarNavItem({
         </Box>
       )}
     </Box>
+  );
+}
+
+function SidebarNavItem(props: { route: RouteDetail; isActive: boolean; open: boolean }) {
+  return (
+    <UpdatedThemeScope>
+      <SidebarNavItemContent {...props} />
+    </UpdatedThemeScope>
   );
 }
 

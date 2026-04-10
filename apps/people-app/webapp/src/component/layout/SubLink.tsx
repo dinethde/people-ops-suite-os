@@ -14,11 +14,10 @@
 // specific language governing permissions and limitations
 // under the License.
 import { Box, Tooltip, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { Link, matchPath, useLocation } from "react-router-dom";
 
 import React from "react";
-
-import { useNewTheme as useTheme } from "@src/theme/index";
 
 interface SubLinkProps {
   icon?: React.ReactElement;

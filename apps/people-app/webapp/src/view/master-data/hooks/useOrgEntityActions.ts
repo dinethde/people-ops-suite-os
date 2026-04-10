@@ -31,6 +31,7 @@ interface UseOrgEntityActionsParams {
 
 export function useOrgEntityActions({ data }: UseOrgEntityActionsParams) {
   const {
+    renameBusinessUnit,
     updateBusinessUnit,
     updateTeam,
     updateSubTeam,
@@ -183,9 +184,13 @@ export function useOrgEntityActions({ data }: UseOrgEntityActionsParams) {
 
     const payload = { name: entityName };
 
+    console.log("entityName : ", entityName)
+    console.log("data type ; ", data.type)
+
     switch (data.type) {
       case NodeType.BusinessUnit:
-        await updateBusinessUnit({ buId: data.id, payload });
+        console.log("tet")
+        await renameBusinessUnit({ buId: data.id, payload });
         break;
       case NodeType.Team:
         await updateTeam({ teamId: data.id, payload });

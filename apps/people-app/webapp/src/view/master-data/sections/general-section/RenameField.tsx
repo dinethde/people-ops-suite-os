@@ -120,7 +120,7 @@ export const RenameField: React.FC<RenameFieldProps> = ({
               />
               {isFocused && (
                 <Button
-                  variant="outlined"
+                  variant="outlinedBrand"
                   onClick={handleCancel}
                   sx={{ ml: 1, whiteSpace: "nowrap" }}
                 >

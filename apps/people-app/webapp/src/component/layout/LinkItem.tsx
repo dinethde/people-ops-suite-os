@@ -14,13 +14,13 @@
 // specific language governing permissions and limitations
 // under the License.
 import { Box, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { ChevronDown as ChevronDownIcon } from "lucide-react";
 import { ChevronUp as ChevronUpIcon } from "lucide-react";
 
 import React from "react";
 
 import { RouteDetail } from "@root/src/types/types";
-import { useNewTheme as useTheme } from "@src/theme/index";
 
 interface ListItemLinkProps {
   icon?: React.ReactElement;

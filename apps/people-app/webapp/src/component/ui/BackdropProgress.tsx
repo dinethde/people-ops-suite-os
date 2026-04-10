@@ -14,12 +14,15 @@
 // specific language governing permissions and limitations
 // under the License.
 import { Backdrop, BackdropProps, CircularProgress } from "@mui/material";
-import { useNewTheme as useTheme } from "@src/theme/index";
+import { useTheme } from "@mui/material/styles";
+
+import UpdatedThemeScope from "@src/theme/UpdatedThemeScope";
 
 type BackdropProgressProps = BackdropProps;
 
-const BackdropProgress = ({ sx, ...rest }: BackdropProgressProps) => {
+const BackdropProgressContent = ({ sx, ...rest }: BackdropProgressProps) => {
   const theme = useTheme();
+
   return (
     <Backdrop
       sx={{
@@ -33,5 +36,11 @@ const BackdropProgress = ({ sx, ...rest }: BackdropProgressProps) => {
     </Backdrop>
   );
 };
+
+const BackdropProgress = (props: BackdropProgressProps) => (
+  <UpdatedThemeScope>
+    <BackdropProgressContent {...props} />
+  </UpdatedThemeScope>
+);
 
 export default BackdropProgress;
