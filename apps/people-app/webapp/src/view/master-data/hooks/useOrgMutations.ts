@@ -19,6 +19,9 @@ import {
   useDeleteSubTeamUnitMutation,
   useDeleteTeamSubTeamMutation,
   useRenameBusinessUnitMutation,
+  useRenameSubTeamMutation,
+  useRenameTeamMutation,
+  useRenameUnitMutation,
   useUpdateBusinessUnitMutation,
   useUpdateBusinessUnitTeamMutation,
   useUpdateSubTeamMutation,
@@ -65,6 +68,12 @@ export function useOrgMutation() {
     renameBusinessUnit,
     { isLoading: isRenamingBusinessUnit, isError: isErrorRenamingBusinessUnit },
   ] = useRenameBusinessUnitMutation();
+  const [renameTeam, { isLoading: isRenamingTeam, isError: isErrorRenamingTeam }] =
+    useRenameTeamMutation();
+  const [renameSubTeam, { isLoading: isRenamingSubTeam, isError: isErrorRenamingSubTeam }] =
+    useRenameSubTeamMutation();
+  const [renameUnit, { isLoading: isRenamingUnit, isError: isErrorRenamingUnit }] =
+    useRenameUnitMutation();
 
   const isLoading =
     isUpdatingBU ||
@@ -78,7 +87,10 @@ export function useOrgMutation() {
     isDeletingBUTeam ||
     isDeletingTeamSubTeam ||
     isDeletingSubTeamUnit ||
-    isRenamingBusinessUnit;
+    isRenamingBusinessUnit ||
+    isRenamingTeam ||
+    isRenamingSubTeam ||
+    isRenamingUnit;
 
   const isError =
     isErrorUpdatingBU ||
@@ -92,7 +104,10 @@ export function useOrgMutation() {
     isErrorDeletingBUTeam ||
     isErrorDeletingTeamSubTeam ||
     isErrorDeletingSubTeamUnit ||
-    isErrorRenamingBusinessUnit;
+    isErrorRenamingBusinessUnit ||
+    isErrorRenamingTeam ||
+    isErrorRenamingSubTeam ||
+    isErrorRenamingUnit;
 
   return {
     // mutation triggers
@@ -111,6 +126,9 @@ export function useOrgMutation() {
     deleteSubTeamUnit,
 
     renameBusinessUnit,
+    renameTeam,
+    renameSubTeam,
+    renameUnit,
 
     // aggregated status
     isLoading,
@@ -130,6 +148,9 @@ export function useOrgMutation() {
       isDeletingTeamSubTeam,
       isDeletingSubTeamUnit,
       isRenamingBusinessUnit,
+      isRenamingTeam,
+      isRenamingSubTeam,
+      isRenamingUnit,
     },
 
     // individual error flags
@@ -146,6 +167,9 @@ export function useOrgMutation() {
       isErrorDeletingTeamSubTeam,
       isErrorDeletingSubTeamUnit,
       isErrorRenamingBusinessUnit,
+      isErrorRenamingTeam,
+      isErrorRenamingSubTeam,
+      isErrorRenamingUnit,
     },
   };
 }
