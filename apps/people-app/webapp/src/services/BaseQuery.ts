@@ -96,7 +96,7 @@ export const baseQueryWithRetry = retry(
     return result;
   },
   {
-    maxRetries: 3,
+    maxRetries: 2,
     backoff: async (attempt: number = 0, maxRetries: number = 3) => {
       const delay = Math.min(1000 * 2 ** attempt, 10000);
       await new Promise((resolve) => setTimeout(resolve, delay));
