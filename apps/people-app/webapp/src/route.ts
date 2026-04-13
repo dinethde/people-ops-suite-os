@@ -113,7 +113,7 @@ export const routes: RouteObjectWithRole[] = [
     text: "Master Data",
     icon: React.createElement(AccountTreeOutlinedIcon),
     element: React.createElement(View.masterData),
-    allowRoles: [Role.ADMIN, Role.EMPLOYEE],
+    allowRoles: [Role.ADMIN],
   },
   // Temporarily remove the help route
   // {
